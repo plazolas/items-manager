@@ -13,12 +13,12 @@ import { ExpenseEntryService } from '../services/expense-entry.service';
 
 @Component({
   selector: 'app-expense-entry',
-  templateUrl: './expense-entry.component.html' ,
-  styleUrls: ['./expense-entry.component.css'],
+  templateUrl: './item-entry.component.html' ,
+  styleUrls: ['./item-entry.component.css'],
   exportAs: 'NgForm'
 })
 
-export class ExpenseEntryComponent implements OnInit, OnChanges {
+export class ItemEntryComponent implements OnInit, OnChanges {
   title: string = "";
 
   @Input() person: ExpenseEntry = <ExpenseEntry> {};

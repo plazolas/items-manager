@@ -16,16 +16,16 @@ describe('AppComponent', () => {
     expect(app).toBeTruthy();
   });
 
-  it(`should have as title 'expense-manager'`, () => {
+  it(`should have as title 'items-manager'`, () => {
     const fixture = TestBed.createComponent(AppComponent);
     const app = fixture.debugElement.componentInstance;
-    expect(app.title).toEqual('expense-manager');
+    expect(app.title).toEqual('items-manager');
   });
 
   it('should render title', () => {
     const fixture = TestBed.createComponent(AppComponent);
     fixture.detectChanges();
     const compiled = fixture.debugElement.nativeElement;
-    expect(compiled.querySelector('.content span').textContent).toContain('expense-manager app is running!');
+    expect(compiled.querySelector('.content span').textContent).toContain('items-manager app is running!');
   });
 });

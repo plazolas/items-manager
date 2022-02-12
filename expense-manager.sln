@@ -3,7 +3,7 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 14
 VisualStudioVersion = 14.0.25420.1
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{262852C6-CD72-467D-83FE-5EEB1973A190}") = "expense-manager", "expense-manager.jsproj", "{0CD9A961-653C-4419-BA27-D5C30E30A60B}"
+Project("{262852C6-CD72-467D-83FE-5EEB1973A190}") = "items-manager", "items-manager.jsproj", "{0CD9A961-653C-4419-BA27-D5C30E30A60B}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

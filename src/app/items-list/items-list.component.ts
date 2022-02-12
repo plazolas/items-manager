@@ -9,12 +9,12 @@ import { ExpenseEntryService } from '../services/expense-entry.service';
 import {HttpClient} from "@angular/common/http";
 
 @Component({
-  selector: 'app-expense-entry-list',
-  templateUrl: './expense-entry-list.component.html',
-  styleUrls: ['./expense-entry-list.component.css']
+  selector: 'app-items-list',
+  templateUrl: './items-list.component.html',
+  styleUrls: ['./items-list.component.css']
 })
 
-export class ExpenseEntryListComponent implements OnInit {
+export class ItemsListComponent implements OnInit {
 
   title: string = "Personnel Entry List";
   myName = this.constructor.name;

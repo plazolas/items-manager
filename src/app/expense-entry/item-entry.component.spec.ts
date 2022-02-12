@@ -3,24 +3,24 @@ import 'zone.js/dist/async-test.js';
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { BrowserDynamicTestingModule, platformBrowserDynamicTesting } from '@angular/platform-browser-dynamic/testing';
 
-import { ExpenseEntryComponent } from './expense-entry.component';
+import { ItemEntryComponent } from './item-entry.component';
 
 describe('ExpenseEntryComponent', () => {
-  let component: ExpenseEntryComponent;
-  let fixture: ComponentFixture<ExpenseEntryComponent>;
+  let component: ItemEntryComponent;
+  let fixture: ComponentFixture<ItemEntryComponent>;
 
   TestBed.initTestEnvironment(
     BrowserDynamicTestingModule, platformBrowserDynamicTesting());
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ ExpenseEntryComponent ]
+      declarations: [ ItemEntryComponent ]
     })
       .compileComponents();
   }));
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(ExpenseEntryComponent);
+    fixture = TestBed.createComponent(ItemEntryComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });
@@ -31,7 +31,7 @@ describe('ExpenseEntryComponent', () => {
 
   it('int test', () => {
     const e: HTMLElement = fixture.nativeElement;
-    //expect(e.textContent).toContain('Welcome');
+    // expect(e.textContent).toContain('Welcome');
     expect(true).toEqual(true);
   });
 });

@@ -31,7 +31,7 @@ describe('HomeComponent', () => {
 
   it('should contain "Welcome"', () => {
     const e: HTMLElement = fixture.nativeElement;
-    //expect(true).toEqual(true);
+    // expect(true).toEqual(true);
     expect(e.textContent).toContain('Welcome');
   });
 });
