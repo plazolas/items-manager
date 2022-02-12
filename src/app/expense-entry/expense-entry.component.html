@@ -1,0 +1,64 @@
+<!-- Page Content -->
+<form (ngSubmit)="onSubmit()" #personForm="ngForm">
+  <div class="container">
+    <div class="row" style="border: solid 2px blue">
+      <div class="col-lg-12 text-center" style="padding-top: 20px;">
+        <div class="container" style="padding-left: 0px; padding-right: 0px;">
+          <div class="row">
+            <div class="col-sm" style="text-align: left;">
+              <h1>{{ title }}</h1>
+            </div>
+            <div class="col-sm" style="text-align: right;">
+              <button type="submit" class="btn btn-success" [disabled]="!personForm.form.valid">Save</button>
+            </div>
+          </div>
+        </div>
+        <div *ngIf="person">
+          <div class="container box" style="margin-top: 10px;">
+            <div class="row">
+              <div class="col-2" style="text-align: right;">
+                <strong><em>Id:</em></strong>
+              </div>
+              <div class="col" style="text-align: left;">
+                {{ person?.id }}
+              </div>
+            </div>
+            <div class="row">
+              <div class="col-2" style="text-align: right;">
+                <strong><em>Country:</em></strong>
+              </div>
+              <div class="col" style="text-align: left;">
+                {{ person?.country?.name }}
+              </div>
+            </div>
+            <div class="row">
+              <div class="col-2" style="text-align: right;">
+                <strong><em>Passport:</em></strong>
+              </div>
+              <div class="col" style="text-align: left;">
+                {{ person?.passport?.number }}
+              </div>
+            </div>
+            <br>
+            <div class="form-group">
+              <div class="row">
+                <div class="col-2" style="text-align: right;white-space: nowrap;">
+                  <strong><em>First Name:</em></strong>
+                </div>
+                <input name="firstname" [(ngModel)]="person.firstname" class="col" style="text-align: left;" required>
+              </div>
+              <br>
+              <div class="row">
+                <div class="col-2" style="text-align: right;white-space: nowrap;">
+                  <strong><em>Last Name:</em></strong>
+                </div>
+                <input name="lastname" [(ngModel)]="person.lastname" class="col" style="text-align: left;" required>
+              </div>
+              <br>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</form>

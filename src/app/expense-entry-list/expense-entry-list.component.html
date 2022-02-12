@@ -1,0 +1,90 @@
+<app-expense-entry [person]=item [submitted]=submit (getSubmitStatusChange)='refreshList($event)'></app-expense-entry>
+
+<div class="container">
+  <div class="row" style="border: solid 2px black">
+    <div class="col-lg-12 text-center" style="padding-top: 20px;">
+      <div class="container" style="padding-left: 0px; padding-right: 0px;">
+        <div class="row">
+          <div class="col-sm" style="text-align: left;">
+            <h1>{{ title }}</h1>
+          </div>
+        </div>
+      </div>
+      <div class="container box" style="margin-top: 10px;">
+        <table class="table table-striped">
+          <thead>
+          <tr>
+            <th>count</th>
+            <th>id</th>
+            <th>Country</th>
+            <th>Passport</th>
+            <th>First Name</th>
+            <th>Last Name</th>
+          </tr>
+          </thead>
+          <tbody>
+          <tr *ngFor="let item of items; let i = index">
+            <th>{{ i + 1 }}</th>
+            <th id="{{ 'item_' +item.id }}" scope="row">
+              <button (click)="clickedPerson($event,item.id);">{{ item.id }}</button>
+            </th>
+            <td>{{ item?.country?.name }}</td>
+            <td>{{ item?.passport?.number }}</td>
+            <td>{{ item?.firstname }}</td>
+            <td>{{ item?.lastname }}</td>
+          </tr>
+          </tbody>
+        </table>
+      </div>
+      <div>
+        Seconds changing in Time: {{ timeChange | async }}
+      </div>
+      <div>
+        <h1>Observable Test</h1>
+        <div>
+          The summation of numbers ( <span *ngFor="let num of numbers"> {{ num }} </span> ) is {{ val1 }}
+        </div>
+        <div>
+          The summation of filtered numbers ( <span *ngFor="let num of filteredNumbers"> {{ num }} </span> )
+          is {{ val2 }}
+        </div>
+        <div>
+          The summation of processed numbers ( <span *ngFor="let num of processedNumbers"> {{ num }} </span> )
+          is {{ val3 }}
+          <hr>
+        </div>
+        <div>
+          <h1>ITEMS COUNT</h1>
+          {{ itemCountStr }}
+        </div>
+        <hr>
+        <div>
+          <h1>current person:</h1> <br>
+          <p>Without JSON pipe:</p>
+          <pre>{{ itemObservable | async  }}</pre>
+          <hr>
+        </div>
+        <hr>
+        <div>
+          <h1>EMPLOYEES OF THE MONTH:</h1> <br>
+          {{ personChange | async}}
+          <hr>
+          <ul>
+            <li *ngFor="let p of oddPersons; let j = index">
+              <div class="row text-left">
+                <div class="col-3"><b>{{ p.id }}</b></div>
+                <div class="col-3">{{ p.firstname }}</div>
+                <div class="col-3">{{ p.lastname }}</div>
+              </div>
+            </li>
+          </ul>
+          <hr>
+        </div>
+      </div>
+      <div>
+        <a id="counter" href="#">Click here</a> to increment the counter value. The current counter value
+        is {{ counter }}
+      </div>
+    </div>
+  </div>
+</div>
