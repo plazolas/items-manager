@@ -19,21 +19,21 @@ import { ExpenseEntryService } from '../services/expense-entry.service';
 })
 
 export class ItemEntryComponent implements OnInit, OnChanges {
-  title: string = "";
+  title = '';
 
-  @Input() person: ExpenseEntry = <ExpenseEntry> {};
-  @Input() submitted: boolean = false;
+  @Input() person: ExpenseEntry = {} as ExpenseEntry;
+  @Input() submitted = false;
   @Output() getSubmitStatusChange = new EventEmitter<boolean>();
 
   constructor(private expenseEntryService: ExpenseEntryService) {}
 
   ngOnInit() {
-    this.title = "Edit Person Name";
+    this.title = 'Edit Person Name';
   }
 
   // personChanges.prop contains the old and the new value...
   ngOnChanges(personChanges: SimpleChanges) {
-    if(personChanges.person && personChanges.person.firstChange != true && personChanges.person.previousValue != 'undefined') {
+    if (personChanges.person && personChanges.person.firstChange !== true && personChanges.person.previousValue !== 'undefined') {
       // console.log(this.constructor.name + '::' + this.ngOnChanges.name + ' changes :');
       // console.log(personChanges);
     }
@@ -43,8 +43,8 @@ export class ItemEntryComponent implements OnInit, OnChanges {
     this.submitted = true;
     console.log(this.person);
     this.expenseEntryService.updateExpenseEntry(this.person)
-      .subscribe( data => { this.person = <ExpenseEntry> data; console.log(this.person)},
-                  err  => { console.log(err)},
+      .subscribe( data => { this.person = data as ExpenseEntry; console.log(this.person); },
+                  err  => { console.log(err); },
                 ()  => this.getSubmitStatusChange.emit(true)
       );
 

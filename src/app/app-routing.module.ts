@@ -11,6 +11,7 @@ const routes: Routes = [
   { path: 'edit_person', component:  ItemEntryEditComponent },
   { path: 'edit_list', component:  ItemsListComponent },
   { path: 'home', component:  HomeComponent },
+  { path: 'wand', redirectTo: 'http://www.ozdev.net/wand/index.php'},
   { path: '404', component: NotfoundComponent},
   { path: '**', redirectTo: '/404'}
 ];

@@ -7,7 +7,7 @@ export class DebugService {
 
   constructor() { }
 
-  info(message : String) : void {
+  info(message: string): void {
     console.log(message);
   }
 }

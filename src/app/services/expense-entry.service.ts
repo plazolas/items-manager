@@ -4,10 +4,11 @@ import { ExpenseEntry } from '../model/expense-entry';
 import { Observable, throwError } from 'rxjs';
 import { catchError, retry } from 'rxjs/operators';
 import { HttpClient, HttpHeaders, HttpErrorResponse } from '@angular/common/http';
+import { environment } from '../../environments/environment';
 
 @Injectable()
 export class ExpenseEntryService {
-  private expenseRestUrl = 'http://localhost:8080/api/vi/person';
+  private readonly expenseRestUrl: any;
   private httpOptions = {
     headers: new HttpHeaders( { 'Content-Type' : 'application/json',
                                        'Access-Control-Allow-Origin' : '*',
@@ -15,9 +16,12 @@ export class ExpenseEntryService {
                                 })
   };
 
-  constructor(private httpClient : HttpClient) { }
+  constructor(private httpClient: HttpClient) {
+    const itemsEndPointUrl = (environment.production) ? 'http://172.31.80.136:8080' : 'http://localhost:8080' ;
+    this.expenseRestUrl = itemsEndPointUrl + '/api/vi/person';
+  }
 
-  getExpenseEntries() : Observable<Object> {
+  getExpenseEntries(): Observable<object> {
     return this.httpClient.get(this.expenseRestUrl, this.httpOptions)
       .pipe(
         retry(3),
@@ -25,8 +29,8 @@ export class ExpenseEntryService {
       );
   }
 
-  getExpenseEntry(id: number) : Observable<Object> {
-    const res = this.httpClient.get(this.expenseRestUrl + "/" + id, this.httpOptions);
+  getExpenseEntry(id: number): Observable<object> {
+    const res = this.httpClient.get(this.expenseRestUrl + '/' + id, this.httpOptions);
     return res
       .pipe(
         retry(3),
@@ -43,14 +47,14 @@ export class ExpenseEntryService {
   }
 
   updateExpenseEntry(expenseEntry: ExpenseEntry): Observable<ExpenseEntry> {
-    return this.httpClient.put<ExpenseEntry>(this.expenseRestUrl + "/" + expenseEntry.id, expenseEntry, this.httpOptions)
+    return this.httpClient.put<ExpenseEntry>(this.expenseRestUrl + '/' + expenseEntry.id, expenseEntry, this.httpOptions)
       .pipe(
         retry(3),
         catchError(this.httpErrorHandler)
       );
   }
-  deleteExpenseEntry(expenseEntry: ExpenseEntry | number) : Observable<ExpenseEntry> {
-    const id = typeof expenseEntry == 'number' ? expenseEntry : expenseEntry.id
+  deleteExpenseEntry(expenseEntry: ExpenseEntry | number): Observable<ExpenseEntry> {
+    const id = typeof expenseEntry === 'number' ? expenseEntry : expenseEntry.id;
     const url = `${this.expenseRestUrl}/${id}`;
 
     return this.httpClient.delete<ExpenseEntry>(url, this.httpOptions)
@@ -60,14 +64,14 @@ export class ExpenseEntryService {
       );
   }
 
-  private httpErrorHandler (error: HttpErrorResponse) {
+  private httpErrorHandler(error: HttpErrorResponse) {
     if (error.error instanceof ErrorEvent) {
-      console.error("A client side error occurs. The error message is " + error.message);
+      console.error('A client side error occurs. The error message is ' + error.message);
     } else {
       console.error(
-        "An error happened in server. The HTTP status code is "  + error.status + " and the error returned is " + error.message);
+        'An error happened in server. The HTTP status code is '  + error.status + ' and the error returned is ' + error.message);
     }
 
-    return throwError("Error occurred. Pleas try again");
+    return throwError('Error occurred. Pleas try again');
   }
 }

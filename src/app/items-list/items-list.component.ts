@@ -1,12 +1,13 @@
-import { Component, OnInit, Output, Self } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { Observable, Observer, from, fromEvent, of, range  } from 'rxjs';
-import {ajax, AjaxResponse} from 'rxjs/ajax';
+import { ajax, AjaxResponse } from 'rxjs/ajax';
 import { filter, map, catchError } from 'rxjs/operators';
 
 import { DebugService } from '../services/debug.service';
 import { ExpenseEntry } from '../model/expense-entry';
 import { ExpenseEntryService } from '../services/expense-entry.service';
-import {HttpClient} from "@angular/common/http";
+import { HttpClient } from '@angular/common/http';
+import {environment} from '../../environments/environment';
 
 @Component({
   selector: 'app-items-list',
@@ -15,51 +16,54 @@ import {HttpClient} from "@angular/common/http";
 })
 
 export class ItemsListComponent implements OnInit {
-
-  title: string = "Personnel Entry List";
+  title = 'Personnel Entry List';
   myName = this.constructor.name;
-  employee: ExpenseEntry = <ExpenseEntry> {};
-  item: ExpenseEntry = <ExpenseEntry> {};
+  employee: ExpenseEntry = {} as ExpenseEntry;
+  item: ExpenseEntry = {} as ExpenseEntry;
   items: ExpenseEntry[] = [];
-  submit: boolean = false;
-  lastId: number = 117;
+  submit = false;
+  lastId = 117;
 
-  expenseEntries: Object = {};
-  expenseEntry_str: string = "";
-  expenseEntries_str: string = "";
-  personOfMonth: ExpenseEntry = <ExpenseEntry> {};
+  expenseEntries: object = {};
+  expenseEntriesStr = '';
+  personOfMonth: ExpenseEntry = {} as ExpenseEntry;
 
-  filterFnByEvenNumbers = filter( (n : number) => n % 2 == 0 );
-  filterFnByEvenItems = filter( (p : ExpenseEntry) => p.id % 2 == 0 );
+  filterFnByEvenNumbers = filter( (n: number) => n % 2 === 0 );
+  filterFnByEvenItems = filter( (p: ExpenseEntry) => p.id % 2 === 0 );
 
-  numbers : number[] = [];
-  val1 : number = 0;
-  filteredNumbers : number[] = [];
-  val2 : number = 0;
-  processedNumbers : number[] = [];
-  val3 : number = 0;
-  counter : number = 0;
+  numbers: number[] = [];
+  val1 = 0;
+  filteredNumbers: number[] = [];
+  val2 = 0;
+  processedNumbers: number[] = [];
+  val3 = 0;
+  counter = 0;
 
-  personas: Object[] = [];
-  personal : Object[] = [];
-  itemCountStr : string = '';
+  personas: object[] = [];
+  personal: object[] = [];
+  itemCountStr = '';
 
   timeChange = new Observable<string> ((observer: Observer<string>) => {
     setInterval(() => observer.next(
       new Date().toString()), 1000);
     });
-  itemObservable: Observable<Object> | null = null;
+
+  itemObservable: Observable<string> = new Observable<string>();
 
   personChange: Observable<string> | null = null;
   oddPersons: ExpenseEntry[] = [];
 
-  constructor(private debugService: DebugService, private expenseEntryService : ExpenseEntryService, private http: HttpClient) {}
+  itemsEndPointUrl = '';
+
+  constructor(private debugService: DebugService, private expenseEntryService: ExpenseEntryService, private http: HttpClient) {
+    this.itemsEndPointUrl = (environment.production) ? 'http://172.31.80.136:8080' : 'http://localhost:8080' ;
+  }
 
   ngOnInit() {
 
-    const mapObjToLi = map( (obj : Object) => '<li>' + JSON.stringify(obj) + '</li>');
+    const mapObjToLi = map( (obj: object) => '<li>' + JSON.stringify(obj) + '</li>');
     // observable
-    const numbers$ = from([1,2,3,4,5,6,7,8,9,10]);
+    const numbers$ = from([1, 2, 3, 4, 5, 6, 7, 8, 9, 10]);
     // observer
     const numberObserver = {
       next: (num: number) => {
@@ -71,62 +75,62 @@ export class ItemsListComponent implements OnInit {
     numbers$.subscribe(numberObserver);
 
     const filteredNumbers = this.filterFnByEvenNumbers(numbers$);
-    filteredNumbers.subscribe( (num : number) => {
+    filteredNumbers.subscribe( (num: number) => {
                             this.filteredNumbers.push(num);
                             this.val2 += num;
     });
 
     let e = document.getElementById('counter');
-    if(e) {
+    if (e) {
       const clickEvent$ = fromEvent(e, 'click');
       clickEvent$.subscribe(() => this.counter++);
     }
 
     e = document.getElementById('counter');
-    if(e) {
+    if (e) {
       const clickPersonEvent$ = fromEvent(e, 'click');
       clickPersonEvent$.subscribe(() => this.counter++);
     }
     this.showPersonsGrid();
   }
 
-  getItems() : void {
+  getItems(): void {
     this.expenseEntryService.getExpenseEntries()
       .subscribe( data => {
         this.expenseEntries = data;
-        this.expenseEntries_str += JSON.stringify(data) + '<br>';
+        this.expenseEntriesStr += JSON.stringify(data) + '<br>';
       });
   }
 
-  getPersonById(id: number) : string {
+  getPersonById(id: number): string {
     this.expenseEntryService.getExpenseEntry(id)
           .subscribe(
             data => {
-                this.item = <ExpenseEntry> data;
+                this.item = data as ExpenseEntry;
           },
-            (err) => { console.log(err) },
+            (err) => { console.log(err); },
             () => {
           });
     return JSON.stringify(this.item);
   }
 
-  getEmployeeById(id: number) : string {
-    let itemStr = JSON.stringify(this.employee);
+  getEmployeeById(id: number): string {
+    const itemStr = JSON.stringify(this.employee);
     this.expenseEntryService.getExpenseEntry(id)
       .subscribe(
         data => {
-          this.employee = <ExpenseEntry> data;
+          this.employee = data as ExpenseEntry;
         },
-        (err) => { console.log(err) },
+        (err) => { console.log(err); },
         () => {}
       );
-    return (this.item.id % 2 == 0) ? itemStr + JSON.stringify(this.employee) : JSON.stringify(this.employee);
+    return (this.item.id % 2 === 0) ? itemStr + JSON.stringify(this.employee) : JSON.stringify(this.employee);
   }
 
-  getExpenseItemObj(id: number) : ExpenseEntry {
+  getExpenseItemObj(id: number): ExpenseEntry {
     this.expenseEntryService.getExpenseEntry(id)
       .subscribe(data => {
-        this.item = <ExpenseEntry> data;
+        this.item = data as ExpenseEntry;
       });
     return this.item;
   }
@@ -134,7 +138,7 @@ export class ItemsListComponent implements OnInit {
   clickedPerson(event: any, id: number) {
     this.expenseEntryService.getExpenseEntry(id)
       .subscribe( data => {
-        this.item = <ExpenseEntry> data;
+        this.item = data as ExpenseEntry;
         const item: string[] = [JSON.stringify(data)];
         this.itemObservable = from(item);
       });
@@ -146,8 +150,8 @@ export class ItemsListComponent implements OnInit {
 
   refreshList(refresh: boolean) {
     console.log(refresh);
-    if(refresh) {
-      console.log(this.constructor.name + '::' + this.refreshList.name)
+    if (refresh) {
+      console.log(this.constructor.name + '::' + this.refreshList.name);
       this.showPersonsGrid();
       this.submit = false;
     }
@@ -155,19 +159,19 @@ export class ItemsListComponent implements OnInit {
 
   showPersonsGrid() {
     this.personal = [];
-    this.http.get<number>('http://localhost:8080/api/vi/person/findlast')
-      .subscribe(data => { this.lastId = data },
+    this.http.get<number>(this.itemsEndPointUrl + '/api/vi/person/findlast')
+      .subscribe(data => { this.lastId = data; },
        (err: any) => console.log(err),
        () => {
          this.expenseEntryService.getExpenseEntry(this.lastId)
-           .subscribe( data => this.item = <ExpenseEntry> data);
+           .subscribe( data => this.item = data as ExpenseEntry);
        });
 
     let ajaxResponse: AjaxResponse;
     const api$ = ajax({
-      url: 'http://localhost:8080/api/vi/person',
+      url: this.itemsEndPointUrl + '/api/vi/person',
       method: 'GET',
-      headers: {'Accept': '*/*' },
+      headers: {Accept: '*/*' },
       body: {}
     });
     const ajaxObserver = {
@@ -176,20 +180,20 @@ export class ItemsListComponent implements OnInit {
       complete: () => {
         this.personal = [];
         this.items = [];
-        let personArr: ExpenseEntry[] = [];
-        let count: number = 0;
+        const personArr: ExpenseEntry[] = [];
+        let count = 0;
 
-        for(const person of this.personas) {
+        for (const person of this.personas) {
           count++;
-          let p = <ExpenseEntry> person;
+          const p = person as ExpenseEntry;
           this.personal.push(person);
           personArr.push(p);
-          //this.items.push(p);
+          // this.items.push(p);
         }
 
-        let i: number = 0;
+        let i = 0;
         function* personGen() {
-          while(i < personArr.length) {
+          while (i < personArr.length) {
             return  personArr[i++];
           }
         }
@@ -197,24 +201,12 @@ export class ItemsListComponent implements OnInit {
         personArr.forEach((e) => {
           setTimeout(() => {
             this.items.push(e);
-          }, 3000 )});
-
-        let personGenerator = personGen();
-        let obj: any;
-        // i=0;
-        // while(i++ < personArr.length) {
-        //   let timeout = 1000;
-        //   setTimeout(() => {
-        //     obj = personGenerator.next();
-        //     console.log(obj);
-        //     if (obj && typeof obj !== 'undefined' && typeof obj.value !== 'undefined') this.items.push(<ExpenseEntry>obj.value);
-        //   }, timeout + 1000);
-        // }
+          }, 3000 ); });
 
         this.itemCountStr = 'Total items = ' + count;
-        this.oddPersons = this.items.filter((p : ExpenseEntry) => p.id % 2 != 0);
+        this.oddPersons = this.items.filter((p: ExpenseEntry) => p.id % 2 !== 0);
         this.personChange = new Observable<string> ((observer: Observer<string>) => {
-        let index = Math.floor(Math.random() * this.items.length);
+        const index = Math.floor(Math.random() * this.items.length);
         console.log(index);
         setInterval(() => observer.next(
               this.getEmployeeById(this.items[index].id)
