@@ -7,7 +7,7 @@ import { DebugService } from '../services/debug.service';
 import { ExpenseEntry } from '../model/expense-entry';
 import { ExpenseEntryService } from '../services/expense-entry.service';
 import { HttpClient } from '@angular/common/http';
-import {environment} from '../../environments/environment';
+import { environment } from '../../environments/environment';
 
 @Component({
   selector: 'app-items-list',
@@ -56,7 +56,8 @@ export class ItemsListComponent implements OnInit {
   itemsEndPointUrl = '';
 
   constructor(private debugService: DebugService, private expenseEntryService: ExpenseEntryService, private http: HttpClient) {
-    this.itemsEndPointUrl = (environment.production) ? 'http://172.31.80.136:8080' : 'http://localhost:8080' ;
+    this.itemsEndPointUrl = (environment.production) ? 'http://3.211.223.79:8080' : 'http://localhost:8080' ;
+    console.log(environment.production);
   }
 
   ngOnInit() {

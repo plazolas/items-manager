@@ -17,8 +17,9 @@ export class ExpenseEntryService {
   };
 
   constructor(private httpClient: HttpClient) {
-    const itemsEndPointUrl = (environment.production) ? 'http://172.31.80.136:8080' : 'http://localhost:8080' ;
+    const itemsEndPointUrl = (environment.production) ? 'http://3.211.223.79:8080' : 'http://localhost:8080' ;
     this.expenseRestUrl = itemsEndPointUrl + '/api/vi/person';
+    console.log(this.expenseRestUrl);
   }
 
   getExpenseEntries(): Observable<object> {
