@@ -59,18 +59,28 @@
         </div>
         <hr>
         <div>
-          <h1>current person:</h1> <br>
-          <p>Without JSON pipe:</p>
-          <pre>{{ itemObservable | async  }}</pre>
+          <h1>Editing Item:</h1> <br>
+          <pre>{{ itemObservable$ | async }}</pre>
           <hr>
         </div>
         <hr>
         <div>
           <h1>EMPLOYEES OF THE MONTH:</h1> <br>
-          {{ personChange | async}}
+          {{ personChange$ | async}}
           <hr>
+          <h1>Good Employees</h1>
           <ul>
             <li *ngFor="let p of oddPersons; let j = index">
+              <div class="row text-left">
+                <div class="col-3"><b>{{ p.id }}</b></div>
+                <div class="col-3">{{ p.firstname }}</div>
+                <div class="col-3">{{ p.lastname }}</div>
+              </div>
+            </li>
+          </ul>
+          <h1>Bad Employees</h1>
+          <ul>
+            <li *ngFor="let p of badPersons; let j = index">
               <div class="row text-left">
                 <div class="col-3"><b>{{ p.id }}</b></div>
                 <div class="col-3">{{ p.firstname }}</div>
@@ -82,9 +92,9 @@
         </div>
       </div>
       <div>
-        <a id="counter" href="#">Click here</a> to increment the counter value. The current counter value
-        is {{ counter }}
+        <a id="counter" (click)="clickedCounter($event);" style="cursor: pointer;">Click here</a> to increment the counter value. The current counter value is {{ counter }}
       </div>
+      <br><br>
     </div>
   </div>
 </div>

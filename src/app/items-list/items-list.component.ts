@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { Observable, Observer, from, fromEvent, of, range  } from 'rxjs';
+import {Observable, Observer, from, fromEvent, of, range, throwError} from 'rxjs';
 import { ajax, AjaxResponse } from 'rxjs/ajax';
 import { filter, map, catchError } from 'rxjs/operators';
 
@@ -29,6 +29,7 @@ export class ItemsListComponent implements OnInit {
   personOfMonth: ExpenseEntry = {} as ExpenseEntry;
 
   filterFnByEvenNumbers = filter( (n: number) => n % 2 === 0 );
+  filterFnByOddNumbers = filter( (n: number) => n % 2 !== 0 );
   filterFnByEvenItems = filter( (p: ExpenseEntry) => p.id % 2 === 0 );
 
   numbers: number[] = [];
@@ -48,16 +49,40 @@ export class ItemsListComponent implements OnInit {
       new Date().toString()), 1000);
     });
 
-  itemObservable: Observable<string> = new Observable<string>();
+  itemObservable$: Observable<string> = new Observable<string>();
 
-  personChange: Observable<string> | null = null;
+  personChange$: Observable<string> | null = null;
   oddPersons: ExpenseEntry[] = [];
+  badPersons: ExpenseEntry[] = [];
 
   itemsEndPointUrl = '';
 
   constructor(private debugService: DebugService, private expenseEntryService: ExpenseEntryService, private http: HttpClient) {
-    this.itemsEndPointUrl = (environment.production) ? 'http://3.211.223.79:8080' : 'http://localhost:8080' ;
-    console.log(environment.production);
+    this.itemsEndPointUrl = (environment.production) ? 'http://3.211.223.79:8080' : 'http://localhost:8080';
+    // -----------------------------test area --------------------------------
+    let r = testArgs([1, 2, 3]);
+    console.log(r);
+    r = testArgs({});
+    console.log(r);
+    r = testArgs(null);
+    console.log(r);
+    
+    function testArgs(value: any): boolean {
+      let res = false;
+      let msg = '';
+      if (arguments.length === 0) {
+          msg = 'no args 0';
+          res = false;
+      } else {
+          msg = 'number of args' + arguments.length;
+          console.log(arguments);
+          console.log(arguments[0]);
+          res = true;
+      }
+      console.log(msg);
+      return res;
+    }
+    // ---------------------------------------------------------------------------
   }
 
   ngOnInit() {
@@ -80,14 +105,16 @@ export class ItemsListComponent implements OnInit {
                             this.filteredNumbers.push(num);
                             this.val2 += num;
     });
-
-    let e = document.getElementById('counter');
+    const processedNumbers = this.filterFnByOddNumbers(numbers$);
+    processedNumbers.subscribe( (num: number) => {
+      this.processedNumbers.push(num);
+      this.val3 += num;
+    });
+    const e = document.querySelector('#counter');
     if (e) {
       const clickEvent$ = fromEvent(e, 'click');
       clickEvent$.subscribe(() => this.counter++);
     }
-
-    e = document.getElementById('counter');
     if (e) {
       const clickPersonEvent$ = fromEvent(e, 'click');
       clickPersonEvent$.subscribe(() => this.counter++);
@@ -141,12 +168,16 @@ export class ItemsListComponent implements OnInit {
       .subscribe( data => {
         this.item = data as ExpenseEntry;
         const item: string[] = [JSON.stringify(data)];
-        this.itemObservable = from(item);
+        this.itemObservable$ = from(item);
       });
     // const mapObjToString = map( (obj : Object) => JSON.stringify(obj) );
     // const personal$ = from(this.personal);
     // personal$.subscribe(this.personalObservable);
     // const personalToString$ = personal$.pipe(mapObjToString);
+  }
+
+  clickedCounter(event: any) {
+      this.counter++;
   }
 
   refreshList(refresh: boolean) {
@@ -161,11 +192,11 @@ export class ItemsListComponent implements OnInit {
   showPersonsGrid() {
     this.personal = [];
     this.http.get<number>(this.itemsEndPointUrl + '/api/vi/person/findlast')
-      .subscribe(data => { this.lastId = data; },
+      .subscribe(lastId => { this.lastId = lastId; },
        (err: any) => console.log(err),
        () => {
          this.expenseEntryService.getExpenseEntry(this.lastId)
-           .subscribe( data => this.item = data as ExpenseEntry);
+           .subscribe( person => { this.item = person as ExpenseEntry; this.itemObservable$ = from([JSON.stringify(this.item)]); } );
        });
 
     let ajaxResponse: AjaxResponse;
@@ -181,42 +212,52 @@ export class ItemsListComponent implements OnInit {
       complete: () => {
         this.personal = [];
         this.items = [];
-        const personArr: ExpenseEntry[] = [];
+        const itemArr: ExpenseEntry[] = [];
         let count = 0;
-
-        for (const person of this.personas) {
+        
+        for (const p of this.personas) {
           count++;
-          const p = person as ExpenseEntry;
-          this.personal.push(person);
-          personArr.push(p);
-          // this.items.push(p);
+          if ( count > 20) { break; }
+          this.items.push(p as ExpenseEntry);
+        }
+        // this.personas.forEach( p => {
+        //         const item = p as ExpenseEntry;
+        //         count++;
+        //         **** wrong!!! if (count < 21) { this.items.push(item); }
+        // });
+        this.itemCountStr = 'Total items = ' + count;
+        
+        // TODO study function* iterators to make iterables
+        // yield* is an operator that is only available inside generators. 
+        // It yields all items iterated over by an iterable.
+        
+        const itemsIterable = this.items[Symbol.iterator]();
+        let result = itemsIterable.next();
+        while ( !result.done ) {
+          if (result.value.lastname.includes('n')) {
+            this.oddPersons.push(result.value);
+          }
+          result = itemsIterable.next();
         }
 
-        let i = 0;
-        function* personGen() {
-          while (i < personArr.length) {
-            return  personArr[i++];
+        const onOddItemsIterable = this.oddPersons[Symbol.iterator]();
+        function* itemsIterator() {
+          let itr = onOddItemsIterable.next();
+          while ( !itr.done ) {
+            if (!itr.done && itr.value.lastname.includes('on')) {
+              yield itr.value;
+            }
+            itr = onOddItemsIterable.next();
           }
         }
-
-        personArr.forEach((e) => {
-          setTimeout(() => {
-            this.items.push(e);
-          }, 3000 ); });
-
-        this.itemCountStr = 'Total items = ' + count;
-        this.oddPersons = this.items.filter((p: ExpenseEntry) => p.id % 2 !== 0);
-        this.personChange = new Observable<string> ((observer: Observer<string>) => {
-        const index = Math.floor(Math.random() * this.items.length);
-        console.log(index);
-        setInterval(() => observer.next(
-              this.getEmployeeById(this.items[index].id)
-            ),
-            5000);
-        });
+        const makeItemsIterable = itemsIterator();
+        for (const p of makeItemsIterable) {
+          this.badPersons.push(p);
+        }
+        
       }
     };
     api$.subscribe(ajaxObserver);
+    
   }
-
 }
