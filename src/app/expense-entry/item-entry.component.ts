@@ -28,7 +28,7 @@ export class ItemEntryComponent implements OnInit, OnChanges {
   constructor(private expenseEntryService: ExpenseEntryService) {}
 
   ngOnInit() {
-    this.title = 'Edit Person Name';
+    this.title = 'Last Edited:';
   }
 
   // personChanges.prop contains the old and the new value...
