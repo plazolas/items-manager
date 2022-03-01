@@ -1,5 +1,11 @@
+import 'zone.js/dist/proxy.js';
+import 'zone.js/dist/zone';
 import 'zone.js/dist/zone-testing';
-import 'zone.js/dist/async-test.js';
+import 'zone.js/dist/long-stack-trace-zone';
+import 'zone.js/dist/sync-test';
+import 'zone.js/dist/async-test';
+import 'zone.js/dist/fake-async-test';
+
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { BrowserDynamicTestingModule, platformBrowserDynamicTesting } from '@angular/platform-browser-dynamic/testing';
 
@@ -10,13 +16,13 @@ describe('HomeComponent', () => {
   let fixture: ComponentFixture<HomeComponent>;
 
   TestBed.initTestEnvironment(
-    BrowserDynamicTestingModule, platformBrowserDynamicTesting());
+    BrowserDynamicTestingModule, platformBrowserDynamicTesting()
+  );
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
       declarations: [ HomeComponent ]
-    })
-    .compileComponents();
+    }).compileComponents();
   }));
 
   beforeEach(() => {
@@ -31,7 +37,6 @@ describe('HomeComponent', () => {
 
   it('should contain "Welcome"', () => {
     const e: HTMLElement = fixture.nativeElement;
-    // expect(true).toEqual(true);
     expect(e.textContent).toContain('Welcome');
   });
 });

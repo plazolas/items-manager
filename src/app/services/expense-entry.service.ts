@@ -10,20 +10,22 @@ import { environment } from '../../environments/environment';
 export class ExpenseEntryService {
   private readonly expenseRestUrl: any;
   private httpOptions = {
-    headers: new HttpHeaders( { 'Content-Type' : 'application/json',
-                                       'Access-Control-Allow-Origin' : '*',
-                                       'Access-Control-Allow-Method' : 'GET, POST, PUT, DELETE'
-                                })
+      headers: new HttpHeaders({
+        'Content-Type': 'application/json',
+        'Access-Control-Allow-Origin': '*',
+        'Access-Control-Allow-Headers': 'Content-Type',
+        'Access-Control-Allow-Method': 'GET, POST, PUT, DELETE'
+      })
   };
 
   constructor(private httpClient: HttpClient) {
-    const itemsEndPointUrl = (environment.production) ? 'http://3.211.223.79:8080' : 'http://localhost:8080' ;
+    const itemsEndPointUrl = (environment.production) ? 'http://3.211.223.79:8080' : 'http://www.ozdev.net:8080';
     this.expenseRestUrl = itemsEndPointUrl + '/api/vi/person';
-    console.log(this.expenseRestUrl);
+    console.log('ExpenseEntryService:' + this.expenseRestUrl);
   }
 
   getExpenseEntries(): Observable<object> {
-    return this.httpClient.get(this.expenseRestUrl, this.httpOptions)
+    return this.httpClient.get(this.expenseRestUrl, this.httpOptions )
       .pipe(
         retry(3),
         catchError(this.httpErrorHandler)
@@ -75,4 +77,5 @@ export class ExpenseEntryService {
 
     return throwError('Error occurred. Pleas try again');
   }
+  
 }

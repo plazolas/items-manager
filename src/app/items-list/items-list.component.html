@@ -3,7 +3,7 @@
     <div class="text-left">
         <h6> Date Time: <span style="font-weight: normal">{{ timeChange | async }}</span></h6>
     </div>
-<app-expense-entry [person]=item [submitted]=submit (getSubmitStatusChange)='refreshList($event)'></app-expense-entry>
+<app-item-entry [person]=item [submitted]=submit (getSubmitStatusChange)='refreshList($event)'></app-item-entry>
     <br><br>
     <div class="row">
         <h6>Date Converter: </h6>

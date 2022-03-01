@@ -8,8 +8,8 @@ import {HomeComponent} from './expense-entry/home/home.component';
 
 const routes: Routes = [
   { path: '', component: HomeComponent },
-  { path: 'edit_person', component:  ItemEntryEditComponent },
-  { path: 'edit_list', component:  ItemsListComponent },
+  { path: 'edit_item/:itemid', component:  ItemEntryEditComponent },
+  { path: 'list_items', component:  ItemsListComponent },
   { path: 'home', component:  HomeComponent },
   { path: 'wand', redirectTo: 'http://www.ozdev.net/wand/index.php'},
   { path: '404', component: NotfoundComponent},

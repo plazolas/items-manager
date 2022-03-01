@@ -9,7 +9,10 @@
               <h6>{{ title }}</h6>
             </div>
             <div class="col-sm" style="text-align: right;">
-              <button type="submit" class="btn btn-success" [disabled]="!personForm.form.valid">Save</button>
+              <button type="submit" class="btn btn-success" [disabled]="!personForm.form.valid">Quick Save</button>
+            </div>
+            <div class="col-sm" style="text-align: right;">
+              <a routerLink="/edit_item/{{person.id}}"><button class="btn btn-success">Edit</button></a>
             </div>
           </div>
         </div>
@@ -39,20 +42,22 @@
                 {{ person?.passport?.number }}
               </div>
             </div>
-            <br>
             <div class="form-group">
               <div class="row">
-                <div class="col-2" style="text-align: right;white-space: nowrap;">
+                <div class="col-2" style="text-align: right;">
                   <strong><em>First Name:</em></strong>
                 </div>
-                <input name="firstname" [(ngModel)]="person.firstname" class="col" style="text-align: left;" required>
+                <div class="col-2" style="text-align: left;">
+                  {{ person?.firstname }}
+                </div>
               </div>
-              <br>
               <div class="row">
-                <div class="col-2" style="text-align: right;white-space: nowrap;">
+                <div class="col-2" style="text-align: right;">
                   <strong><em>Last Name:</em></strong>
                 </div>
-                <input name="lastname" [(ngModel)]="person.lastname" class="col" style="text-align: left;" required>
+                <div class="col-2" style="text-align: left;">
+                {{ person?.lastname }}
+                </div>
               </div>
               <br>
             </div>

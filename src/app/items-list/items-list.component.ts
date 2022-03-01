@@ -16,9 +16,10 @@ import {environment} from '../../environments/environment';
 })
 
 export class ItemsListComponent implements OnInit {
-    title = 'Personnel Entry List';
+    title = 'items list';
     myName = this.constructor.name;
     employee: ExpenseEntry = {} as ExpenseEntry;
+    person: ExpenseEntry = {} as ExpenseEntry;
     item: ExpenseEntry = {} as ExpenseEntry;
     items: ExpenseEntry[] = [];
     submit = false;
@@ -60,23 +61,40 @@ export class ItemsListComponent implements OnInit {
 
     itemsEndPointUrl = '';
 
-    constructor(private debugService: DebugService, private expenseEntryService: ExpenseEntryService, private http: HttpClient) {
-        this.itemsEndPointUrl = (environment.production) ? 'http://3.211.223.79:8080' : 'http://localhost:8080';
-        // -----------------------------test area --------------------------------
-        // let r = testArgs([1, 2, 3]);
-        // console.log(r); r = testArgs({}); console.log(r); r = testArgs(null); console.log(r); r = testArgs([]); console.log(r);
-
-        function testArgs(value: any): boolean {
-            let res: boolean;
-            if (arguments.length === 0) {
-                res = false;
-            } else if (arguments.length === 1)  {
-                res = (arguments[0] === null || Object.keys(arguments[0]).length === 0) ? false : true;
-            } else {
-                res = true;
-            }
-            return res;
+    public testArgs(value: any): boolean {
+        let res: boolean;
+        if (arguments.length === 0) {
+            res = false;
+        } else if (arguments.length === 1) {
+            res = (!(arguments[0] === null || typeof (arguments[0]) === 'undefined' || Object.keys(arguments[0]).length === 0));
+        } else {
+            res = true;
         }
+        return res;
+    }
+
+    public removeProp(obj: any, prop: string): object | false {
+        if (!(obj === null || typeof obj === 'undefined' || Object.keys(obj).length === 0 ||
+            prop === null || prop === '' || typeof prop === undefined)) {
+            return false;
+        }
+        if (obj.hasOwnProperty(prop)) { 
+            delete obj.prop;
+            return obj;
+        } else {
+            return false;
+        }
+    }
+
+    constructor(private debugService: DebugService, private expenseEntryService: ExpenseEntryService, private http: HttpClient) {
+        this.itemsEndPointUrl = (environment.production) ? 'http://3.211.223.79:8080' : 'http://3.211.223.79:8080';
+
+        // -----------------------------test area --------------------------------
+        const x = { person : 'john doe', passport : '12345' };
+        let y = this.removeProp(x, 'grand');
+        console.log(y);
+        y = this.removeProp(x, 'passport');
+        console.log(y);
         // ---------------------------------------------------------------------------
     }
 
@@ -131,12 +149,13 @@ export class ItemsListComponent implements OnInit {
         const date = new Date(str);
         let dateStrArr = [];
         let newDateStr = str;
-        if (date.toString() === 'Invalid Date') { return 'Invalid Date'; }
+        if (date.toString() === 'Invalid Date') {
+            return 'Invalid Date';
+        }
 
         const regex = /[^A-Za-z0-9\s:]/;
         const found = str.match(regex);
         const separator: string = (found !== null) ? found[0] : '';
-        console.log(separator);
         if (separator !== '') {
             dateStrArr = str.split(separator);
             console.log(dateStrArr);
@@ -310,6 +329,6 @@ export class ItemsListComponent implements OnInit {
             }
         };
         api$.subscribe(ajaxObserver);
-
     }
+    
 }

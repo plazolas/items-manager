@@ -9,7 +9,7 @@ import { DebugComponent } from './debug/debug.component';
 import { HttpClientModule } from '@angular/common/http';
 import { AppRoutingModule } from './app-routing.module';
 import { ItemEntryEditComponent } from './expense-entry/item-entry-edit/item-entry-edit.component';
-import {FormsModule, ReactiveFormsModule} from '@angular/forms';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { HomeComponent } from './expense-entry/home/home.component';
 import { NotfoundComponent } from './notfound.component';
 

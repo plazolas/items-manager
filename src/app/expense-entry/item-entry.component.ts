@@ -7,19 +7,18 @@ import {
   Optional,
   ChangeDetectorRef, ChangeDetectionStrategy, EventEmitter,
 } from '@angular/core';
-import { NgForm } from '@angular/forms';
 import { ExpenseEntry } from '../model/expense-entry';
 import { ExpenseEntryService } from '../services/expense-entry.service';
 
 @Component({
-  selector: 'app-expense-entry',
+  selector: 'app-item-entry',
   templateUrl: './item-entry.component.html' ,
   styleUrls: ['./item-entry.component.css'],
   exportAs: 'NgForm'
 })
 
 export class ItemEntryComponent implements OnInit, OnChanges {
-  title = '';
+  title = 'Item Entry';
 
   @Input() person: ExpenseEntry = {} as ExpenseEntry;
   @Input() submitted = false;
@@ -27,9 +26,7 @@ export class ItemEntryComponent implements OnInit, OnChanges {
 
   constructor(private expenseEntryService: ExpenseEntryService) {}
 
-  ngOnInit() {
-    this.title = 'Last Edited:';
-  }
+  ngOnInit() {}
 
   // personChanges.prop contains the old and the new value...
   ngOnChanges(personChanges: SimpleChanges) {
@@ -39,6 +36,7 @@ export class ItemEntryComponent implements OnInit, OnChanges {
     }
     // personChanges.prop contains the old and the new value...
   }
+  
   onSubmit() {
     this.submitted = true;
     console.log(this.person);
