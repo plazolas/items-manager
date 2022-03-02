@@ -99,9 +99,9 @@ export class ItemsListComponent implements OnInit {
         // -----------------------------test area --------------------------------
         const x = {person: 'john doe', passport: '12345'};
         let y = this.removeProp(x, 'grand');
-        console.log(y);
+        // console.log(y);
         y = this.removeProp(x, 'passport');
-        console.log(y);
+        // console.log(y);
         // ---------------------------------------------------------------------------
     }
 
@@ -173,7 +173,6 @@ export class ItemsListComponent implements OnInit {
         const separator: string = (found !== null) ? found[0] : '';
         if (separator !== '') {
             dateStrArr = str.split(separator);
-            console.log(dateStrArr);
             if (dateStrArr.length === 3) {
                 const month = dateStrArr[0].padStart(2, '0');
                 const day = dateStrArr[1].padStart(2, '0');
@@ -255,9 +254,7 @@ export class ItemsListComponent implements OnInit {
     }
 
     refreshList(refresh: boolean) {
-        console.log(refresh);
         if (refresh) {
-            console.log(this.constructor.name + '::' + this.refreshList.name);
             this.showPersonsGrid();
             this.submit = false;
         }}

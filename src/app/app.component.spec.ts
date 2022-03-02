@@ -1,11 +1,3 @@
-import 'zone.js/dist/proxy.js';
-import 'zone.js/dist/zone';
-import 'zone.js/dist/zone-testing';
-import 'zone.js/dist/long-stack-trace-zone';
-import 'zone.js/dist/sync-test';
-import 'zone.js/dist/async-test';
-import 'zone.js/dist/fake-async-test';
-
 import {TestBed, async, ComponentFixture} from '@angular/core/testing';
 import { AppComponent } from './app.component';
 import {RouterTestingModule} from '@angular/router/testing';
@@ -16,9 +8,8 @@ describe('AppComponent', () => {
   let component: AppComponent;
   let fixture: ComponentFixture<AppComponent>;
 
-  TestBed.initTestEnvironment(
-      BrowserDynamicTestingModule, platformBrowserDynamicTesting()
-  );
+  TestBed.resetTestEnvironment();
+  TestBed.initTestEnvironment(BrowserDynamicTestingModule, platformBrowserDynamicTesting());
   
   beforeEach(async(() => {
     TestBed.configureTestingModule({

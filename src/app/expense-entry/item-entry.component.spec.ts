@@ -1,18 +1,11 @@
-import 'zone.js/dist/proxy.js';
-import 'zone.js/dist/zone';
-import 'zone.js/dist/zone-testing';
-import 'zone.js/dist/long-stack-trace-zone';
-import 'zone.js/dist/sync-test';
-import 'zone.js/dist/async-test';
-import 'zone.js/dist/fake-async-test';
-
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { BrowserDynamicTestingModule, platformBrowserDynamicTesting } from '@angular/platform-browser-dynamic/testing';
 import { ItemEntryComponent } from './item-entry.component';
 import {FormsModule} from '@angular/forms';
 import {ExpenseEntryService} from '../services/expense-entry.service';
 import {HttpClient, HttpClientModule} from '@angular/common/http';
-import {ExpenseEntry} from '../model/expense-entry';
+import {RouterTestingModule} from '@angular/router/testing';
+import {ItemsListComponent} from '../items-list/items-list.component';
 
 describe('ItemEntryComponent', () => {
   let component: ItemEntryComponent;
@@ -20,6 +13,7 @@ describe('ItemEntryComponent', () => {
   let service: ExpenseEntryService;
   let httpClient: HttpClient;
 
+  TestBed.resetTestEnvironment();
   TestBed.initTestEnvironment(BrowserDynamicTestingModule, platformBrowserDynamicTesting());
 
   beforeAll(() => {
@@ -28,7 +22,11 @@ describe('ItemEntryComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      imports: [FormsModule, HttpClientModule],
+      imports: [FormsModule,
+        HttpClientModule,
+        RouterTestingModule.withRoutes(
+            [{path: 'edit_item', component: ItemEntryComponent}]
+        )],
       declarations: [ItemEntryComponent],
       providers: [HttpClient, ExpenseEntryService]
     }).compileComponents();
@@ -52,8 +50,8 @@ describe('ItemEntryComponent', () => {
 
   it(`should use service'`,
       (done: DoneFn) => {
-        service.getExpenseEntry(168).subscribe(item => {
-          expect(JSON.stringify(item)).toContain('Brandon');
+        service.getExpenseEntry(185).subscribe(item => {
+          expect(JSON.stringify(item)).toContain('Alba');
           console.log(item);
           done();
         });
