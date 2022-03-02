@@ -1,20 +1,48 @@
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import 'zone.js/dist/proxy.js';
+import 'zone.js/dist/zone';
+import 'zone.js/dist/zone-testing';
+import 'zone.js/dist/long-stack-trace-zone';
+import 'zone.js/dist/async-test';
+import 'zone.js/dist/sync-test';
+import 'zone.js/dist/fake-async-test';
 
-import { ItemsListComponent } from './items-list.component';
+import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { BrowserDynamicTestingModule, platformBrowserDynamicTesting } from '@angular/platform-browser-dynamic/testing';
+import {FormsModule} from '@angular/forms';
+import {ExpenseEntryService} from '../services/expense-entry.service';
+import {HttpClient, HttpClientModule} from '@angular/common/http';
+
+import {ItemsListComponent} from './items-list.component';
 import {ItemEntryComponent} from '../expense-entry/item-entry.component';
+import {RouterTestingModule} from '@angular/router/testing';
 
 describe('ItemsListComponent', () => {
   let component: ItemsListComponent;
   let fixture: ComponentFixture<ItemsListComponent>;
+  let service: ExpenseEntryService;
+  let httpClient: HttpClient;
+
+  TestBed.initTestEnvironment(BrowserDynamicTestingModule, platformBrowserDynamicTesting());
+
+  beforeAll(() => {
+    jasmine.DEFAULT_TIMEOUT_INTERVAL = 15000;
+  });
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ ItemsListComponent, ItemEntryComponent ]
-    })
-    .compileComponents();
+      imports: [FormsModule,
+                HttpClientModule,
+                RouterTestingModule.withRoutes(
+              [{path: 'edit_item', component: ItemsListComponent}]
+        )],
+      declarations: [ItemsListComponent, ItemEntryComponent],
+      providers: [HttpClient, ExpenseEntryService]
+    }).compileComponents();
   }));
 
   beforeEach(() => {
+    httpClient = TestBed.get(HttpClient);
+    service = TestBed.get(ExpenseEntryService);
     fixture = TestBed.createComponent(ItemsListComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
@@ -23,4 +51,21 @@ describe('ItemsListComponent', () => {
   it('should create', () => {
     expect(component).toBeTruthy();
   });
+
+  it(`should have as title 'Items list'`, () => {
+    expect(component.title).toEqual('Items list');
+  });
+
+  it(`should use service'`,
+      (done: DoneFn) => {
+        service.getExpenseEntry(185).subscribe(item => {
+          expect(JSON.stringify(item)).toContain('Alba');
+          console.log(item);
+          done();
+        });
+  });
+  
+  
+  
+  
 });
