@@ -15,6 +15,7 @@ export class ItemEntryEditComponent implements OnInit {
   title = 'Edit Item';
   itemId = 0;
   loaded = false;
+  params =  this.activatedRoute.snapshot.params;
   @Input() person: ExpenseEntry = {} as ExpenseEntry;
   @Input() submitted = false;
   @Output() getSubmitStatusChange = new EventEmitter<boolean>();
@@ -22,10 +23,10 @@ export class ItemEntryEditComponent implements OnInit {
   constructor(private expenseEntryService: ExpenseEntryService, private router: Router, private activatedRoute: ActivatedRoute) {}
   
   ngOnInit() {
-    this.itemId = this.activatedRoute.snapshot.params.itemid.valueOf();
-    if (this.itemId === 0 || this.itemId === undefined) {
+    if (Object.keys(this.params).length === 0 && !this.params.hasOwnProperty('itemid')) {
       this.router.navigate(['/list_items']);
     } else {
+      this.itemId = this.activatedRoute.snapshot.params.itemid.valueOf();
       this.expenseEntryService.getExpenseEntry(this.itemId)
           .subscribe(data => { 
             this.person = data as ExpenseEntry; 
@@ -39,13 +40,16 @@ export class ItemEntryEditComponent implements OnInit {
   }
 
   onSubmit() {
-    this.submitted = true;
-    console.log(this.person);
-    this.expenseEntryService.updateExpenseEntry(this.person)
-        .subscribe( data => { this.person = data as ExpenseEntry; console.log(this.person); },
-            err  => { console.log(err); },
-            ()  => this.getSubmitStatusChange.emit(true)
-        );
+      this.expenseEntryService.updateExpenseEntry(this.person)
+          .subscribe(data => {
+                this.person = data as ExpenseEntry;
+                console.log(this.person);
+              },
+              err => {
+                console.log(err);
+              },
+              () => this.getSubmitStatusChange.emit(true)
+          );
 
   }
 }
