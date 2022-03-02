@@ -1,12 +1,13 @@
 import {Component, OnInit} from '@angular/core';
-import {Observable, Observer, from, fromEvent, of, range, throwError} from 'rxjs';
+import {ActivatedRoute} from '@angular/router';
+import {HttpClient} from '@angular/common/http';
 import {ajax, AjaxResponse} from 'rxjs/ajax';
 import {filter, map, catchError} from 'rxjs/operators';
+import {Observable, Observer, from, fromEvent, of, range, throwError} from 'rxjs';
 
 import {DebugService} from '../services/debug.service';
 import {ExpenseEntry} from '../model/expense-entry';
 import {ExpenseEntryService} from '../services/expense-entry.service';
-import {HttpClient} from '@angular/common/http';
 import {environment} from '../../environments/environment';
 
 @Component({
@@ -16,7 +17,7 @@ import {environment} from '../../environments/environment';
 })
 
 export class ItemsListComponent implements OnInit {
-    title = 'items list';
+    title = 'Items list';
     myName = this.constructor.name;
     employee: ExpenseEntry = {} as ExpenseEntry;
     person: ExpenseEntry = {} as ExpenseEntry;
@@ -60,6 +61,8 @@ export class ItemsListComponent implements OnInit {
     badPersons: ExpenseEntry[] = [];
 
     itemsEndPointUrl = '';
+    
+    paramId =  this.activatedRoute.snapshot.params.itemid;
 
     public testArgs(value: any): boolean {
         let res: boolean;
@@ -78,7 +81,7 @@ export class ItemsListComponent implements OnInit {
             prop === null || prop === '' || typeof prop === undefined)) {
             return false;
         }
-        if (obj.hasOwnProperty(prop)) { 
+        if (obj.hasOwnProperty(prop)) {
             delete obj.prop;
             return obj;
         } else {
@@ -86,11 +89,15 @@ export class ItemsListComponent implements OnInit {
         }
     }
 
-    constructor(private debugService: DebugService, private expenseEntryService: ExpenseEntryService, private http: HttpClient) {
+    constructor(private debugService: DebugService,
+                private expenseEntryService: ExpenseEntryService,
+                private http: HttpClient,
+                private activatedRoute: ActivatedRoute
+    ) {
         this.itemsEndPointUrl = (environment.production) ? 'http://3.211.223.79:8080' : 'http://3.211.223.79:8080';
 
         // -----------------------------test area --------------------------------
-        const x = { person : 'john doe', passport : '12345' };
+        const x = {person: 'john doe', passport: '12345'};
         let y = this.removeProp(x, 'grand');
         console.log(y);
         y = this.removeProp(x, 'passport');
@@ -99,6 +106,14 @@ export class ItemsListComponent implements OnInit {
     }
 
     ngOnInit() {
+        
+        if (this.paramId !== undefined) {
+            this.paramId = this.activatedRoute.snapshot.params.itemid.valueOf();
+            this.expenseEntryService.getExpenseEntry(this.paramId)
+                .subscribe(itm => {
+                    this.item = itm as ExpenseEntry;
+                });
+        }
 
         const mapObjToLi = map((obj: object) => '<li>' + JSON.stringify(obj) + '</li>');
         // observable
@@ -224,9 +239,9 @@ export class ItemsListComponent implements OnInit {
 
     clickedPerson(event: any, id: number) {
         this.expenseEntryService.getExpenseEntry(id)
-            .subscribe(data => {
-                this.item = data as ExpenseEntry;
-                const item: string[] = [JSON.stringify(data)];
+            .subscribe(itm => {
+                this.item = itm as ExpenseEntry;
+                const item: string[] = [JSON.stringify(itm)];
                 this.itemObservable$ = from(item);
             });
         // const mapObjToString = map( (obj : Object) => JSON.stringify(obj) );
@@ -245,11 +260,11 @@ export class ItemsListComponent implements OnInit {
             console.log(this.constructor.name + '::' + this.refreshList.name);
             this.showPersonsGrid();
             this.submit = false;
-        }
-    }
+        }}
 
     showPersonsGrid() {
         this.personal = [];
+        if (this.paramId === undefined ) {
         this.http.get<number>(this.itemsEndPointUrl + '/api/vi/person/findlast')
             .subscribe(lastId => {
                     this.lastId = lastId;
@@ -257,12 +272,12 @@ export class ItemsListComponent implements OnInit {
                 (err: any) => console.log(err),
                 () => {
                     this.expenseEntryService.getExpenseEntry(this.lastId)
-                        .subscribe(person => {
-                            this.item = person as ExpenseEntry;
+                        .subscribe(itm => {
+                            this.item = itm as ExpenseEntry;
                             this.itemObservable$ = from([JSON.stringify(this.item)]);
                         });
                 });
-
+    }
         let ajaxResponse: AjaxResponse;
         const api$ = ajax({
             url: this.itemsEndPointUrl + '/api/vi/person',
@@ -330,5 +345,5 @@ export class ItemsListComponent implements OnInit {
         };
         api$.subscribe(ajaxObserver);
     }
-    
+
 }

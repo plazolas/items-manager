@@ -10,6 +10,7 @@ const routes: Routes = [
   { path: '', component: HomeComponent },
   { path: 'edit_item/:itemid', component:  ItemEntryEditComponent },
   { path: 'list_items', component:  ItemsListComponent },
+  { path: 'list_items/:itemid', component:  ItemsListComponent },
   { path: 'home', component:  HomeComponent },
   { path: 'wand', redirectTo: 'http://www.ozdev.net/wand/index.php'},
   { path: '404', component: NotfoundComponent},
