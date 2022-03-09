@@ -4,7 +4,7 @@ import { ExpenseEntry } from '../model/expense-entry';
 import { Observable, throwError } from 'rxjs';
 import { catchError, retry } from 'rxjs/operators';
 import { HttpClient, HttpHeaders, HttpErrorResponse } from '@angular/common/http';
-import { environment } from '../../environments/environment';
+import { environment } from '../../../environments/environment';
 
 @Injectable()
 export class ExpenseEntryService {
@@ -19,7 +19,7 @@ export class ExpenseEntryService {
   };
 
   constructor(private httpClient: HttpClient) {
-    const itemsEndPointUrl = (environment.production) ? 'http://3.211.223.79:8080' : 'http://www.ozdev.net:8080';
+    const itemsEndPointUrl = environment.https + '://' + environment.domain + ':' + environment.backEndPoint;
     this.expenseRestUrl = itemsEndPointUrl + '/api/vi/person';
     // console.log('ExpenseEntryService:' + this.expenseRestUrl);
   }

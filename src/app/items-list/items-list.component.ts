@@ -8,7 +8,7 @@ import {Observable, Observer, from, fromEvent, of, range, throwError} from 'rxjs
 import {DebugService} from '../services/debug.service';
 import {ExpenseEntry} from '../model/expense-entry';
 import {ExpenseEntryService} from '../services/expense-entry.service';
-import {environment} from '../../environments/environment';
+import {environment} from '../../../environments/environment';
 
 @Component({
     selector: 'app-items-list',
@@ -94,7 +94,7 @@ export class ItemsListComponent implements OnInit {
                 private http: HttpClient,
                 private activatedRoute: ActivatedRoute
     ) {
-        this.itemsEndPointUrl = (environment.production) ? 'http://3.211.223.79:8080' : 'http://3.211.223.79:8080';
+        this.itemsEndPointUrl = environment.https + '://' + environment.domain + ':' + environment.backEndPoint;
 
         // -----------------------------test area --------------------------------
         const x = {person: 'john doe', passport: '12345'};
