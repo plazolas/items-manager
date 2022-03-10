@@ -2,8 +2,8 @@ import {Component, OnInit} from '@angular/core';
 import {ActivatedRoute} from '@angular/router';
 import {HttpClient} from '@angular/common/http';
 import {ajax, AjaxResponse} from 'rxjs/ajax';
-import {filter, map, catchError} from 'rxjs/operators';
-import {Observable, Observer, from, fromEvent, of, range, throwError} from 'rxjs';
+import {filter, map} from 'rxjs/operators';
+import {Observable, Observer, from, fromEvent} from 'rxjs';
 
 import {DebugService} from '../services/debug.service';
 import {ExpenseEntry} from '../model/expense-entry';
@@ -31,11 +31,9 @@ export class ItemsListComponent implements OnInit {
 
     expenseEntries: object = {};
     expenseEntriesStr = '';
-    personOfMonth: ExpenseEntry = {} as ExpenseEntry;
 
     filterFnByEvenNumbers = filter((n: number) => n % 2 === 0);
     filterFnByOddNumbers = filter((n: number) => n % 2 !== 0);
-    filterFnByEvenItems = filter((p: ExpenseEntry) => p.id % 2 === 0);
 
     numbers: number[] = [];
     val1 = 0;
@@ -114,8 +112,7 @@ export class ItemsListComponent implements OnInit {
                     this.item = itm as ExpenseEntry;
                 });
         }
-
-        const mapObjToLi = map((obj: object) => '<li>' + JSON.stringify(obj) + '</li>');
+        
         // observable
         const numbers$ = from([1, 2, 3, 4, 5, 6, 7, 8, 9, 10]);
         // observer
@@ -155,8 +152,7 @@ export class ItemsListComponent implements OnInit {
     }
 
     dateParser(str: string): void {
-        const newStr = new Date(Date.parse(str)).toString();
-        this.newDateStr = newStr;
+        this.newDateStr = new Date(Date.parse(str)).toString();;
         this.latestDateStr = this.formattedDateStr(str);
     }
 
@@ -275,7 +271,7 @@ export class ItemsListComponent implements OnInit {
                         });
                 });
     }
-        let ajaxResponse: AjaxResponse;
+        let ajaxResponse: AjaxResponse<ExpenseEntry>;
         const api$ = ajax({
             url: this.itemsEndPointUrl + '/api/vi/person',
             method: 'GET',

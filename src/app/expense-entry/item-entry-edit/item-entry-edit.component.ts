@@ -3,7 +3,7 @@ import {Router} from '@angular/router';
 import { ExpenseEntry } from '../../model/expense-entry';
 import {ExpenseEntryService} from '../../services/expense-entry.service';
 import { ActivatedRoute } from '@angular/router';
-import {isObject} from 'rxjs/internal-compatibility';
+// import {isObject} from 'rxjs/internal-compatibility';
 
 @Component({
   selector: 'app-item-entry-edit',
