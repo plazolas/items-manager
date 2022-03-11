@@ -8,7 +8,7 @@ import {Observable, Observer, from, fromEvent} from 'rxjs';
 import {DebugService} from '../services/debug.service';
 import {ExpenseEntry} from '../model/expense-entry';
 import {ExpenseEntryService} from '../services/expense-entry.service';
-import {environment} from '../../../environments/environment';
+import {environment} from '../../environments/environment';
 
 @Component({
     selector: 'app-items-list',

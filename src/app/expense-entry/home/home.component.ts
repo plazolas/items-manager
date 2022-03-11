@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import {environment} from '../../../../environments/environment';
+import {environment} from '../../../environments/environment';
 
 @Component({
   selector: 'app-home',
@@ -8,9 +8,13 @@ import {environment} from '../../../../environments/environment';
 })
 export class HomeComponent implements OnInit {
 
- public wandUrl = '';
+ public url = ''
+ public wandUrl = ''
+ public javaUrl = ''
   constructor() {
-    this.wandUrl = environment.https + '://' + environment.domain + ':' + environment.backEndPoint;
+    this.url = environment.https + '://' + environment.domain;
+    this.wandUrl = environment.https + '://' + environment.domain + ':' + environment.phpEndPoint + '/wand';
+    this.javaUrl = this.url + ':' + environment.backEndPoint;
   }
 
   ngOnInit() {

@@ -12,6 +12,7 @@ import { ItemEntryEditComponent } from './expense-entry/item-entry-edit/item-ent
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { HomeComponent } from './expense-entry/home/home.component';
 import { NotfoundComponent } from './notfound.component';
+import { AboutComponent } from './expense-entry/home/about/about.component';
 
 @NgModule({
   declarations: [
@@ -21,7 +22,8 @@ import { NotfoundComponent } from './notfound.component';
     DebugComponent,
     ItemEntryEditComponent,
     HomeComponent,
-    NotfoundComponent
+    NotfoundComponent,
+    AboutComponent
   ],
   imports: [
     BrowserModule,

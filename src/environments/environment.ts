@@ -7,7 +7,7 @@ export const environment = {
   https: 'http',
   domain: 'www.ozdev.net',
   backEndPoint: '30755',
-  phpEndPoint: '31975'
+  phpEndPoint: '31975',
 };
 
 /*
