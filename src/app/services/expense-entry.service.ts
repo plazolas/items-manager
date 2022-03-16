@@ -19,7 +19,7 @@ export class ExpenseEntryService {
   };
 
   constructor(private httpClient: HttpClient) {
-    const itemsEndPointUrl = environment.https + '://' + environment.domain + ':' + environment.backEndPoint;
+    const itemsEndPointUrl = environment.backUrl;
     this.expenseRestUrl = itemsEndPointUrl + '/api/vi/person';
     // console.log('ExpenseEntryService:' + this.expenseRestUrl);
   }

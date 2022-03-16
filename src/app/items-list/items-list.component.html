@@ -31,14 +31,14 @@
     <div class="container">
         <div class="row" style="border: solid 2px black">
             <div class="col-lg-12 text-center" style="padding-top: 20px;">
-                <div class="container" style="padding-left: 0px; padding-right: 0px;">
+                <div class="container" style="padding-left: 0; padding-right: 0;">
                     <div class="row">
                         <div class="col-sm" style="text-align: left;">
                             <h1>{{ title }}</h1>
                         </div>
                     </div>
                 </div>
-                <div class="container" style="padding-left: 0px; padding-right: 0px;">
+                <div class="container" style="padding-left: 0; padding-right: 0;">
 
                 </div>
                 <div class="container box" style="margin-top: 10px;">
@@ -122,7 +122,7 @@
                     </div>
                 </div>
                 <div>
-                    <a id="counter" (click)="clickedCounter($event);" style="cursor: pointer; color: blue">Click here</a> to
+                    <a id="counter" (click)="clickedCounter();" style="cursor: pointer; color: blue">Click here</a> to
                     increment the counter value. The current counter value is {{ counter }}
                 </div>
                 <br>

@@ -7,7 +7,7 @@ import { Component, OnInit } from '@angular/core';
 })
 export class NotfoundComponent implements OnInit {
 
-  title: string = 'Page not Found'
+  title = 'Page not Found';
 
   constructor() { }
 

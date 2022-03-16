@@ -15,7 +15,7 @@ const routes: Routes = [
   { path: 'list_items/:itemid', component:  ItemsListComponent },
   { path: 'home', component:  HomeComponent },
   { path: 'about', component:  AboutComponent },
-  { path: 'wand', redirectTo: environment.https + '://' + environment.domain + environment.phpEndPoint + '/wand/index.php' },
+  { path: 'wand', redirectTo: environment.wandUrl },
   { path: '404', component: NotfoundComponent},
   { path: '**', redirectTo: '/404'}
 ];

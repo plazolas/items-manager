@@ -8,15 +8,10 @@ import {environment} from '../../../../environments/environment';
 })
 export class AboutComponent implements OnInit {
 
-  public url = ''
-  public wandUrl = ''
-  public javaUrl = ''
+  wandUrl = environment.wandUrl;
+  backUrl = environment.backUrl;
   
-  constructor() {
-    this.url = environment.https + '://' + environment.domain;
-    this.wandUrl = this.url + ':' + environment.phpEndPoint + '/wand';
-    this.javaUrl = this.url + ':' + environment.backEndPoint;
-  }
+  constructor() {}
 
   ngOnInit(): void {
   }

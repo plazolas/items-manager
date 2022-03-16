@@ -7,15 +7,10 @@ import {environment} from '../../../environments/environment';
   styleUrls: ['./home.component.css']
 })
 export class HomeComponent implements OnInit {
-
- public url = ''
- public wandUrl = ''
- public javaUrl = ''
-  constructor() {
-    this.url = environment.https + '://' + environment.domain;
-    this.wandUrl = environment.https + '://' + environment.domain + ':' + environment.phpEndPoint + '/wand';
-    this.javaUrl = this.url + ':' + environment.backEndPoint;
-  }
+    
+ wandUrl = environment.wandUrl;
+ backUrl = environment.backUrl;
+  constructor() {}
 
   ngOnInit() {
   }

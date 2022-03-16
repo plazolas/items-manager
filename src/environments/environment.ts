@@ -4,10 +4,8 @@
 
 export const environment = {
   production: false,
-  https: 'http',
-  domain: 'www.ozdev.net',
-  backEndPoint: '30755',
-  phpEndPoint: '31975',
+  wandUrl: 'http://www.ozdev.net/wand',
+  backUrl: 'http://localhost:8080'
 };
 
 /*
