@@ -9,5 +9,5 @@ import {environment} from '../environments/environment';
 export class AppComponent {
   title = 'OzDev Engineering';
   wandUrl = environment.wandUrl;
-  backUrl = environment.backUrl;
+  backUrl = environment.backEndUrl;
 }

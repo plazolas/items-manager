@@ -9,7 +9,7 @@ import {environment} from '../../../environments/environment';
 export class HomeComponent implements OnInit {
     
  wandUrl = environment.wandUrl;
- backUrl = environment.backUrl;
+ backUrl = environment.backEndUrl;
   constructor() {}
 
   ngOnInit() {

@@ -5,7 +5,10 @@
 export const environment = {
   production: false,
   wandUrl: 'http://www.ozdev.net/wand',
-  backUrl: 'http://localhost:8080'
+  backEndUrl: 'http://localhost:8077',
+  loginPath: '/account/token',
+  appUserName: 'plazolas',
+  appUserPass: 'y6u7i8o9'
 };
 
 /*

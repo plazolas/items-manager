@@ -1,9 +1,9 @@
 import {Component, OnInit} from '@angular/core';
 import {ActivatedRoute} from '@angular/router';
-import {HttpClient} from '@angular/common/http';
+import {HttpClient, HttpHeaders} from '@angular/common/http';
 import {ajax, AjaxResponse} from 'rxjs/ajax';
 import {filter} from 'rxjs/operators';
-import {Observable, Observer, from, fromEvent} from 'rxjs';
+import {Observable, Observer, from, fromEvent, noop} from 'rxjs';
 
 import {DebugService} from '../services/debug.service';
 import {ExpenseEntry} from '../model/expense-entry';
@@ -24,10 +24,11 @@ export class ItemsListComponent implements OnInit {
     item: ExpenseEntry = {} as ExpenseEntry;
     items: ExpenseEntry[] = [];
     submit = false;
-    lastId = 117;
+    lastId = 0;
     dateStr: string = new Date().toString();
     newDateStr = '';
     latestDateStr = '';
+    httpOptions = {}
 
     expenseEntries: object = {};
     expenseEntriesStr = '';
@@ -58,9 +59,9 @@ export class ItemsListComponent implements OnInit {
     oddPersons: ExpenseEntry[] = [];
     badPersons: ExpenseEntry[] = [];
 
-    itemsEndPointUrl = '';
-
     paramId = this.activatedRoute.snapshot.params.itemid;
+    
+    token = '';
 
     public testArgs(value: any): boolean {
         let res: boolean;
@@ -92,8 +93,6 @@ export class ItemsListComponent implements OnInit {
                 private http: HttpClient,
                 private activatedRoute: ActivatedRoute
     ) {
-        this.itemsEndPointUrl = environment.backUrl;
-
         // -----------------------------test area --------------------------------
         const x = {person: 'john doe', passport: '12345'};
         let y = this.removeProp(x, 'grand');
@@ -101,6 +100,20 @@ export class ItemsListComponent implements OnInit {
         y = this.removeProp(x, 'passport');
         // console.log(y);
         // ---------------------------------------------------------------------------
+        this.expenseEntryService.getAuth()
+            .subscribe({
+                next: resp => {
+                    if (resp.body?.success && resp.body?.user.length > 0) {
+                        this.token = resp.body.token;
+                        this.expenseEntryService.setAuthHeaders(resp.body.token);
+                        this.setAuthHeaders(resp.body.token);
+                        this.showPersonsGrid();
+                    }
+                },
+                error: (err) => { console.log(err); },
+                complete: () => {}
+            });
+        
     }
 
     ngOnInit() {
@@ -144,7 +157,21 @@ export class ItemsListComponent implements OnInit {
             const clickPersonEvent$ = fromEvent(e, 'click');
             clickPersonEvent$.subscribe(() => this.counter++);
         }
-        this.showPersonsGrid();
+        // while(this.expenseEntryService.lastId === 0) {
+        //     noop();
+        // }
+    }
+
+    setAuthHeaders(token: string): void {
+        this.httpOptions = {
+            headers: new HttpHeaders({
+                'Content-Type': 'application/json',
+                'Access-Control-Allow-Origin': '*',
+                'Access-Control-Allow-Headers': 'Content-Type',
+                'Access-Control-Allow-Method': 'GET, POST, PUT, DELETE',
+                Authorization: 'Bearer ' + token
+            })
+        }
     }
 
     clickedDate(d: string): void {
@@ -197,10 +224,15 @@ export class ItemsListComponent implements OnInit {
 
     getPersonById(id: number): string {
         this.expenseEntryService.getExpenseEntry(id)
-            .subscribe({ 
-                next: data => { this.item = data as ExpenseEntry; },
-                error: (err) => { console.log(err); },
-                complete: () => {}
+            .subscribe({
+                next: data => {
+                    this.item = data as ExpenseEntry;
+                },
+                error: (err) => {
+                    console.log(err);
+                },
+                complete: () => {
+                }
             });
         return JSON.stringify(this.item);
     }
@@ -209,9 +241,14 @@ export class ItemsListComponent implements OnInit {
         const itemStr = JSON.stringify(this.employee);
         this.expenseEntryService.getExpenseEntry(id)
             .subscribe({
-              next:  data => { this.employee = data as ExpenseEntry; },  
-              error: (err) => { console.log(err); },
-              complete: () => {}
+                next: data => {
+                    this.employee = data as ExpenseEntry;
+                },
+                error: (err) => {
+                    console.log(err);
+                },
+                complete: () => {
+                }
             });
         return (this.item.id % 2 === 0) ? itemStr + JSON.stringify(this.employee) : JSON.stringify(this.employee);
     }
@@ -250,31 +287,36 @@ export class ItemsListComponent implements OnInit {
 
     showPersonsGrid() {
         this.personal = [];
-        if (this.paramId === undefined) {
-            this.http.get<number>(this.itemsEndPointUrl + '/api/vi/person/findlast')
-                .subscribe({
-                    next: lastId => {
-                        this.lastId = lastId;
+        this.expenseEntryService.getLastIdObs()
+            .subscribe(
+                {
+                    next: lid => {
+                        if (lid > 0) {
+                            this.lastId = lid;
+                            this.expenseEntryService.getExpenseEntry(this.lastId)
+                                .subscribe({
+                                    next: itm => {
+                                        this.item = itm as ExpenseEntry;
+                                        this.itemObservable$ = from([JSON.stringify(this.item)]);
+                                        const api$ = ajax({
+                                            url: environment.backEndUrl + '/api/vi/person',
+                                            method: 'GET',
+                                            headers: {Authorization: 'Bearer ' + this.token },
+                                            body: {}
+                                        });
+                                        api$.subscribe(ajaxObserver);
+                                    }
+                                });
+                        }
                     },
-                    error: (err: any) => console.log(err),
-                    complete: () => {
-                        this.expenseEntryService.getExpenseEntry(this.lastId)
-                            .subscribe({
-                                next: itm => {
-                                    this.item = itm as ExpenseEntry;
-                                    this.itemObservable$ = from([JSON.stringify(this.item)]);
-                                }
-                            });
-                    }
-                });
-        }
+                    error: (err) => { console.log(err); },
+                    complete: () => {}
+                }
+            );
+        
+
         let ajaxResponse: AjaxResponse<ExpenseEntry>;
-        const api$ = ajax({
-            url: this.itemsEndPointUrl + '/api/vi/person',
-            method: 'GET',
-            headers: {Accept: '*/*'},
-            body: {}
-        });
+        
         const ajaxObserver = {
             next: (res: any) => {
                 this.personas = res.response;
@@ -333,7 +375,6 @@ export class ItemsListComponent implements OnInit {
 
             }
         };
-        api$.subscribe(ajaxObserver);
     }
 
 }
