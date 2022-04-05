@@ -30,7 +30,7 @@ export class ItemEntryComponent implements OnInit, OnChanges {
 
   // personChanges.prop contains the old and the new value...
   ngOnChanges(personChanges: SimpleChanges) {
-    if (personChanges.person && personChanges.person.firstChange !== true && personChanges.person.previousValue !== 'undefined') {
+    if (personChanges.person && !personChanges.person.firstChange && personChanges.person.previousValue !== 'undefined') {
       // console.log(this.constructor.name + '::' + this.ngOnChanges.name + ' changes :');
       // console.log(personChanges);
     }
@@ -39,10 +39,9 @@ export class ItemEntryComponent implements OnInit, OnChanges {
   
   onSubmit() {
     this.submitted = true;
-    console.log(this.person);
     this.expenseEntryService.updateExpenseEntry(this.person)
-      .subscribe( data => { this.person = data as ExpenseEntry; console.log(this.person); },
-                  err  => { console.log(err); },
+      .subscribe( data => { this.person = data as ExpenseEntry; },
+                  err  => { console.log( 'updateExpenseEntry error:' + err); },
                 ()  => this.getSubmitStatusChange.emit(true)
       );
 

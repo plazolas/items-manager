@@ -120,10 +120,7 @@ export class ItemsListComponent implements OnInit {
 
         if (this.paramId !== undefined) {
             this.paramId = this.activatedRoute.snapshot.params.itemid.valueOf();
-            this.expenseEntryService.getExpenseEntry(this.paramId)
-                .subscribe(itm => {
-                    this.item = itm as ExpenseEntry;
-                });
+            this.item = this.getExpenseItemObj(this.paramId);
         }
 
         // observable
@@ -180,7 +177,6 @@ export class ItemsListComponent implements OnInit {
 
     dateParser(str: string): void {
         this.newDateStr = new Date(Date.parse(str)).toString();
-        ;
         this.latestDateStr = this.formattedDateStr(str);
     }
 

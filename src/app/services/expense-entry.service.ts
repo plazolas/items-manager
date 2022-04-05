@@ -55,6 +55,10 @@ export class ExpenseEntryService {
         return this.token;
     }
     
+    getToken(): string {
+        return this.token;
+    }
+    
     getLastId(): number {
         return this.lastId;
     }   
@@ -76,6 +80,7 @@ export class ExpenseEntryService {
     }
 
     getExpenseEntry(id: number): Observable<object> {
+        console.log('getExpenseEntry id: '+id);
         const res = this.httpClient.get(this.expenseRestUrl + '/' + id, this.httpOptions);
         return res
             .pipe(

@@ -6,6 +6,7 @@ import {NotfoundComponent} from './notfound.component';
 import {HomeComponent} from './expense-entry/home/home.component';
 import {AboutComponent} from './expense-entry/home/about/about.component';
 import { environment } from '../environments/environment';
+import {LoginComponent} from './security/login/login.component';
 // import { CommonModule } from '@angular/common'; // no longer needed once rout
 
 const routes: Routes = [
@@ -15,6 +16,7 @@ const routes: Routes = [
   { path: 'list_items/:itemid', component:  ItemsListComponent },
   { path: 'home', component:  HomeComponent },
   { path: 'about', component:  AboutComponent },
+  { path: 'login', component: LoginComponent },
   { path: 'wand', redirectTo: environment.wandUrl },
   { path: '404', component: NotfoundComponent},
   { path: '**', redirectTo: '/404'}

@@ -13,6 +13,8 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { HomeComponent } from './expense-entry/home/home.component';
 import { NotfoundComponent } from './notfound.component';
 import { AboutComponent } from './expense-entry/home/about/about.component';
+import { LoginComponent } from './security/login/login.component';
+import { CookieService } from 'ngx-cookie-service';
 
 @NgModule({
   declarations: [
@@ -23,7 +25,8 @@ import { AboutComponent } from './expense-entry/home/about/about.component';
     ItemEntryEditComponent,
     HomeComponent,
     NotfoundComponent,
-    AboutComponent
+    AboutComponent,
+    LoginComponent
   ],
   imports: [
     BrowserModule,
@@ -32,7 +35,7 @@ import { AboutComponent } from './expense-entry/home/about/about.component';
     ReactiveFormsModule,
     AppRoutingModule
   ],
-  providers: [ExpenseEntryService],
+  providers: [ExpenseEntryService, CookieService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

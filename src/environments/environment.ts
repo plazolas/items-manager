@@ -8,7 +8,7 @@ export const environment = {
   backEndUrl: 'http://localhost:8077',
   loginPath: '/account/token',
   appUserName: 'plazolas',
-  appUserPass: 'y6u7i8o9'
+  appUserPass: 'W2e3r4T5@'
 };
 
 /*
