@@ -19,7 +19,7 @@ export class ExpenseEntryService {
     
     constructor(private httpClient: HttpClient, private cookieService: CookieService, private router: Router,
                 private userService: UserService) {
-        if (!this.cookieService.check('token')) {
+        if (!this.userService.isLoggedIn()) {
             this.router.navigate(['/login']).then();
         }
         this.token = this.userService.getToken();

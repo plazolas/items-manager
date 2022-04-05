@@ -267,24 +267,25 @@ export class ItemsListComponent implements OnInit {
                     next: lid => {
                         if (lid > 0) {
                             this.lastId = lid;
-                            this.expenseEntryService.getExpenseEntry(this.lastId)
-                                .subscribe({
-                                    next: itm => {
-                                        this.item = itm as ExpenseEntry;
-                                        this.itemObservable$ = from([JSON.stringify(this.item)]);
-                                        const api$ = ajax({
-                                            url: environment.backEndUrl + '/api/vi/person',
-                                            method: 'GET',
-                                            headers: {Authorization: 'Bearer ' + this.token },
-                                            body: {}
-                                        });
-                                        api$.subscribe(ajaxObserver);
-                                    }
-                                });
                         }
                     },
                     error: (err) => { console.log(err); },
-                    complete: () => {}
+                    complete: () => {
+                        this.expenseEntryService.getExpenseEntry(this.lastId)
+                            .subscribe({
+                                next: itm => {
+                                    this.item = itm as ExpenseEntry;
+                                    this.itemObservable$ = from([JSON.stringify(this.item)]);
+                                    const api$ = ajax({
+                                        url: environment.backEndUrl + '/api/vi/person',
+                                        method: 'GET',
+                                        headers: {Authorization: 'Bearer ' + this.token },
+                                        body: {}
+                                    });
+                                    api$.subscribe(ajaxObserver);
+                                }
+                            });
+                    }
                 }
             );
         

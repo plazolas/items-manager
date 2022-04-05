@@ -22,9 +22,6 @@ export class UserService {
   }
 
   getHeaders(): object {
-    if (!this.cookieService.check('token') || this.getToken().length < 20) {
-      this.router.navigate(['/login']);
-    }
     const httpOptions = {
       headers: new HttpHeaders({
         'Content-Type': 'application/json',
