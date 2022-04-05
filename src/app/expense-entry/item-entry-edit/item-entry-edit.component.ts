@@ -3,8 +3,8 @@ import {Router} from '@angular/router';
 import { ExpenseEntry } from '../../model/expense-entry';
 import {ExpenseEntryService} from '../../services/expense-entry.service';
 import { ActivatedRoute } from '@angular/router';
-import {HttpHeaders} from '@angular/common/http';
-// import {isObject} from 'rxjs/internal-compatibility';
+import {CookieService} from 'ngx-cookie-service';
+import {UserService} from '../../services/user.service';
 
 @Component({
   selector: 'app-item-entry-edit',
@@ -23,29 +23,14 @@ export class ItemEntryEditComponent implements OnInit {
   @Input() submitted = false;
   @Output() getSubmitStatusChange = new EventEmitter<boolean>();
 
-  constructor(private expenseEntryService: ExpenseEntryService, private router: Router, private activatedRoute: ActivatedRoute) {
-      if (this.expenseEntryService.getToken() !== '' ) {
-          this.expenseEntryService.getAuth()
-              .subscribe({
-                  next: resp => {
-                      if (resp.body?.success && resp.body?.user.length > 0) {
-                          this.token = resp.body.token;
-                          this.expenseEntryService.setAuthHeaders(resp.body.token);
-                          this.setAuthHeaders(resp.body.token);
-                          this.getItemById()
-                      }
-                  },
-                  error: (err) => {
-                      console.log(err);
-                  },
-                  complete: () => {
-                  }
-              });
-      } else {
-          this.token = this.expenseEntryService.getToken();
-          this.setAuthHeaders(this.token);
-          this.getItemById()
-      }
+  constructor(private expenseEntryService: ExpenseEntryService, private router: Router, private activatedRoute: ActivatedRoute,
+              private cookieService: CookieService, private userService: UserService) {
+      if (!this.cookieService.check('token')) {
+          this.router.navigate(['/login']).then();
+      } 
+          this.token = this.userService.getToken();
+          this.httpOptions = this.userService.getHeaders();
+          this.getItemById();
   }
   
   ngOnInit() {}
@@ -80,19 +65,7 @@ export class ItemEntryEditComponent implements OnInit {
               });
       }
   }
-
-    setAuthHeaders(token: string): void {
-        this.httpOptions = {
-            headers: new HttpHeaders({
-                'Content-Type': 'application/json',
-                'Access-Control-Allow-Origin': '*',
-                'Access-Control-Allow-Headers': 'Content-Type',
-                'Access-Control-Allow-Method': 'GET, POST, PUT, DELETE',
-                Authorization: 'Bearer ' + token
-            })
-        }
-        console.log('exp-entry-src Auth ' + this.token)
-    }
+  
 }
   
 

@@ -11,6 +11,7 @@ export class LoginService {
 
   private readonly expenseRestUrl = environment.backEndUrl + '/api/vi/person';
   private readonly signupPath = this.expenseRestUrl + '/account';
+  private readonly loginPath = this.expenseRestUrl + '/account/token';
 
   constructor(private http: HttpClient) { }
   
@@ -18,15 +19,21 @@ export class LoginService {
   public signup(username: string, password: string): Observable<ResBody> {
     const headers = new HttpHeaders({
       'Content-Type': 'application/x-www-form-urlencoded',
+      'Access-Control-Allow-Origin': '*',
+      'Access-Control-Allow-Headers': 'Content-Type',
+      'Access-Control-Allow-Method': 'GET'
     });
     const options = { headers };
     return this.http.post<ResBody>( this.signupPath, `username=${username}&password=${password}`, options);
   }
 
   public authenticate(username: string, password: string): Observable<ResBody> {
-    const loginPath = this.expenseRestUrl + '/account/token';
+    const loginPath = this.loginPath;
     const headers = new HttpHeaders({
       'Content-Type': 'application/x-www-form-urlencoded',
+      'Access-Control-Allow-Origin': '*',
+      'Access-Control-Allow-Headers': 'Content-Type',
+      'Access-Control-Allow-Method': 'GET'
     });
     const options = { headers };
     return this.http.get<ResBody>(loginPath + `?username=${username}&password=${password}`, options);

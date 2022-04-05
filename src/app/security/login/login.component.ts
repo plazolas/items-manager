@@ -13,7 +13,6 @@ import {environment} from '../../../environments/environment';
 export class LoginComponent implements OnInit {
 
     private readonly expenseRestUrl = environment.backEndUrl + '/api/vi/person';
-    private readonly signupPath = this.expenseRestUrl + '/account';
 
     username = '';
     password = '';
@@ -21,8 +20,7 @@ export class LoginComponent implements OnInit {
     loginFailed = false;
     failedMsg = '';
 
-    constructor(private router: Router, private loginService: LoginService, private cookieService: CookieService) {
-    }
+    constructor(private router: Router, private loginService: LoginService, private cookieService: CookieService) {}
 
 
     ngOnInit() {
@@ -36,16 +34,19 @@ export class LoginComponent implements OnInit {
         this.loginService.authenticate(this.username, this.password)
             .subscribe( (response: ResBody) => {
                 if (response.success) {
-                    this.cookieService.set('username', response.user, 365, '/');
-                    this.cookieService.set('token', response.token, 365, '/');
+                    this.cookieService.set('username', response.user, 3, '/');
+                    this.cookieService.set('token', response.token, 3, '/');
                     this.router.navigate(['/list_items']);
+                } else {
+                    this.loginFailed = true;
+                        this.failedMsg = 'Check username password, Login failed!';
                 }
             }, error => {
                 this.loginFailed = true;
                 if (error.status === 503) {
                     this.failedMsg = 'Too many failed attempts. Try again in a few minutes.';
                 } else {
-                    this.failedMsg = 'Login failed!';
+                    this.failedMsg = 'Check username password, Login failed!';
                 }
             });
     }

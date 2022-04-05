@@ -1,11 +1,13 @@
-import {Injectable, OnInit} from '@angular/core';
+import {Injectable} from '@angular/core';
 import {ExpenseEntry} from '../model/expense-entry';
 
-import {from, noop, Observable, throwError} from 'rxjs';
+import {Observable, throwError} from 'rxjs';
 import {catchError, retry} from 'rxjs/operators';
 import {HttpClient, HttpHeaders, HttpErrorResponse, HttpResponse} from '@angular/common/http';
 import {environment} from '../../environments/environment';
-import {ResBody} from '../model/res-body';
+import {CookieService} from 'ngx-cookie-service';
+import {Router} from '@angular/router';
+import {UserService} from './user.service';
 
 @Injectable()
 export class ExpenseEntryService {
@@ -15,48 +17,13 @@ export class ExpenseEntryService {
     private httpOptions = {};
     public lastId = 0;
     
-    constructor(private httpClient: HttpClient) {}
-
-    setAuthHeaders(token: string): void {
-        this.httpOptions = {
-            headers: new HttpHeaders({
-                'Content-Type': 'application/json',
-                'Access-Control-Allow-Origin': '*',
-                'Access-Control-Allow-Headers': 'Content-Type',
-                'Access-Control-Allow-Method': 'GET, POST, PUT, DELETE',
-                Authorization: 'Bearer ' + token
-            })
+    constructor(private httpClient: HttpClient, private cookieService: CookieService, private router: Router,
+                private userService: UserService) {
+        if (!this.cookieService.check('token')) {
+            this.router.navigate(['/login']).then();
         }
-        console.log('exp-entry-src Auth ' + this.token)
-    }
-
-    getAuthHeaders(): object {
-        return this.httpOptions;
-    }
-    
-    getAuth(): Observable<HttpResponse<ResBody>> {
-        return this.httpClient.get<ResBody>(this.expenseRestUrl + environment.loginPath +
-            `?username=` + environment.appUserName + `&password=` + environment.appUserPass, {observe: 'response'})
-    }
-
-    setToken(): string {
-        this.httpClient.get<ResBody>(this.expenseRestUrl + environment.loginPath +
-            `?username=` + environment.appUserName + `&password=` + environment.appUserPass, {observe: 'response'})
-            .subscribe({
-                next: resp => {
-                    if (resp.body?.success && resp.body?.user.length > 0) {
-                        this.token = resp.body.token;
-                        this.setAuthHeaders(this.token);
-                    }
-                },
-                error: (err) => { console.log(err); },
-                complete: () => {}
-            });
-        return this.token;
-    }
-    
-    getToken(): string {
-        return this.token;
+        this.token = this.userService.getToken();
+        this.httpOptions = userService.getHeaders();
     }
     
     getLastId(): number {
@@ -64,7 +31,7 @@ export class ExpenseEntryService {
     }   
 
     getLastIdObs(): Observable<number> {
-        return this.httpClient.get<number>(this.expenseRestUrl + '/findlast', this.getAuthHeaders())
+        return this.httpClient.get<number>(this.expenseRestUrl + '/findlast', this.httpOptions)
             .pipe(
                 retry(3),
                 catchError(this.httpErrorHandler)
@@ -80,7 +47,6 @@ export class ExpenseEntryService {
     }
 
     getExpenseEntry(id: number): Observable<object> {
-        console.log('getExpenseEntry id: '+id);
         const res = this.httpClient.get(this.expenseRestUrl + '/' + id, this.httpOptions);
         return res
             .pipe(

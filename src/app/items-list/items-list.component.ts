@@ -1,14 +1,16 @@
 import {Component, OnInit} from '@angular/core';
-import {ActivatedRoute} from '@angular/router';
+import {ActivatedRoute, Router} from '@angular/router';
 import {HttpClient, HttpHeaders} from '@angular/common/http';
 import {ajax, AjaxResponse} from 'rxjs/ajax';
 import {filter} from 'rxjs/operators';
 import {Observable, Observer, from, fromEvent, noop} from 'rxjs';
 
+import {CookieService} from 'ngx-cookie-service';
 import {DebugService} from '../services/debug.service';
 import {ExpenseEntry} from '../model/expense-entry';
 import {ExpenseEntryService} from '../services/expense-entry.service';
 import {environment} from '../../environments/environment';
+import {UserService} from '../services/user.service';
 
 @Component({
     selector: 'app-items-list',
@@ -91,29 +93,17 @@ export class ItemsListComponent implements OnInit {
     constructor(private debugService: DebugService,
                 private expenseEntryService: ExpenseEntryService,
                 private http: HttpClient,
-                private activatedRoute: ActivatedRoute
+                private activatedRoute: ActivatedRoute,
+                private cookieService: CookieService,
+                private router: Router,
+                private userService: UserService
     ) {
-        // -----------------------------test area --------------------------------
-        const x = {person: 'john doe', passport: '12345'};
-        let y = this.removeProp(x, 'grand');
-        // console.log(y);
-        y = this.removeProp(x, 'passport');
-        // console.log(y);
-        // ---------------------------------------------------------------------------
-        this.expenseEntryService.getAuth()
-            .subscribe({
-                next: resp => {
-                    if (resp.body?.success && resp.body?.user.length > 0) {
-                        this.token = resp.body.token;
-                        this.expenseEntryService.setAuthHeaders(resp.body.token);
-                        this.setAuthHeaders(resp.body.token);
-                        this.showPersonsGrid();
-                    }
-                },
-                error: (err) => { console.log(err); },
-                complete: () => {}
-            });
-        
+        if (!this.cookieService.check('token')) {
+            this.router.navigate(['/login']);
+        } 
+        this.token = this.userService.getToken();
+        this.httpOptions = userService.getHeaders();
+        this.showPersonsGrid();
     }
 
     ngOnInit() {
@@ -157,18 +147,6 @@ export class ItemsListComponent implements OnInit {
         // while(this.expenseEntryService.lastId === 0) {
         //     noop();
         // }
-    }
-
-    setAuthHeaders(token: string): void {
-        this.httpOptions = {
-            headers: new HttpHeaders({
-                'Content-Type': 'application/json',
-                'Access-Control-Allow-Origin': '*',
-                'Access-Control-Allow-Headers': 'Content-Type',
-                'Access-Control-Allow-Method': 'GET, POST, PUT, DELETE',
-                Authorization: 'Bearer ' + token
-            })
-        }
     }
 
     clickedDate(d: string): void {

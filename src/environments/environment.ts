@@ -7,8 +7,8 @@ export const environment = {
   wandUrl: 'http://www.ozdev.net/wand',
   backEndUrl: 'http://localhost:8077',
   loginPath: '/account/token',
-  appUserName: 'plazolas',
-  appUserPass: 'W2e3r4T5@'
+  appUserName: '',
+  appUserPass: ''
 };
 
 /*

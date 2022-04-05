@@ -1,14 +1,12 @@
 import {
-  Component,
-  OnInit, OnChanges,
-  ViewContainerRef,
-  SimpleChanges,
-  Input, Output,
-  Optional,
-  ChangeDetectorRef, ChangeDetectionStrategy, EventEmitter,
+  Component, OnInit, OnChanges, SimpleChanges,
+  Input, Output, EventEmitter,
 } from '@angular/core';
 import { ExpenseEntry } from '../model/expense-entry';
 import { ExpenseEntryService } from '../services/expense-entry.service';
+import {CookieService} from 'ngx-cookie-service';
+import {Router} from '@angular/router';
+import {UserService} from '../services/user.service';
 
 @Component({
   selector: 'app-item-entry',
@@ -24,7 +22,14 @@ export class ItemEntryComponent implements OnInit, OnChanges {
   @Input() submitted = false;
   @Output() getSubmitStatusChange = new EventEmitter<boolean>();
 
-  constructor(private expenseEntryService: ExpenseEntryService) {}
+  constructor(private expenseEntryService: ExpenseEntryService, 
+              private cookieService: CookieService,
+              private userService: UserService,
+              private router: Router) {
+    if (!this.cookieService.check('token')) {
+      this.router.navigate(['/login']);
+    } 
+  }
 
   ngOnInit() {}
 

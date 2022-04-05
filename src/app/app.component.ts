@@ -41,7 +41,6 @@ export class AppComponent {
 
   openPopup() {
     this.displayStyle = 'block';
-    console.log('popOpen');
   }
   
   closeDialog() {
