@@ -56,7 +56,7 @@
                         <tbody>
                         <tr *ngFor="let item of items; let i = index">
                             <th>{{ i + 1 }}</th>
-                            <th id="{{ 'item_' +item.id }}" scope="row">
+                            <th id="{{ 'item_' + item.id }}" scope="row">
                                 <button (click)="clickedPerson($event,item.id);">{{ item.id }}</button>
                             </th>
                             <td>{{ item?.country?.name }}</td>

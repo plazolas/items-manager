@@ -1,7 +1,7 @@
 import {Component, EventEmitter, Input, OnChanges, OnInit, Output} from '@angular/core';
 import {Router} from '@angular/router';
-import { ExpenseEntry } from '../../model/expense-entry';
-import {ExpenseEntryService} from '../../services/expense-entry.service';
+import { Item } from '../../model/item';
+import {ItemService} from '../../services/item.service';
 import { ActivatedRoute } from '@angular/router';
 import {CookieService} from 'ngx-cookie-service';
 import {UserService} from '../../services/user.service';
@@ -19,11 +19,11 @@ export class ItemEntryEditComponent implements OnInit {
   params =  this.activatedRoute.snapshot.params;
   token = '';
   httpOptions = {};
-  @Input() person: ExpenseEntry = {} as ExpenseEntry;
+  @Input() person: Item = {} as Item;
   @Input() submitted = false;
   @Output() getSubmitStatusChange = new EventEmitter<boolean>();
 
-  constructor(private expenseEntryService: ExpenseEntryService, private router: Router, private activatedRoute: ActivatedRoute,
+  constructor(private itemService: ItemService, private router: Router, private activatedRoute: ActivatedRoute,
               private cookieService: CookieService, private userService: UserService) {
       if (!this.cookieService.check('token')) {
           this.router.navigate(['/login']).then();
@@ -40,9 +40,9 @@ export class ItemEntryEditComponent implements OnInit {
   }
 
   onSubmit() {
-      this.expenseEntryService.updateExpenseEntry(this.person)
+      this.itemService.updateItem(this.person)
           .subscribe(data => {
-                this.person = data as ExpenseEntry;
+                this.person = data as Item;
                 console.log(this.person);
               },
               err => {
@@ -58,9 +58,9 @@ export class ItemEntryEditComponent implements OnInit {
           this.router.navigate(['/list_items']);
       } else {
           this.itemId = this.activatedRoute.snapshot.params.itemid.valueOf();
-          this.expenseEntryService.getExpenseEntry(this.itemId)
+          this.itemService.getItem(this.itemId)
               .subscribe(data => {
-                  this.person = data as ExpenseEntry;
+                  this.person = data as Item;
                   this.loaded = true;
               });
       }

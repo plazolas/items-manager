@@ -4,7 +4,7 @@ import {NgModule } from '@angular/core';
 import { AppComponent } from './app.component';
 import { ItemEntryComponent } from './expense-entry/item-entry.component';
 import { ItemsListComponent } from './items-list/items-list.component';
-import { ExpenseEntryService } from './services/expense-entry.service';
+import { ItemService } from './services/item.service';
 import { DebugComponent } from './debug/debug.component';
 import { HttpClientModule } from '@angular/common/http';
 import { AppRoutingModule } from './app-routing.module';
@@ -15,6 +15,7 @@ import { NotfoundComponent } from './notfound.component';
 import { AboutComponent } from './expense-entry/home/about/about.component';
 import { LoginComponent } from './security/login/login.component';
 import { CookieService } from 'ngx-cookie-service';
+import {SearchComponent} from './items-list/search/search.component';
 
 @NgModule({
   declarations: [
@@ -26,7 +27,8 @@ import { CookieService } from 'ngx-cookie-service';
     HomeComponent,
     NotfoundComponent,
     AboutComponent,
-    LoginComponent
+    LoginComponent,
+    SearchComponent
   ],
   imports: [
     BrowserModule,
@@ -35,7 +37,7 @@ import { CookieService } from 'ngx-cookie-service';
     ReactiveFormsModule,
     AppRoutingModule
   ],
-  providers: [ExpenseEntryService, CookieService],
+  providers: [ItemService, CookieService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

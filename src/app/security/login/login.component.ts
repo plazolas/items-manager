@@ -12,8 +12,6 @@ import {environment} from '../../../environments/environment';
 })
 export class LoginComponent implements OnInit {
 
-    private readonly expenseRestUrl = environment.backEndUrl + '/api/vi/person';
-
     username = '';
     password = '';
 

@@ -3,13 +3,13 @@ import {BrowserDynamicTestingModule, platformBrowserDynamicTesting } from '@angu
 import {RouterTestingModule} from '@angular/router/testing';
 import {FormsModule} from '@angular/forms';
 import {HttpClient, HttpClientModule} from '@angular/common/http';
-import {ExpenseEntryService} from '../../services/expense-entry.service';
+import {ItemService} from '../../services/item.service';
 import {ItemEntryEditComponent} from './item-entry-edit.component';
 
 describe('ItemEntryEditComponent', () => {
   let component: ItemEntryEditComponent;
   let fixture: ComponentFixture<ItemEntryEditComponent>;
-  let service: ExpenseEntryService;
+  let service: ItemService;
   let httpClient: HttpClient;
   let router: RouterTestingModule;
 
@@ -28,13 +28,13 @@ describe('ItemEntryEditComponent', () => {
             [{path: 'list_items', component: ItemEntryEditComponent}]
                 )],
       declarations: [ItemEntryEditComponent],
-      providers: [HttpClient, ExpenseEntryService]
+      providers: [HttpClient, ItemService]
     }).compileComponents();
   }));
 
   beforeEach(() => {
     httpClient = TestBed.get(HttpClient);
-    service = TestBed.get(ExpenseEntryService);
+    service = TestBed.get(ItemService);
     router = TestBed.get(RouterTestingModule);
     fixture = TestBed.createComponent(ItemEntryEditComponent);
     component = fixture.componentInstance;
@@ -51,7 +51,7 @@ describe('ItemEntryEditComponent', () => {
 
   it(`should get response from service'`,
       (done: DoneFn) => {
-        service.getExpenseEntry(185).subscribe(item => {
+        service.getItem(185).subscribe(item => {
           expect(JSON.stringify(item)).toContain('Alba');
           console.log(item);
           done();

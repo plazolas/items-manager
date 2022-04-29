@@ -7,7 +7,7 @@ import {HomeComponent} from './expense-entry/home/home.component';
 import {AboutComponent} from './expense-entry/home/about/about.component';
 import { environment } from '../environments/environment';
 import {LoginComponent} from './security/login/login.component';
-// import { CommonModule } from '@angular/common'; // no longer needed once rout
+import {SearchComponent} from './items-list/search/search.component';
 
 const routes: Routes = [
   { path: '', component: HomeComponent },
@@ -16,6 +16,7 @@ const routes: Routes = [
   { path: 'list_items/:itemid', component:  ItemsListComponent },
   { path: 'home', component:  HomeComponent },
   { path: 'about', component:  AboutComponent },
+  { path: 'search', component:  SearchComponent },
   { path: 'login', component: LoginComponent },
   { path: 'wand', redirectTo: environment.wandUrl },
   { path: '404', component: NotfoundComponent},

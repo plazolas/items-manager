@@ -1,7 +1,7 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { BrowserDynamicTestingModule, platformBrowserDynamicTesting } from '@angular/platform-browser-dynamic/testing';
 import {FormsModule} from '@angular/forms';
-import {ExpenseEntryService} from '../services/expense-entry.service';
+import {ItemService} from '../services/item.service';
 import {HttpClient, HttpClientModule} from '@angular/common/http';
 
 import {ItemsListComponent} from './items-list.component';
@@ -11,7 +11,7 @@ import {RouterTestingModule} from '@angular/router/testing';
 describe('ItemsListComponent', () => {
   let component: ItemsListComponent;
   let fixture: ComponentFixture<ItemsListComponent>;
-  let service: ExpenseEntryService;
+  let service: ItemService;
   let httpClient: HttpClient;
 
   TestBed.resetTestEnvironment();
@@ -29,13 +29,13 @@ describe('ItemsListComponent', () => {
               [{path: 'edit_item', component: ItemsListComponent}]
         )],
       declarations: [ItemsListComponent, ItemEntryComponent],
-      providers: [HttpClient, ExpenseEntryService]
+      providers: [HttpClient, ItemService]
     }).compileComponents();
   }));
 
   beforeEach(() => {
     httpClient = TestBed.get(HttpClient);
-    service = TestBed.get(ExpenseEntryService);
+    service = TestBed.get(ItemService);
     fixture = TestBed.createComponent(ItemsListComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
@@ -51,7 +51,7 @@ describe('ItemsListComponent', () => {
 
   it(`should use service'`,
       (done: DoneFn) => {
-        service.getExpenseEntry(185).subscribe(item => {
+        service.getItem(185).subscribe(item => {
           expect(JSON.stringify(item)).toContain('Alba');
           console.log(item);
           done();

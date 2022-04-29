@@ -7,13 +7,13 @@ import 'zone.js/dist/sync-test';
 import 'zone.js/dist/fake-async-test';
 
 import {async, TestBed} from '@angular/core/testing';
-import {ExpenseEntryService} from './expense-entry.service';
+import {ItemService} from './item.service';
 import {HttpClient, HttpClientModule} from '@angular/common/http';
 import { BrowserDynamicTestingModule, platformBrowserDynamicTesting } from '@angular/platform-browser-dynamic/testing';
 
-describe('ExpenseEntryService', () => {
+describe('ItemsService', () => {
 
-    let service: ExpenseEntryService;
+    let service: ItemService;
     let httpClient: HttpClient;
 
     TestBed.resetTestEnvironment();
@@ -27,26 +27,26 @@ describe('ExpenseEntryService', () => {
         TestBed.configureTestingModule({
             imports: [HttpClientModule],
             declarations: [],
-            providers: [HttpClient, ExpenseEntryService]
+            providers: [HttpClient, ItemService]
         }).compileComponents();
     }));
     
     beforeEach(() => {
         httpClient = TestBed.get(HttpClient);
-        service = TestBed.get(ExpenseEntryService);
+        service = TestBed.get(ItemService);
     });
     // afterEach(() => {
        // httpTestingController.verify();
     // });
     
     it('should be created', () => {
-        service = TestBed.get(ExpenseEntryService);
+        service = TestBed.get(ItemService);
         expect(service).toBeTruthy();
     });
 
     it(`service should work`,
         (done: DoneFn) => {
-            service.getExpenseEntry(185).subscribe(item => {
+            service.getItem(185).subscribe(item => {
                 expect(JSON.stringify(item)).toContain('Alba');
                 console.log(item);
                 done();

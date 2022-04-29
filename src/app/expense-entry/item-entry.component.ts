@@ -2,8 +2,8 @@ import {
   Component, OnInit, OnChanges, SimpleChanges,
   Input, Output, EventEmitter,
 } from '@angular/core';
-import { ExpenseEntry } from '../model/expense-entry';
-import { ExpenseEntryService } from '../services/expense-entry.service';
+import { Item } from '../model/item';
+import { ItemService } from '../services/item.service';
 import {CookieService} from 'ngx-cookie-service';
 import {Router} from '@angular/router';
 import {UserService} from '../services/user.service';
@@ -18,11 +18,11 @@ import {UserService} from '../services/user.service';
 export class ItemEntryComponent implements OnInit, OnChanges {
   title = 'Item Entry';
 
-  @Input() person: ExpenseEntry = {} as ExpenseEntry;
+  @Input() person: Item = {} as Item;
   @Input() submitted = false;
   @Output() getSubmitStatusChange = new EventEmitter<boolean>();
 
-  constructor(private expenseEntryService: ExpenseEntryService, 
+  constructor(private itemService: ItemService, 
               private cookieService: CookieService,
               private userService: UserService,
               private router: Router) {
@@ -44,9 +44,9 @@ export class ItemEntryComponent implements OnInit, OnChanges {
   
   onSubmit() {
     this.submitted = true;
-    this.expenseEntryService.updateExpenseEntry(this.person)
-      .subscribe( data => { this.person = data as ExpenseEntry; },
-                  err  => { console.log( 'updateExpenseEntry error:' + err); },
+    this.itemService.updateItem(this.person)
+      .subscribe( data => { this.person = data as Item; },
+                  err  => { console.log( 'updateItem error:' + err); },
                 ()  => this.getSubmitStatusChange.emit(true)
       );
 

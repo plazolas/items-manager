@@ -2,7 +2,7 @@ import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { BrowserDynamicTestingModule, platformBrowserDynamicTesting } from '@angular/platform-browser-dynamic/testing';
 import { ItemEntryComponent } from './item-entry.component';
 import {FormsModule} from '@angular/forms';
-import {ExpenseEntryService} from '../services/expense-entry.service';
+import {ItemService} from '../services/item.service';
 import {HttpClient, HttpClientModule} from '@angular/common/http';
 import {RouterTestingModule} from '@angular/router/testing';
 import {ItemsListComponent} from '../items-list/items-list.component';
@@ -10,7 +10,7 @@ import {ItemsListComponent} from '../items-list/items-list.component';
 describe('ItemEntryComponent', () => {
   let component: ItemEntryComponent;
   let fixture: ComponentFixture<ItemEntryComponent>;
-  let service: ExpenseEntryService;
+  let service: ItemService;
   let httpClient: HttpClient;
 
   TestBed.resetTestEnvironment();
@@ -28,13 +28,13 @@ describe('ItemEntryComponent', () => {
             [{path: 'edit_item', component: ItemEntryComponent}]
         )],
       declarations: [ItemEntryComponent],
-      providers: [HttpClient, ExpenseEntryService]
+      providers: [HttpClient, ItemService]
     }).compileComponents();
   }));
 
   beforeEach(() => {
     httpClient = TestBed.get(HttpClient);
-    service = TestBed.get(ExpenseEntryService);
+    service = TestBed.get(ItemService);
     fixture = TestBed.createComponent(ItemEntryComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
@@ -50,14 +50,11 @@ describe('ItemEntryComponent', () => {
 
   it(`should use service'`,
       (done: DoneFn) => {
-        service.getExpenseEntry(185).subscribe(item => {
+        service.getItem(185).subscribe(item => {
           expect(JSON.stringify(item)).toContain('Alba');
           console.log(item);
           done();
         });
   });
-  
-  
-  
   
 });

@@ -1,0 +1,29 @@
+<div style="margin: 50px;">
+    <div class="container" style="text-align:center">
+        <div class="row">
+            <div class="col-12 text-center">
+                <h3>Search Items</h3>
+                <input type="text" #searchTerm class="form-control" placeholder=""/>
+            </div>
+        </div>
+        <div class="row" *ngIf="isSearching">
+            <div class="col-12 text-center">
+                <h4>Searching ... </h4>
+            </div>
+        </div>
+        <div class="row">
+            
+            <div class="col-6" *ngIf="apiResponse['Response'] == 'true';">
+                <div class="col-6" *ngFor="let item of apiResponse['items']; let i = index">
+                    <div class="card" style="margin:5px;">
+                        <div class="card-body">
+                            <p class="card-title"> {{ i + 1 }}</p>
+                            <p class="card-text"> {{ item }}</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+ 

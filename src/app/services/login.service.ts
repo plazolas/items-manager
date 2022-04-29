@@ -9,9 +9,9 @@ import {ResBody} from '../model/res-body';
 })
 export class LoginService {
 
-  private readonly expenseRestUrl = environment.backEndUrl + '/api/vi/person';
-  private readonly signupPath = this.expenseRestUrl + '/account';
-  private readonly loginPath = this.expenseRestUrl + '/account/token';
+  private readonly itemRestUrl = environment.backEndUrl + '/api/vi/person';
+  private readonly signupPath = this.itemRestUrl + '/account';
+  private readonly loginPath = this.itemRestUrl + '/account/token';
 
   constructor(private http: HttpClient) { }
   
