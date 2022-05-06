@@ -1,4 +1,4 @@
-import {Component, OnInit} from '@angular/core';
+import {Component, OnChanges, OnInit, SimpleChanges} from '@angular/core';
 import {ActivatedRoute, Router} from '@angular/router';
 import {HttpClient, HttpHeaders} from '@angular/common/http';
 import {ajax, AjaxResponse} from 'rxjs/ajax';
@@ -175,12 +175,12 @@ export class ItemsListComponent implements OnInit {
             mergeMap(person => {
                 return countryObs.pipe(
                     map((country) => {
-                        let i = Math.round(100 * Math.random());
+                        let i = Math.round(100 * ran);
                         const p = person as Item;
                         const c = country as AppCountry;
                         const passport = {
                             id: i++,
-                            number: Math.round(100000000 * Math.random()),
+                            number: Math.round(100000000 * ran),
                             expDate: Date.now(),
                             country: c.id,
                             personId: p.id,
@@ -191,12 +191,8 @@ export class ItemsListComponent implements OnInit {
                 )
             })
         );
-        
         passportObs.subscribe( p => console.log(p))
-
         
-        
-
         if (this.paramId !== undefined) {
             this.paramId = this.activatedRoute.snapshot.params.itemid.valueOf();
             this.item = this.getItemObj(this.paramId);

@@ -5,7 +5,7 @@ import {ItemService} from '../services/item.service';
 import {HttpClient, HttpClientModule} from '@angular/common/http';
 
 import {ItemsListComponent} from './items-list.component';
-import {ItemEntryComponent} from '../expense-entry/item-entry.component';
+import {ItemEntryComponent} from '../items/item-entry.component';
 import {RouterTestingModule} from '@angular/router/testing';
 
 describe('ItemsListComponent', () => {

@@ -1,10 +1,10 @@
 import { NgModule } from '@angular/core';
 import {RouterModule, Routes} from '@angular/router';
-import {ItemEntryEditComponent} from './expense-entry/item-entry-edit/item-entry-edit.component';
+import {ItemEntryEditComponent} from './items/item-entry-edit/item-entry-edit.component';
 import {ItemsListComponent} from './items-list/items-list.component';
 import {NotfoundComponent} from './notfound.component';
-import {HomeComponent} from './expense-entry/home/home.component';
-import {AboutComponent} from './expense-entry/home/about/about.component';
+import {HomeComponent} from './items/home/home.component';
+import {AboutComponent} from './items/home/about/about.component';
 import { environment } from '../environments/environment';
 import {LoginComponent} from './security/login/login.component';
 import {SearchComponent} from './items-list/search/search.component';

@@ -21,7 +21,7 @@ export class ItemEntryEditComponent implements OnInit {
   httpOptions = {};
   @Input() person: Item = {} as Item;
   @Input() submitted = false;
-  @Output() getSubmitStatusChange = new EventEmitter<boolean>();
+  @Output() submitChange = new EventEmitter<boolean>();
 
   constructor(private itemService: ItemService, private router: Router, private activatedRoute: ActivatedRoute,
               private cookieService: CookieService, private userService: UserService) {
@@ -48,7 +48,7 @@ export class ItemEntryEditComponent implements OnInit {
               err => {
                 console.log(err);
               },
-              () => { this.getSubmitStatusChange.emit(true); this.router.navigate(['/list_items']) }
+              () => { this.submitChange.emit(true); this.router.navigate(['/list_items']) }
           );
 
   }
