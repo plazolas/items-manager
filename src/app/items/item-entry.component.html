@@ -9,7 +9,7 @@
               <h6>{{ title }}</h6>
             </div>
             <div class="col-sm" style="text-align: right;">
-              <button type="submit" class="btn btn-success" [disabled]="!personForm.form.valid">Quick Update</button>
+              <input type="submit" class="btn btn-success" [disabled]="!personForm.form.valid" value="Quick Update"/>
             </div>
             <div class="col-sm" style="text-align: right;">
               <a routerLink="/edit_item/{{ person.id }}"><button class="btn btn-success">Edit</button></a>

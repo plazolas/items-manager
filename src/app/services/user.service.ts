@@ -29,7 +29,22 @@ export class UserService {
                 'Access-Control-Allow-Headers': 'Content-Type',
                 'Access-Control-Allow-Method': 'GET, POST, PUT, DELETE',
                 Authorization: 'Bearer ' + this.getToken()
-            })
+            }),
+            observe: 'body'
+        }
+        return httpOptions;
+    }
+
+    getHeadersForResponse(): object {
+        const httpOptions = {
+            headers: new HttpHeaders({
+                'Content-Type': 'application/json',
+                'Access-Control-Allow-Origin': '*',
+                'Access-Control-Allow-Headers': 'Content-Type',
+                'Access-Control-Allow-Method': 'GET, POST, PUT, DELETE',
+                Authorization: 'Bearer ' + this.getToken()
+            }),
+            observe: 'response'
         }
         return httpOptions;
     }

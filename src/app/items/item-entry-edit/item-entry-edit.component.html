@@ -13,7 +13,7 @@
                     </div>
                 </div>
             </div>
-            <div *ngIf="person">
+            <div *ngIf="person.id">
                 <h6>Editing {{ person?.firstname | uppercase}} {{ person?.lastname | uppercase }}</h6>
                 <br>
                 <div class="container" style="margin-top: 10px;">
@@ -62,8 +62,9 @@
                             <input id="country" *ngIf="isLoading();" [(ngModel)]="person.country.name" placeholder="Country">
                         </div>
                     </div>
-                    <div class="row">
+                    <div class="row jasmine-errored">
                         <div class="col-md-12">
+                            
                             <br><br>
                         </div>
                     </div>
@@ -71,11 +72,13 @@
             </div>
             <div class="container" style="padding-left: 0px; padding-right: 0px;">
                 <div class="row">
-                    <div class="col-sm" style="text-align: left;">
-                        <p>&nbsp;</p>
+                    <div class="row jasmine-errored">
+                        <div class="col-md-12">
+                            <br><h1 class="btn-warning">{{ errorStr }}</h1><br>
+                        </div>
                     </div>
                     <div class="col-sm" style="text-align: right;">
-                        <a routerLink="/list_items/{{ person.id }}"><button class="btn btn-info">Back</button></a>
+                        <a routerLink="/list_items/{{ person?.id }}"><button class="btn btn-info">Back</button></a>
                     </div>
                 </div>
             </div>

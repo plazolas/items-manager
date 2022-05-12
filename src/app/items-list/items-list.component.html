@@ -5,29 +5,6 @@
     </div>
 <app-item-entry [person]=item [submitted]=submit (getSubmitStatusChange)='refreshList($event)'></app-item-entry>
     <br><br>
-    <div class="row">
-        <h6>Date Converter: </h6>
-        <div class="col-sm-5" style="text-align: left">
-            <input type="text" [(ngModel)]="dateStr" style="text-align: left; width: 450px">
-        </div>
-        <div class="col-sm-3" style="text-align: left;">
-            <button (click)="clickedDate(dateStr);">Parse Date</button>
-        </div>
-    </div>
-    <div class="row">
-        <div class="col-sm-12" style="text-align: center;">
-            &nbsp;
-        </div>
-    </div>
-    <div class="row text-left">
-        <div class="col-sm-6" style="text-align: center;">
-            <input [(ngModel)]="newDateStr" style="text-align: center; width: 450px" disabled>
-        </div>
-        <div class="col-sm-6" style="text-align: center;">
-            {{ latestDateStr }}
-        </div>
-    </div>
-    <br><br>
     <div class="container">
         <div class="row" style="border: solid 2px black">
             <div class="col-lg-12 text-center" style="padding-top: 20px;">
@@ -68,21 +45,6 @@
                     </table>
                 </div>
                 <div>
-                    <h6>Observable Test</h6>
-                    <div>
-                        The summation of numbers ( <span *ngFor="let num of numbers"> {{ num }} </span> ) is {{ val1 }}
-                    </div>
-                    <div>
-                        The summation of filtered numbers ( <span *ngFor="let num of filteredNumbers"> {{ num }} </span>
-                        )
-                        is {{ val2 }}
-                    </div>
-                    <div>
-                        The summation of processed numbers ( <span
-                            *ngFor="let num of processedNumbers"> {{ num }} </span> )
-                        is {{ val3 }}
-                        <hr>
-                    </div>
                     <div>
                         <h6>ITEMS COUNT</h6>
                         {{ itemCountStr }}
@@ -121,11 +83,29 @@
                         <hr>
                     </div>
                 </div>
-                <div>
-                    <a id="counter" (click)="clickedCounter();" style="cursor: pointer; color: blue">Click here</a> to
-                    increment the counter value. The current counter value is {{ counter }}
-                </div>
                 <br>
+            </div>
+        </div>
+        <div class="row">
+            <h6>Date Converter: </h6>
+            <div class="col-sm-5" style="text-align: left">
+                <input type="text" [(ngModel)]="dateStr" style="text-align: left; width: 450px">
+            </div>
+            <div class="col-sm-3" style="text-align: left;">
+                <button (click)="clickedDate(dateStr);">Parse Date</button>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-sm-12" style="text-align:center;">
+                &nbsp;
+            </div>
+        </div>
+        <div class="row text-left">
+            <div class="col-sm-6" style="text-align: center;">
+                <input [(ngModel)]="newDateStr" style="text-align: center; width: 450px" disabled>
+            </div>
+            <div class="col-sm-6" style="text-align: center;">
+                {{ latestDateStr }}
             </div>
         </div>
     </div>

@@ -1,6 +1,6 @@
 import {Component, OnChanges, OnInit, SimpleChanges} from '@angular/core';
 import {ActivatedRoute, Router} from '@angular/router';
-import {HttpClient, HttpHeaders} from '@angular/common/http';
+import {HttpClient, HttpErrorResponse, HttpHeaders, HttpResponse} from '@angular/common/http';
 import {ajax, AjaxResponse} from 'rxjs/ajax';
 import {concatAll, filter, mergeMap, take} from 'rxjs/operators';
 import {Observable, Observer, from, fromEvent, noop, Subject, Subscription, interval, debounceTime, zip, map, forkJoin, concat} from 'rxjs';
@@ -37,18 +37,11 @@ export class ItemsListComponent implements OnInit {
     httpOptions = {};
 
     itemsEntries: object = {};
-    itemsEntriesStr = '';
 
     filterFnByEvenNumbers = filter((n: number) => n % 2 === 0);
     filterFnByOddNumbers = filter((n: number) => n % 2 !== 0);
 
     numbers: number[] = [];
-    val1 = 0;
-    filteredNumbers: number[] = [];
-    val2 = 0;
-    processedNumbers: number[] = [];
-    val3 = 0;
-    counter = 0;
 
     personas: object[] = [];
     personal: object[] = [];
@@ -131,9 +124,15 @@ export class ItemsListComponent implements OnInit {
     async loadItem(item: number) {
         this.itemService.getItem(item)
             .subscribe({
-                next: (itm) => {
-                    this.item = itm as Item;
-                    this.itemObservable$ = from([JSON.stringify(itm)]);
+                next: (resp) => {
+                    const r = resp as HttpResponse<Item>;
+                    this.item = r.body as Item;
+                    this.itemObservable$ = from([JSON.stringify(this.item)]);
+                },
+                error: (err) => {
+                    if (err instanceof HttpErrorResponse) {
+                        console.log(err.error, err.message);
+                    }
                 }
             });
     }
@@ -159,17 +158,17 @@ export class ItemsListComponent implements OnInit {
         const countryObs = this.getCountry(19);
         const personObs = this.getPerson(166);
         
-        const forkObs = forkJoin({countries: countriesObs, persons: personsObs});
-        forkObs.subscribe(data => console.log(data))
+        // const forkObs = forkJoin({countries: countriesObs, persons: personsObs});
+        // forkObs.subscribe(data => console.log(data))
         
         let ran: number = Math.round(10 * .5 * Math.random());
         ran = (ran === 0 ) ? 1 : ran;
         
-        const catObs = concat(
-            countryObs,
-            personObs
-        );
-        catObs.subscribe(data => console.log(data));
+        // const catObs = concat(
+        //     countryObs,
+        //     personObs
+        // );
+        // catObs.subscribe(data => console.log(data));
         
         const passportObs: Observable<object> = personObs.pipe(
             mergeMap(person => {
@@ -191,47 +190,12 @@ export class ItemsListComponent implements OnInit {
                 )
             })
         );
-        passportObs.subscribe( p => console.log(p))
+        // passportObs.subscribe( p => console.log(p))
         
         if (this.paramId !== undefined) {
             this.paramId = this.activatedRoute.snapshot.params.itemid.valueOf();
             this.item = this.getItemObj(this.paramId);
         }
-
-        // observable
-        const numbers$ = from([1, 2, 3, 4, 5, 6, 7, 8, 9, 10]);
-        // observer
-        const numberObserver = {
-            next: (num: number) => {
-                this.numbers.push(num);
-                this.val1 += num;
-            },
-            error: (err: any) => console.log(err)
-        };
-        numbers$.subscribe(numberObserver);
-
-        const filteredNumbers = this.filterFnByEvenNumbers(numbers$);
-        filteredNumbers.subscribe((num: number) => {
-            this.filteredNumbers.push(num);
-            this.val2 += num;
-        });
-        const processedNumbers = this.filterFnByOddNumbers(numbers$);
-        processedNumbers.subscribe((num: number) => {
-            this.processedNumbers.push(num);
-            this.val3 += num;
-        });
-        const e = document.querySelector('#counter');
-        if (e) {
-            const clickEvent$ = fromEvent(e, 'click');
-            clickEvent$.subscribe(() => this.counter++);
-        }
-        if (e) {
-            const clickPersonEvent$ = fromEvent(e, 'click');
-            clickPersonEvent$.subscribe(() => this.counter++);
-        }
-        // while(this.itemService.lastId === 0) {
-        //     noop();
-        // }
     }
 
     clickedDate(d: string): void {
@@ -277,7 +241,6 @@ export class ItemsListComponent implements OnInit {
         this.itemService.getItems()
             .subscribe((data) => {
                 this.itemsEntries = data;
-                this.itemsEntriesStr += JSON.stringify(data) + '<br>';
             });
     }
 
@@ -294,22 +257,6 @@ export class ItemsListComponent implements OnInit {
                 }
             });
         return JSON.stringify(this.item);
-    }
-
-    getEmployeeById(id: number): string {
-        const itemStr = JSON.stringify(this.employee);
-        this.itemService.getItem(id)
-            .subscribe({
-                next: (data) => {
-                    this.employee = data as Item;
-                },
-                error: (err: any) => {
-                    console.log(err);
-                },
-                complete: () => {
-                }
-            });
-        return (this.item.id % 2 === 0) ? itemStr + JSON.stringify(this.employee) : JSON.stringify(this.employee);
     }
 
     getItemObj(id: number): Item {
@@ -330,14 +277,11 @@ export class ItemsListComponent implements OnInit {
             });
         // const mapObjToString = map( (obj : Object) => JSON.stringify(obj) );
     }
-
-    clickedCounter() {
-        this.counter++;
-    }
-
+    
     refreshList(refresh: boolean) {
         if (refresh) {
             this.getAllItems();
+            this.item = this.getItemObj(172)
             this.submit = false;
         }
     }

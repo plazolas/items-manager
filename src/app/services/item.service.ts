@@ -14,7 +14,7 @@ export class ItemService {
     private readonly itemsRestUrl = environment.backEndUrl + '/api/vi/person';
     private endPointUrl = environment.backEndUrl;
     private token = '';
-    private httpOptions = {};
+    private readonly httpOptions = {};
     public lastId = 0;
     public searchedItems: string[] = [];
     public data: any;
@@ -53,7 +53,7 @@ export class ItemService {
     }
 
     getItem(id: number): Observable<object> {
-        const res = this.httpClient.get(this.itemsRestUrl + '/' + id, this.httpOptions);
+        const res = this.httpClient.get(this.itemsRestUrl + '/' + id, this.userService.getHeadersForResponse());
         return res
             .pipe(
                 retry(3),
