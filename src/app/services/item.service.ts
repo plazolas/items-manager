@@ -11,10 +11,9 @@ import {UserService} from './user.service';
 
 @Injectable()
 export class ItemService {
-    private readonly itemsRestUrl = environment.backEndUrl + '/api/vi/person';
-    private endPointUrl = environment.backEndUrl;
+    public readonly itemsRestUrl = environment.backEndUrl + '/api/vi/person';
     private token = '';
-    private readonly httpOptions = {};
+    public readonly httpOptions = {};
     public lastId = 0;
     public searchedItems: string[] = [];
     public data: any;
@@ -27,21 +26,13 @@ export class ItemService {
         this.token = this.userService.getToken();
         this.httpOptions = userService.getHeaders();
     }
-    
-    getLastIdObs(): Observable<number> {
-        return this.httpClient.get<number>(this.itemsRestUrl + '/findlast', this.httpOptions)
-            .pipe(
-                retry(3),
-                catchError(this.httpErrorHandler)
-            );
-    }
 
-    getLastIdNumber(): Observable<number> {
-        return this.httpClient.get<number>(this.itemsRestUrl + '/findlast', this.httpOptions)
-            .pipe(
-                retry(3),
-                catchError(this.httpErrorHandler)
-            );
+    fetchLastId(): Promise<any> {
+        return fetch(this.itemsRestUrl + '/findlast', this.getHeadersForFetch())
+            .then(response => {
+                return response.json();
+            })
+            // .then(data => { console.log(data); });
     }
 
     getItems(): Observable<object> {
@@ -70,9 +61,11 @@ export class ItemService {
     }
 
     updateItem(item: Item): Observable<Item> {
-        return this.httpClient.put<Item>(this.itemsRestUrl + '/' + item.id, item, this.httpOptions)
+        console.log(item);
+        console.log(this.httpOptions);
+        return this.httpClient.put<Item>(this.itemsRestUrl + '/p/' + item.id, item, this.httpOptions)
             .pipe(
-                retry(3),
+                // retry(3),
                 catchError(this.httpErrorHandler)
             );
     }
@@ -106,6 +99,26 @@ export class ItemService {
             msg = 'An error happened in server. The HTTP status code is ' + error.status + ' and the error returned is ' + error.message;
         }
         return throwError( msg );
+    }
+
+    getHeadersForFetch(): object {
+        const httpOptionsFetch = {
+            method: 'GET',
+            mode: 'cors',
+            cache: 'no-cache',
+            credentials: 'same-origin',
+            headers: {
+                'Content-Type': 'application/json',
+                'Access-Control-Allow-Origin': '*',
+                'Access-Control-Allow-Headers': 'Content-Type',
+                'Access-Control-Allow-Method': 'GET, POST, PUT, DELETE',
+                Authorization: 'Bearer ' + this.userService.getToken()
+            },
+            observe: 'body',
+            redirect: 'follow', // manual, *follow, error
+            referrerPolicy: 'no-referrer' // origin, origin-when-cross-origin, same-origin, strict-origin,        
+        }
+        return httpOptionsFetch;
     }
 
 

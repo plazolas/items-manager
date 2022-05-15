@@ -3,9 +3,11 @@ import {AppPassport} from './app-passport';
 
 export interface Item {
   id: number;
-  country: AppCountry;
-  passport: AppPassport;
   firstname: string;
   lastname: string;
+  country: AppCountry;
+  passport: AppPassport;
   position: string;
+  age: number;
+  boss: number;
 }

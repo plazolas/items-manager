@@ -27,21 +27,22 @@ export class SearchComponent implements OnInit {
                 map((event: any) => {
                     return event.target.value;
                 }),
-                filter(res => res.length > 2),
-                debounceTime(300),
+                filter(res => res.length > 1),
+                debounceTime(200),
                 distinctUntilChanged()
-            ).subscribe((text: string) => {
+            )
+            .subscribe((text: string) => {
             this.isSearching = true;
             this.searchGetCall(text)
-                .subscribe(
-                    (data: string[]) => {
+                .subscribe({
+                    next: (data: string[]) => {
                         if (data === undefined) return {Response: 'true', items: []}
                         this.apiResponse = {Response: 'true', items: data};
                     }, 
-                    (err: any) => {
+                    error:  (err: any) => {
                         this.apiResponse = {Response: 'false', error: err};
                         console.log('error', err);
-                    });
+                    }});
             this.isSearching = false;
         });
     }

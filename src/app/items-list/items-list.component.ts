@@ -116,9 +116,9 @@ export class ItemsListComponent implements OnInit {
         this.token = this.getToken();
         this.httpOptions = this.getHeaders();
     }
-
-    async getLastId() {
-        return this.itemService.getLastIdNumber().toPromise()
+    
+    fetchLastId(): Promise<any> {
+        return this.itemService.fetchLastId()
     }
 
     async loadItem(item: number) {
@@ -136,20 +136,12 @@ export class ItemsListComponent implements OnInit {
                 }
             });
     }
-
-    async getNextId() {
-        return this.itemService.getLastIdNumber()
-    }
     
     //////////////////////////////////////////////////////////////////////////////////////////////  onInit  ///////////////////
     async ngOnInit() {
         this.getAllItems();
-
-        // this.httpClient.get<number>(this.itemsRestUrl + '/findlast', this.httpOptions).toPromise()
-        // .then(id => {console.log('id: ',id); return id})
-        // .then( (last) => { this.loadItem(last === undefined ? 185: last)});
         
-        const lid  = await this.getLastId();
+        const lid  = await this.fetchLastId();
         await this.loadItem(lid === undefined ? 139 : lid);
         
         const countriesObs = this.getCountries();
@@ -261,17 +253,20 @@ export class ItemsListComponent implements OnInit {
 
     getItemObj(id: number): Item {
         this.itemService.getItem(id)
-            .subscribe((data) => {
-                this.item = data as Item;
-            });
+            .subscribe({ next: res => {
+                const r = res as HttpResponse<Item>
+                this.item = r.body as Item;
+            }});
         return this.item;
     }
 
     clickedPerson(event: any, id: number) {
         this.itemService.getItem(id)
             // .pipe(map(c => c as Item))
-            .subscribe((itm) => {
-                this.item = itm as Item;
+            .subscribe(res => {
+                const r = res as HttpResponse<Item>;
+                const itm = r.body;
+                this.item =  itm as Item;
                 const item: string[] = [JSON.stringify(itm)];
                 this.itemObservable$ = from(item);
             });
