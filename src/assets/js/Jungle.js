@@ -153,7 +153,7 @@ class Jungle {
                 a.doSound();
             }
         );
-        this.tigers.forEach(
+        this.snakes.forEach(
             a => {
                 a.doSound();
             }
@@ -194,10 +194,14 @@ function liveForest() {
 
         jungle.performActivity(animal, act);
 
-        if (live % 5) jungle.soundOff();
+        if (live % 10) jungle.soundOff();
         
         live--;
     }
 }
 
 liveForest();
+
+
+//////////////////////////////////////////////////
+
