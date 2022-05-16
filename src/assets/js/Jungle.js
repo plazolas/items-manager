@@ -225,11 +225,14 @@ function f(str) {
     const alphabet = alpha.map((l) => String.fromCharCode(l));
     const reverseAlphabet = alpha.map((l) => String.fromCharCode(l)).reverse();
     letters.forEach(
-        l => { 
-            const u = l.toUpperCase();
-            const idx = alphabet.indexOf(u);
+        l => {
+            let upper = l;
+            upper = l.toUpperCase();
+            const idx = alphabet.indexOf(upper);
             if( idx > -1) {
-                newLetters.push(reverseAlphabet[idx]);
+                let newLetter = reverseAlphabet[idx];
+                newLetter = (isLowerCase(l)) ? newLetter.toLowerCase() : newLetter;
+                newLetters.push(newLetter);
             } else {
                 // handle non letter
                 newLetters.push(l)
@@ -237,4 +240,9 @@ function f(str) {
         }
     );
     return newLetters.join('');
+}
+
+function isLowerCase(str)
+{
+    return str == str.toLowerCase() && str != str.toUpperCase();
 }
