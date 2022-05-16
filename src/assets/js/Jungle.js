@@ -227,7 +227,7 @@ function f(str) {
     letters.forEach(
         l => {
             let upper = l;
-            upper = l.toUpperCase();
+            upper.toUpperCase();
             const idx = alphabet.indexOf(upper);
             if( idx > -1) {
                 let newLetter = reverseAlphabet[idx];
@@ -242,7 +242,38 @@ function f(str) {
     return newLetters.join('');
 }
 
+function g(str) {
+    const hash = [];
+    const alpha = Array.from(Array(26)).map((e, i) => i + 65);
+    const alphabet = alpha.map((l) => String.fromCharCode(l));
+    alphabet.map((l) => hash.push({
+        letter:  l,
+        frequency: 0
+    }));
+    
+    const chars = str.split('');
+    chars.forEach(
+        char => {
+            let upper = char;
+            upper = upper.toUpperCase();
+            let idx = alphabet.indexOf(upper);
+            if( idx > -1) {
+                let e = hash[idx];
+                e.frequency++;
+                hash[idx] = e;
+            }
+        }
+    );
+    let out = '';
+    hash.map(e => {
+        out += e.letter + ':' + e.frequency + '\n';
+    });
+    return out;
+}
+
 function isLowerCase(str)
 {
     return str == str.toLowerCase() && str != str.toUpperCase();
 }
+
+
