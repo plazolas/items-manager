@@ -123,6 +123,7 @@ class Jungle {
         this.tigers = [];
         this.monkeys = [];
         this.snakes = [];
+        this.createAnimals();
     }
 
     createAnimals() {
@@ -169,7 +170,7 @@ class Jungle {
 
 
     getRandomAnimal(a) {
-        let animal = null;
+        let animal;
         switch (a) {
             case 'tiger':
                 animal = this.tigers[Math.floor(Math.random() * this.tigers.length)];
@@ -180,9 +181,10 @@ class Jungle {
             case 'snake':
                 animal = this.snakes[Math.floor(Math.random() * this.snakes.length)];
                 break;
+            default:
+                animal = this.snakes[Math.floor(Math.random() * this.snakes.length)];
         }
         return animal;
-
     }
 
 }
@@ -190,7 +192,6 @@ class Jungle {
 function liveForest() {
     let live = 100;
     let jungle = new Jungle();
-    jungle.createAnimals();
     console.log('tigers: '+jungle.tigers.length);
     console.log('monkeys: '+jungle.monkeys.length);
     console.log('snakes: '+jungle.snakes.length);
@@ -216,7 +217,7 @@ function liveForest() {
 
 ////////////////////  PART 2 //////////////////////////////
 function f(str) {
-    if(str == null || str.length === 0) {
+    if(str == null || str.length === 0 || Number.isInteger(str) || Number.isNaN(str)) {
         return '';
     }
     const letters = str.split('');
@@ -227,7 +228,7 @@ function f(str) {
     letters.forEach(
         l => {
             let upper = l;
-            upper.toUpperCase();
+            upper = upper.toUpperCase();
             const idx = alphabet.indexOf(upper);
             if( idx > -1) {
                 let newLetter = reverseAlphabet[idx];
@@ -243,6 +244,9 @@ function f(str) {
 }
 
 function g(str) {
+    if(str == null || str.length === 0 || Number.isInteger(str) || Number.isNaN(str)) {
+        return '';
+    }
     const hash = [];
     const alpha = Array.from(Array(26)).map((e, i) => i + 65);
     const alphabet = alpha.map((l) => String.fromCharCode(l));
@@ -273,7 +277,23 @@ function g(str) {
 
 function isLowerCase(str)
 {
-    return str == str.toLowerCase() && str != str.toUpperCase();
+    return str === str.toLowerCase() && str !== str.toUpperCase();
 }
+////////////////////  Unit tests
+function testP21 () {
+    console.log(f());
+    console.log(f(0));
+    const str = "Errors in strategy cannot be correct through tactical maneuvers";
+    console.log(f(str));
+}
+
+function testP22 () {
+    console.log(g());
+    console.log(g(0));
+    const str = "Errors in strategy cannot be correct through tactical maneuvers";
+    console.log(g(str));
+}
+testP21();
+testP22();
 
 
