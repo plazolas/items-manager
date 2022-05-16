@@ -24,10 +24,6 @@ class Animal {
 
     doSound() {
         let e = 0;
-        if(this.type.equal('snake')) {
-            console.log(this.type + ' dont sound.');
-            return;
-        }
         if (this.energy < 3) {
             this.tooTired();
             return;
@@ -114,6 +110,10 @@ class Snake extends Animal {
         super('snake');
         this.energy = 5;
         this.activities = this.activities.filter(a => a === 'sound')
+    }
+    doSound() {
+        super.doSound();
+        console.log(this.type + " hiss.");
     }
 }
 
