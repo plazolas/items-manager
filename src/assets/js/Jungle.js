@@ -37,7 +37,6 @@ class Animal {
     doPlay() {
         if (this.type !== 'monkey') {
             console.log(this.type + "s do not play.");
-            
         }
     }
 
@@ -59,13 +58,15 @@ class Animal {
     }
 
     reportEnergy() {
-        console.log(this.type + ' ' + this.id + ' new energy: ' + this.energy);
+        let a = this.type;
+        a = a && a[0].toUpperCase() + a.slice(1);
+        console.log(a + ' ' + this.id + ' new energy: ' + this.energy);
     }
 
     tooTired() {
-        let animal = this.type;
-        animal[0].toUpperCase();
-        console.log(animal + ' ' + this.id + ' is too tired!');
+        let a = this.type;
+        a = a && a[0].toUpperCase() + a.slice(1);
+        console.log(a + ' ' + this.id + ' is too tired!');
     }
 }
 
