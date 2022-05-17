@@ -26,7 +26,7 @@ class Animal {
 
     doEat(food) {
         if(!this.foods.includes(food)) {
-            console.log(this.type + ' does not eat grain.');
+            console.log(this.type + ' does not eat ' + food);
             return;
         }
         this.energy += 5;
@@ -75,7 +75,7 @@ class Tiger extends Animal {
         super('tiger');
         this.id = id;
         this.sound = ' roar!';
-        this.foods = this.foods = ['meat', 'fish', 'bugs'];
+        this.foods = ['meat', 'fish', 'bugs'];
     }
 
     doSleep() {
@@ -185,14 +185,11 @@ function liveJungle() {
     console.log('monkeys: ' + jungle.monkeys.length);
     console.log('snakes: ' + jungle.snakes.length);
     while (live > 0) {
-        let type_idx =  Math.floor(Math.random() * jungle.types.length);
-        let act_idx = Math.floor(Math.random() * jungle.acts.length);
-        let food_idx = Math.floor(Math.random() * jungle.foods.length);
+
+        let type = jungle.types[Math.floor(Math.random() * jungle.types.length)];
+        let activity = jungle.acts[Math.floor(Math.random() * jungle.acts.length)];
+        let food = jungle.foods[Math.floor(Math.random() * jungle.foods.length)];
         
-        
-        let type = jungle.types[type_idx];
-        let activity = jungle.acts[act_idx];
-        let food = jungle.foods[food_idx];
         let animal = jungle.getRandomAnimal(type);
 
         console.log(actionCount + ' activity : ' + ' ' + type + ' ' + activity + ' ' + food);
