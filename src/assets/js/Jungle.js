@@ -1,30 +1,12 @@
 class Animal {
-    type = ''
+    type = '';
+    id = 0;
     energy = 0;
-    activities = []
     constructor(type) {
         this.energy = 20;
-        this.activities = ['sleep', 'eat', 'sound', 'play'];
         this.type = type;
     }
     
-    act(action){
-        switch (action) {
-            case 'sleep':
-                this.doSleep();
-                break;
-            case 'ear':
-                this.doEat();
-                break;
-            case 'sound':
-                this.doSound();
-                break;
-            case 'play':
-                this.doPlay();
-                break;    
-        }
-    }
-
     doSound() {
         let e = 0;
         if (this.energy < 3) {
@@ -36,86 +18,101 @@ class Animal {
             return;
         }
         e = (this.type === 'monkey' ) ? 4 : 3;
+        switch (this.type) {
+            case 'monkey' :
+                console.log(this.type + ' ' + this.id + ": grunt/squeal!");
+                break;
+            case 'tiger' :
+                console.log(this.type + ' ' + this.id + ": roar!");
+                break;
+            case 'snake' :
+                console.log(this.type + ' ' + this.id + ": hiss!");
+                break;
+        }
         this.energy -= e;
         this.reportEnergy();
     }
 
     doSleep() {
         this.energy += (this.type === 'tiger' ) ? 5 : 10;
+        console.log(this.type + ' ' + this.id + ' just slept');
         this.reportEnergy();
     }
 
     doEat(food) {
-        if(food === 'grain' && this.type === 'tiger' ) {
-            console.log(this.type + ' does not ear grain.');
+        if(food == 'grain' && this.type == 'tiger' ) {
+            console.log(this.type + ' does not eat grain.');
             return;
         }
         this.energy += (this.type === 'monkey') ? 2 : 5;
+        console.log(this.type + ' ' + this.id + ' just ate ' + food);
         this.reportEnergy();
     }
 
     doPlay() {
-        if (!(this.type === 'monkey')){ 
-            console.log(this.type + ' does not play.');
-        } else {
+        if (this.type === 'monkey') {
             if(this.energy < 8) {
                this.tooTired();
                return;
             }
             this.energy -= 8;
-            
+            this.doSound();
             this.reportEnergy();
         }
     }
 
+    act(action, food){
+        switch (action) {
+            case 'sleep':
+                this.doSleep();
+                break;
+            case 'eat':
+                this.doEat(food);
+                break;
+            case 'sound':
+                this.doSound();
+                break;
+            case 'play':
+                this.doPlay();
+                break;
+        }
+    }
+
     reportEnergy() {
-        console.log(this.type + " now has this energy: " + this.energy);
+        console.log(this.type + ' ' + this.id + ' now has this energy: ' + this.energy);
     }
 
     tooTired() {
-        console.log(this.type + " is too tired");
+        console.log(this.type + ' ' + this.id + ' is too tired');
     }
 }
 
 class Tiger extends Animal {
-    constructor() {
+    constructor(id) {
         super('tiger');
-    }
-
-    doSound() {
-        super.doSound();
-        console.log('Roar!');
+        this.id = id;
     }
     
 }
 
 class Monkey extends Animal {
-    constructor() {
+    constructor(id) {
         super('monkey');
-    }
-
-    doPlay() {
-        super.doPlay();
-        console.log(this.type + " Oooooo Ooooooo Oooooo");
-    }
-
-    doSound() {
-        super.doSound();
-        console.log(this.type + " grunting/squeaking");
+        this.id = id;
     }
 }
 
 class Snake extends Animal {
-    constructor() {
+    constructor(id) {
         super('snake');
-    }
-    doSound() {
-        super.doSound();
-        console.log(this.type + " hiss.");
+        this.id = id;
     }
 }
 
 class Jungle {
+    t = 0
+    s = 0
+    m = 0
     constructor() {
         this.types = ['tiger', 'monkey', 'snake'];
         this.foods = ['meat', 'fish', 'bugs', 'grain'];
@@ -127,19 +124,22 @@ class Jungle {
     }
 
     createAnimals() {
-        let ran = Math.round(10 * Math.random() + 1);
-        for (let i = 1; i < ran; i++) {
-            let tiger = new Tiger();
+        let ran = Math.round(10 * Math.random()) + 1;
+        for (let i = 1; i <= ran; i++) {
+            this.t++;
+            let tiger = new Tiger(this.t);
             this.tigers.push(tiger)
         }
-        ran = Math.round(10 * Math.random() + 1);
-        for (let i = 1; i < ran; i++) {
-            let monkey = new Monkey();
+        ran = Math.round(10 * Math.random()) + 1;
+        for (let i = 1; i <= ran; i++) {
+            this.m++;
+            let monkey = new Monkey(this.m);
             this.monkeys.push(monkey)
         }
-        ran = Math.round(10 * Math.random() + 1);
-        for (let i = 1; i < ran; i++) {
-            let snake = new Snake();
+        ran = Math.round(10 * Math.random()) + 1;
+        for (let i = 1; i <= ran; i++) {
+            this.s++;
+            let snake = new Snake(this.s);
             this.snakes.push(snake)
         }
     }
@@ -161,14 +161,9 @@ class Jungle {
                 a.doSound();
             }
         )
+        console.log('END SOUND OFF!!!!');
     }
-
-    performActivity(animal, activity) {
-            let ranAnimal = this.getRandomAnimal(animal);
-            ranAnimal.act(activity);
-    }
-
-
+    
     getRandomAnimal(a) {
         let animal;
         switch (a) {
@@ -189,30 +184,32 @@ class Jungle {
 
 }
 
-function liveForest() {
+function liveJungle() {
+    let count = 1;
     let live = 100;
     let jungle = new Jungle();
-    console.log('tigers: '+jungle.tigers.length);
-    console.log('monkeys: '+jungle.monkeys.length);
-    console.log('snakes: '+jungle.snakes.length);
+    console.log('tigers: '+jungle.t);
+    console.log('monkeys: '+jungle.m);
+    console.log('snakes: '+jungle.s);
     while (live > 0) {
         let type_idx =  Math.floor(Math.random() * jungle.types.length);
         let act_idx = Math.floor(Math.random() * jungle.acts.length)
-        console.log(type_idx,act_idx);
+        let food_idx = Math.floor(Math.random() * jungle.foods.length)
         
-        let animalType = jungle.types[type_idx];
-        let act = jungle.acts[act_idx];
-        let animal = jungle.getRandomAnimal(animalType);
+        
+        let type = jungle.types[type_idx];
+        let activity = jungle.acts[act_idx];
+        let food = jungle.foods[food_idx];
+        let animal = jungle.getRandomAnimal(type);
 
-        jungle.performActivity(animal, act);
+        console.log('activity : ' + count++,type,activity, food);
+        animal.act(activity, food);
 
-        if (live % 9) jungle.soundOff();
+        if (live % 9 === 0) jungle.soundOff();
         
         live--;
     }
 }
-
-// liveForest();
 
 
 ////////////////////  PART 2 //////////////////////////////
@@ -293,6 +290,7 @@ function testP22 () {
     const str = "Errors in strategy cannot be correct through tactical maneuvers";
     console.log(g(str));
 }
+liveJungle();
 testP21();
 testP22();
 
