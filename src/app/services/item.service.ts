@@ -3,7 +3,7 @@ import {Item} from '../model/item';
 
 import {Observable, throwError} from 'rxjs';
 import {catchError, retry} from 'rxjs/operators';
-import {HttpClient, HttpHeaders, HttpErrorResponse, HttpResponse} from '@angular/common/http';
+import {HttpClient, HttpHeaders, HttpErrorResponse, HttpResponse, HttpEventType} from '@angular/common/http';
 import {environment} from '../../environments/environment';
 import {CookieService} from 'ngx-cookie-service';
 import {Router} from '@angular/router';
@@ -61,13 +61,19 @@ export class ItemService {
     }
 
     updateItem(item: Item): Observable<Item> {
-        console.log(item);
-        console.log(this.httpOptions);
-        return this.httpClient.put<Item>(this.itemsRestUrl + '/p/' + item.id, item, this.httpOptions)
-            .pipe(
-                // retry(3),
-                catchError(this.httpErrorHandler)
-            );
+        this.httpClient.put<Item>(this.itemsRestUrl + '/p/' + item.id, item, this.httpOptions)
+            .subscribe({
+                next: data => { item = data as Item },
+                error: httpErrorResponse => { 
+                    console.log(httpErrorResponse); 
+                    this.httpErrorHandler(httpErrorResponse);
+                    const msg = httpErrorResponse.error;
+                    throwError(msg);
+                },
+                complete: () => {}
+            });
+        return  Observable.create(item);
+        
     }
 
     deleteItem(item: Item | number): Observable<Item> {
@@ -86,7 +92,7 @@ export class ItemService {
         this.httpClient.get(this.itemsRestUrl + '/search/' + term, this.httpOptions)
             .subscribe({
                 next: data => { this.data = data },
-                error: err => { return this.httpErrorHandler(err) }
+                error: httpErrorResponse => { return this.httpErrorHandler(httpErrorResponse) }
             });
         return this.data;
     }
@@ -95,8 +101,18 @@ export class ItemService {
         let msg = '';
         if (error.error instanceof ErrorEvent) {
             msg = 'A client side error occurs. The error message is ' + error.message;
+        } else if (error instanceof HttpErrorResponse) {
+            const status: number = error.status;
+            const message: string = error.statusText;
+            const type: HttpEventType = error.type;
+
+            msg = 'An error happened in server. The HTTP status code is ' + status +
+                '\n message:  ' + message +
+                '\n type: ' + type +
+                '\n body: '  + 'body'
+            // }
         } else {
-            msg = 'An error happened in server. The HTTP status code is ' + error.status + ' and the error returned is ' + error.message;
+            msg = 'An error happened in server.';
         }
         return throwError( msg );
     }
