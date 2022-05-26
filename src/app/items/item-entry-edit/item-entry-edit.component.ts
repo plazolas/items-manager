@@ -46,7 +46,6 @@ export class ItemEntryEditComponent implements OnInit {
         this.itemService.updateItem(this.person)
             .subscribe(data => {
                     this.person = data as Item;
-                    console.log(this.person);
                 },
                 err => {
                     console.log(err);

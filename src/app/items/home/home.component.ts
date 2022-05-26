@@ -19,7 +19,7 @@ export class HomeComponent implements OnInit {
     backUrl = environment.backEndUrl;
 
     constructor(private itemsService: ItemService) {
-        liveForest.init();
+        // liveForest.init();
     }
 
     ngOnInit() {

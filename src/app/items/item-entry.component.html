@@ -59,6 +59,22 @@
                   <input name="lastname" [(ngModel)]="person.lastname" class="col" style="text-align: left;" required>
                 </div>
               </div>
+              <div class="row p-1">
+                <div class="col-2" style="text-align: right;">
+                  <strong><em>Position:</em></strong>
+                </div>
+                <div class="col" style="text-align: left;">
+                  {{ person?.position }}
+                </div>
+              </div>
+              <div class="row p-1">
+                <div class="col-2" style="text-align: right;">
+                  <strong><em>Age:</em></strong>
+                </div>
+                <div class="col" style="text-align: left;">
+                  {{ person?.age }}
+                </div>
+              </div>
               <br>
             </div>
           </div>
