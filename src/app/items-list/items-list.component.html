@@ -3,7 +3,7 @@
     <div class="text-left">
         <h6> Date Time: <span style="font-weight: normal">{{ timeChange | async }}</span></h6>
     </div>
-<app-item-entry [person]=item [submitted]=submit (getSubmitStatusChange)='refreshList($event)'></app-item-entry>
+<app-item-entry [childItem]=item [childSubmitted]=submit (getSubmitStatusChange)='refreshList($event, item)'></app-item-entry>
     <br><br>
     <div class="container">
         <div class="row" style="border: solid 2px black">
@@ -51,7 +51,7 @@
                 <div>
                     <div>
                         <h6>ITEMS COUNT</h6>
-                        {{ itemCountStr }}
+                        <p>Total Items: {{ items.length }}</p>
                     </div>
                     <hr>
                     <div>
@@ -65,22 +65,24 @@
                         {{ personChange$ | async}}
                         <hr>
                         <h6>Exemplary Employees</h6>
-                        <ul>
-                            <li *ngFor="let p of oddPersons; let j = index">
+                        <ul class="list-unstyled">
+                            <li *ngFor="let p of bestItems; let j = index">
                                 <div class="row text-left">
-                                    <div class="col-3"><b>{{ p.id }}</b></div>
                                     <div class="col-3">{{ p.firstname }}</div>
                                     <div class="col-3">{{ p.lastname }}</div>
+                                    <div class="col-3"><b>{{ p.position }}</b></div>
+                                    <div class="col-3">{{ p.country.name }}</div>
                                 </div>
                             </li>
                         </ul>
                         <h6>Employee birthday this month</h6>
-                        <ul>
-                            <li *ngFor="let p of badPersons; let j = index">
+                        <ul class="list-unstyled">
+                            <li *ngFor="let p of birthItems; let j = index">
                                 <div class="row text-left">
-                                    <div class="col-3"><b>{{ p.id }}</b></div>
                                     <div class="col-3">{{ p.firstname }}</div>
                                     <div class="col-3">{{ p.lastname }}</div>
+                                    <div class="col-3"><b>{{ p.age }}</b></div>
+                                    <div class="col-3">{{ p.country.name }}</div>
                                 </div>
                             </li>
                         </ul>
