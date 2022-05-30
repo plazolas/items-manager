@@ -14,6 +14,7 @@ import {UserService} from '../services/user.service';
 import {CountryService} from '../services/country-service';
 import {AppPassport} from '../model/app-passport';
 import {AppCountry} from '../model/app-country';
+import {CommonUtils} from '../utils/commonUtils';
 
 @Component({
     selector: 'app-items-list',
@@ -29,6 +30,8 @@ export class ItemsListComponent implements OnInit {
     item: Item = {} as Item;
 
     items: Item[] = [];
+    bestItems: Item[] = [];
+    birthItems: Item[] = [];
     submit = false;
     lastId = 0;
     dateStr: string = new Date().toString();
@@ -43,23 +46,15 @@ export class ItemsListComponent implements OnInit {
 
     numbers: number[] = [];
 
-    personas: object[] = [];
-    personal: object[] = [];
-    itemCountStr = '';
-
     timeChange = new Observable<string>((observer: Observer<string>) => {
         setInterval(() => observer.next(
             new Date().toString()), 1000);
     });
 
     itemObservable$: Observable<string> = new Observable<string>();
-
     personChange$: Observable<string> | null = null;
-    oddPersons: Item[] = [];
-    badPersons: Item[] = [];
 
     paramId = this.activatedRoute.snapshot.params.itemid;
-    
     token = '';
 
     public testArgs(value: any): boolean {
@@ -74,18 +69,6 @@ export class ItemsListComponent implements OnInit {
         return res;
     }
 
-    public removeProp(obj: any, prop: string): object | false {
-        if (!(obj === null || typeof obj === 'undefined' || Object.keys(obj).length === 0 ||
-            prop === null || prop === '' || typeof prop === undefined)) {
-            return false;
-        }
-        if (obj !== null && obj.hasOwnProperty(prop)) {
-            delete obj.prop;
-            return obj;
-        } else {
-            return false;
-        }
-    }
 //////////////////////////////////////////////////////////////////////////    construct   ////////////////////////////
     constructor(private debugService: DebugService,
                 private itemService: ItemService,
@@ -94,11 +77,10 @@ export class ItemsListComponent implements OnInit {
                 private activatedRoute: ActivatedRoute,
                 private cookieService: CookieService,
                 private router: Router,
-                private userService: UserService,
-                private httpClient: HttpClient
+                private userService: UserService
     ) {
         if (!this.cookieService.check('token')) {
-            this.router.navigate(['/login']);
+            this.router.navigate(['/login']).then();
         }
         this.getTokeAndHeaders();
     }
@@ -144,8 +126,8 @@ export class ItemsListComponent implements OnInit {
         const lid  = await this.fetchLastId();
         await this.loadItem(lid === undefined ? 139 : lid);
         
-        const countriesObs = this.getCountries();
-        const personsObs = this.getPersons();
+        // const countriesObs = this.getCountries();
+        // const personsObs = this.getPersons();
 
         const countryObs = this.getCountry(19);
         const personObs = this.getPerson(166);
@@ -163,19 +145,19 @@ export class ItemsListComponent implements OnInit {
         // catObs.subscribe(data => console.log(data));
         
         const passportObs: Observable<object> = personObs.pipe(
-            mergeMap(person => {
+            mergeMap(item => {
                 return countryObs.pipe(
                     map((country) => {
                         let i = Math.round(100 * ran);
-                        const p = person as Item;
+                        const p = item as Item;
                         const c = country as AppCountry;
                         const passport = {
                             id: i++,
                             number: Math.round(100000000 * ran),
                             expDate: Date.now(),
                             country: c.id,
-                            personId: p.id,
-                            personName: p.lastname
+                            itemId: p.id,
+                            itemName: p.lastname
                         }
                         return passport;
                     })
@@ -268,22 +250,19 @@ export class ItemsListComponent implements OnInit {
                 const itm = r.body;
                 this.item =  itm as Item;
                 const item: string[] = [JSON.stringify(itm)];
-                this.itemObservable$ = from(item);
-            });
+                this.itemObservable$ = from(item);});
         // const mapObjToString = map( (obj : Object) => JSON.stringify(obj) );
     }
     
-    refreshList(refresh: boolean) {
-        if (refresh) {
+     refreshList(refresh: boolean, item: Item) {
             this.getAllItems();
-            this.item = this.getItemObj(172)
+            this.item = this.getItemObj(item.id)
             this.submit = false;
-        }
+
     }
  
     ///////////////////////// ///////////////////////////////////////////  getAllItems
     getAllItems() {
-        this.personal = [];
         let ajaxResponse: AjaxResponse<Item>;
 
         const api$ = ajax({
@@ -295,53 +274,46 @@ export class ItemsListComponent implements OnInit {
         
         const ajaxObserver = {
             next: (res: any) => {
-                this.personas = res.response;
+                this.items = res.response;
                 ajaxResponse = res;
             },
             error: (err: any) => console.log(err),
             complete: () => {
-                this.personal = [];
-                this.items = [];
-                const itemArr: Item[] = [];
-                let count = 0;
 
-                for (const p of this.personas) {
-                    count++;
-                    if (count > 15) {
-                        break;
-                    }
-                    this.items.push(p as Item);
-                }
-                this.itemCountStr = 'Total items = ' + count;
+                // for (const p of this.bestItems) {
+                //     this.items.push(p as Item);
+                // }
 
                 // TODO study function* iterators to make iterables
                 // yield* is an operator that is only available inside generators. 
                 // It yields all items iterated over by an iterable.
 
-                const itemsIterable = this.items[Symbol.iterator]();
+                // example use of iterator
+                let itemsIterable = this.items[Symbol.iterator]();
                 let result = itemsIterable.next();
                 while (!result.done) {
-                    if (result.value.lastname.includes('n')) {
-                        this.oddPersons.push(result.value);
+                    if (result.value.lastname.includes('a') && result.value.age > 0) {
+                        this.bestItems.push(result.value);
                     }
                     result = itemsIterable.next();
                 }
 
-                const onOddItemsIterable = this.oddPersons[Symbol.iterator]();
-
-                function* itemsIterator() {
-                    let itr = onOddItemsIterable.next();
+                // example use of creating and using iterator function
+                itemsIterable = this.items[Symbol.iterator]();
+                function* birthIterator() {
+                    let itr = itemsIterable.next();
                     while (!itr.done) {
-                        if (!itr.done && itr.value.lastname.includes('G')) {
+                        if (itr.value.age > 39) {
                             yield itr.value;
                         }
-                        itr = onOddItemsIterable.next();
+                        itr = itemsIterable.next();
                     }
                 }
-
-                const makeItemsIterable = itemsIterator();
-                for (const p of makeItemsIterable) {
-                    this.badPersons.push(p);
+                
+                for (const item of birthIterator()) {
+                    this.birthItems.push(item);
+                    // example use of ng class
+                    CommonUtils.removeProp(item, 'passport');
                 }
 
             }
