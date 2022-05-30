@@ -43,24 +43,21 @@ export class ItemEntryEditComponent implements OnInit {
     }
 
     onSubmit() {
-        this.itemService.updateItem(this.person)
-            .subscribe(data => {
-                    this.person = data as Item;
-                },
-                err => {
-                    console.log(err);
-                },
-                () => {
+        console.log(this.person);
+        this.itemService.updateItemObs(this.person)
+            .subscribe({
+                next: data => { alert(data.firstname + ' ' + data.lastname + ' updated!' ) },
+                error: (err) => { console.log(err); alert(err.error)},
+                complete: () => {
                     this.submitChange.emit(true);
-                    this.router.navigate(['/list_items'])
+                    this.router.navigate(['/list_items']).then()
                 }
-            );
-
+            });
     }
 
     getItemById() {
         if (Object.keys(this.params).length === 0 && !this.params.hasOwnProperty('itemid')) {
-            this.router.navigate(['/list_items']);
+            this.router.navigate(['/list_items']).then();
         } else {
             this.itemId = this.activatedRoute.snapshot.params.itemid.valueOf();
             this.itemService.getItem(this.itemId)
