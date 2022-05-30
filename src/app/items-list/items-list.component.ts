@@ -113,7 +113,8 @@ export class ItemsListComponent implements OnInit {
                 },
                 error: (err) => {
                     if (err instanceof HttpErrorResponse) {
-                        console.log(err.error, err.message);
+                        console.log(err);
+                        alert(err.error);
                     }
                 }
             });
