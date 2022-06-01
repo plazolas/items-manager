@@ -50,16 +50,26 @@ export class ItemEntryComponent implements OnInit, OnChanges {
     onNameChange() {
         this.nameChanged = true;
     }
-
+    
+    
   onSubmit() {
-      this.childSubmitted = true;
       this.itemService.updateItemObs(this.childItem)
           .subscribe({
-              next: data => { this.childItem = data as Item; console.log(data) },
-              error: (err) => { console.log(err)},
-              complete: () => {
-                    this.getSubmitStatusChange.emit(true)
-              }
+              next: data => {
+                  if(data == null) {
+                      alert('Update Name Error');
+                      return;
+                  }
+                  this.childItem = data as Item;
+                  this.childSubmitted = true;
+                  this.nameChanged = false;
+                  this.getSubmitStatusChange.emit(true)
+              },
+              error: (err) => { 
+                  console.log(err); 
+                  alert('Could not update name: \n' + err.error)
+              },
+              complete: () => {}
           });
   }
 }
