@@ -13,6 +13,15 @@
                         <div class="col-sm" style="text-align: left;">
                             <h1>{{ title }}</h1>
                         </div>
+                        <div class="col-sm" style="text-align: left;">
+                            <input *ngIf="items.length > 9" type="button" class="nav-link" (click)='getNextPage()' value="Next"/>
+                        </div>
+                        <div class="col-sm" style="text-align: left;">
+                            <input *ngIf="pageNo >= 1" type="button" class="nav-link" (click)='getBackPage()' value="Back"/>
+                        </div>
+                        <div class="col-sm" style="text-align: left;">
+                            <h2>Page {{ this.pageNo + 1}}</h2>
+                        </div>
                     </div>
                 </div>
                 <div class="container" style="padding-left: 0; padding-right: 0;">
@@ -49,10 +58,6 @@
                     </table>
                 </div>
                 <div>
-                    <div>
-                        <h6>ITEMS COUNT</h6>
-                        <p>Total Items: {{ items.length }}</p>
-                    </div>
                     <hr>
                     <div>
                         <h6>Editing Item:</h6> <br>

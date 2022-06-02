@@ -38,12 +38,13 @@ export class ItemsListComponent implements OnInit {
     newDateStr = '';
     latestDateStr = '';
     httpOptions = {};
+    
+    pageNo = 0;
+    sortBy = 'country';
+    pageSize = 10;
 
     itemsEntries: object = {};
-
-    filterFnByEvenNumbers = filter((n: number) => n % 2 === 0);
-    filterFnByOddNumbers = filter((n: number) => n % 2 !== 0);
-
+    
     numbers: number[] = [];
 
     timeChange = new Observable<string>((observer: Observer<string>) => {
@@ -56,18 +57,6 @@ export class ItemsListComponent implements OnInit {
 
     paramId = this.activatedRoute.snapshot.params.itemid;
     token = '';
-
-    public testArgs(value: any): boolean {
-        let res: boolean;
-        if (arguments.length === 0) {
-            res = false;
-        } else if (arguments.length === 1) {
-            res = (!(arguments[0] === null || typeof (arguments[0]) === 'undefined' || Object.keys(arguments[0]).length === 0));
-        } else {
-            res = true;
-        }
-        return res;
-    }
 
 //////////////////////////////////////////////////////////////////////////    construct   ////////////////////////////
     constructor(private debugService: DebugService,
@@ -261,13 +250,21 @@ export class ItemsListComponent implements OnInit {
             this.submit = false;
 
     }
+    getNextPage() {
+        this.pageNo++;
+        this.getAllItems();
+    }
+    getBackPage() {
+        this.pageNo--;
+        this.getAllItems()
+   }
  
     ///////////////////////// ///////////////////////////////////////////  getAllItems
     getAllItems() {
         let ajaxResponse: AjaxResponse<Item>;
 
         const api$ = ajax({
-            url: environment.backEndUrl + '/api/vi/person',
+            url: environment.backEndUrl + '/api/vi/person/paged?pageNo=' + this.pageNo + '&sortBy=' + this.sortBy,
             method: 'GET',
             headers: {Authorization: 'Bearer ' + this.token },
             body: {}
@@ -321,6 +318,18 @@ export class ItemsListComponent implements OnInit {
         };
         api$.subscribe(ajaxObserver);
 
+    }
+
+    public testArgs(value: any): boolean {
+        let res: boolean;
+        if (arguments.length === 0) {
+            res = false;
+        } else if (arguments.length === 1) {
+            res = (!(arguments[0] === null || typeof (arguments[0]) === 'undefined' || Object.keys(arguments[0]).length === 0));
+        } else {
+            res = true;
+        }
+        return res;
     }
 
 }
