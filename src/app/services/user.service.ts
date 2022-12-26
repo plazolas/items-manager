@@ -17,7 +17,7 @@ export class UserService {
 
     constructor(private httpClient: HttpClient, private cookieService: CookieService, private router: Router) {
         if (!this.isLoggedIn()) {
-            this.router.navigate(['/login']);
+            this.router.navigate(['/home']);
         }
     }
 
@@ -56,7 +56,7 @@ export class UserService {
 
     getToken(): string {
         if (!this.isLoggedIn()) {
-            this.router.navigate(['/login']);
+            this.router.navigate(['/home']);
         }
         return this.cookieService.get('token');
     }

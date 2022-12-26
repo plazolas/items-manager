@@ -1,8 +1,8 @@
 <div class="content" role="main">
     <br>
-    <h2 class="text-center" style="color: rgb(0, 0, 250); font-family: Broadway;">OzDev Engineering</h2>
+    <h2 class="text-center" style="color: rgb(0, 0, 250); font-family: Broadway;">OzDev Cloud Solutions</h2>
     <div class="card my-5">
-        <h6 class="text-center py-3">Enter your login details</h6>
+        <h3 class="text-center">Sign In</h3>
         <div class="card-body">
             <form (ngSubmit)="onSubmit()" #userForm="ngForm">
                 <div class="form-group">
@@ -20,13 +20,20 @@
                 </button>
                 <br>
                 </div>
-            </form>
             <div class="row">
+                <h3 class="text-center">Create New Account</h3>
                 <br>
+                <input type="email" [(ngModel)]="useremail" class="form-control" id="useremail" name="myemail"
+                       placeholder="Enter your email" pattern="\w{7,40}">
+                <div>&nbsp;</div>
+                <input type="email" [(ngModel)]="phone" class="form-control" id="phone" name="phone"
+                       placeholder="Enter phone number" pattern="\w{7,40}">
+                <div>&nbsp;</div>
                 <button type="button" class="btn btn-warning" id="createAccountButton" (click)="signUp()">
-                    Create an account
+                    Create Account
                 </button>
             </div>
+            </form>
         </div>
     </div>
     <svg id="clouds" alt="Blue Clouds Background" xmlns="http://www.w3.org/2000/svg" width="2611.084" height="485.677"

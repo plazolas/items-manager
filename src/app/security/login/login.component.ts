@@ -14,12 +14,12 @@ export class LoginComponent implements OnInit {
 
     username = '';
     password = '';
-
+    useremail = '';
+    phone = '';
     loginFailed = false;
     failedMsg = '';
 
     constructor(private router: Router, private loginService: LoginService, private cookieService: CookieService) {}
-
 
     ngOnInit() {
         // navigate to the root if we already have a token set (are logged in)
@@ -30,38 +30,49 @@ export class LoginComponent implements OnInit {
 
     onSubmit() {
         this.loginService.authenticate(this.username, this.password)
-            .subscribe( (response: ResBody) => {
+            .subscribe({
+                next: (response: ResBody) => {
                 if (response.success) {
                     this.cookieService.set('username', response.user, 3, '/');
                     this.cookieService.set('token', response.token, 3, '/');
                     this.router.navigate(['/list_items']);
                 } else {
                     this.loginFailed = true;
-                        this.failedMsg = 'Check username password, Login failed!';
+                    this.failedMsg = 'Check username password, Login failed!';
                 }
-            }, error => {
+            },
+                error: error => {
                 this.loginFailed = true;
                 if (error.status === 503) {
                     this.failedMsg = 'Too many failed attempts. Try again in a few minutes.';
                 } else {
                     this.failedMsg = 'Check username password, Login failed!';
                 }
-            });
+            }
+         });
     }
     
     signUp() {
-        console.log('creating: '+this.username, this.password);
-        this.loginService.signup(this.username,this.password)
-            .subscribe( (response : ResBody) => {
-                if (response.success) {
-                    this.cookieService.set('username', response.user, 365, '/');
-                    this.cookieService.set('token', response.token, 365, '/');
-                    this.router.navigate(['/list_items']);
-                }
-            }, error => {
-                this.loginFailed = true;
-                if (error.status !== 200) {
-                    this.failedMsg = 'Sign Up failed!';
+        this.loginService.signup(this.username, this.password, this.useremail, this.phone)
+            .subscribe({
+                next: (response: ResBody) => {
+                    console.log(response)
+                    if (response.success) {
+                        console.log('created new user');
+                        this.onSubmit()
+                    } else {
+                        if(response.message.includes('Returning user')) {
+                            console.log('returning user');
+                            this.onSubmit()
+                        }
+                    }
+                },
+                    error: error => {
+                    console.log('signup error');
+                    this.loginFailed = true;
+                    if (error.status !== 200) {
+                        this.failedMsg = 'Sign Up failed!';
+                    }
                 }
             });
         

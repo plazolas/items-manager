@@ -45,8 +45,8 @@
                         <div class="col-md-4">
                             <label for="passport">Passport: </label>
                         </div>
-                        <div class="col-md-4" *ngIf="person.passport; else noPassport">
-                            <input id="passport" type="text" value="{{ person.passport.number }}" disabled>
+                        <div class="col-md-4" *ngIf="person.passportNumber; else noPassport">
+                            <input id="passport" type="text" value="{{ person.passportNumber }}" disabled>
                         </div>
                         <ng-template #noPassport>
                             <div class="col-md-4">
@@ -59,7 +59,7 @@
                             <label for="country">Country: </label>
                         </div>
                         <div class="col-md-4">
-                            <input id="country" *ngIf="isLoading();" [(ngModel)]="person.country.name" placeholder="Country">
+                            <input id="country" *ngIf="isLoading();" [(ngModel)]="person.countryName" placeholder="Country">
                         </div>
                     </div>
                     <div class="row p-1">

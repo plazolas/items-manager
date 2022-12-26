@@ -17,7 +17,7 @@ import {throwError} from 'rxjs';
 })
 
 export class ItemEntryComponent implements OnInit, OnChanges {
-    title = 'Item Entry';
+    title = 'Employee Description';
 
     @Input() childItem: Item = {} as Item;
     @Input() childSubmitted = false;

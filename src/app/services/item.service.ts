@@ -21,7 +21,7 @@ export class ItemService {
     constructor(private httpClient: HttpClient, private cookieService: CookieService, private router: Router,
                 private userService: UserService) {
         if (!this.userService.isLoggedIn()) {
-            this.router.navigate(['/login']).then();
+            this.router.navigate(['/home']).then();
         }
         this.token = this.userService.getToken();
         this.httpOptions = userService.getHeaders();

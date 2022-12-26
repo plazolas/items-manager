@@ -23,7 +23,7 @@ import {CommonUtils} from '../utils/commonUtils';
 })
 
 export class ItemsListComponent implements OnInit {
-    title = 'Items list';
+    title = 'Employees';
     myName = this.constructor.name;
     employee: Item = {} as Item;
     person: Item = {} as Item;
@@ -319,19 +319,6 @@ export class ItemsListComponent implements OnInit {
         api$.subscribe(ajaxObserver);
 
     }
-
-    public testArgs(value: any): boolean {
-        let res: boolean;
-        if (arguments.length === 0) {
-            res = false;
-        } else if (arguments.length === 1) {
-            res = (!(arguments[0] === null || typeof (arguments[0]) === 'undefined' || Object.keys(arguments[0]).length === 0));
-        } else {
-            res = true;
-        }
-        return res;
-    }
-
     public navigateToSection(section: string) {
         window.location.hash = '';
         window.location.hash = section;

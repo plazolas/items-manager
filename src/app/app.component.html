@@ -1,20 +1,17 @@
 <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
-    <a class="navbar-brand" href="#" id="app-title">{{ title }}</a>
+    <a class="navbar-brand" routerLink="/home" id="app-title">{{ title }}</a>
     <ul class="navbar-nav">
         <li class="nav-item">
             <a class="nav-link" routerLink="/home">Home</a>
         </li>
         <li class="nav-item">
-            <a class="nav-link" href="{{ backUrl }}">Microservice</a>
+            <a class="nav-link" routerLink="/artists">Artists</a>
         </li>
         <li class="nav-item">
-            <a class="nav-link" href="{{ wandUrl }}">Store Front</a>
+            <a class="nav-link" href="{{ wandUrl }}">Wands</a>
         </li>
         <li class="nav-item">
-            <a class="nav-link" routerLink="/list_items">Angular</a>
-        </li>
-        <li class="nav-item">
-            <a class="nav-link" routerLink="/search">Search</a>
+            <a class="nav-link" routerLink="/search">Employees</a>
         </li>
         <li class="nav-item">
             <a class="nav-link" routerLink="/about">About</a>
@@ -22,7 +19,7 @@
         <span *ngIf="loggedIn(); then thenBlock else elseBlock"></span>
         <ng-template #thenBlock>
             <button class="nav-item bg-dark" type="button" (click)="openPopup()" style="color: #ffffff;">
-                {{cookieService.get('username')}}                             <span class="navbar-toggler-icon"></span>
+                {{ cookieService.get('username')}}                             <span class="navbar-toggler-icon"></span>
             </button>
             <div class="modal" tabindex="-1" role="dialog" [ngStyle]="{'display':displayStyle}">
                 <div class="modal-dialog" role="document">

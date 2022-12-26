@@ -1,5 +1,5 @@
 import { BrowserModule } from '@angular/platform-browser';
-import {NgModule } from '@angular/core';
+import { NgModule } from '@angular/core';
 
 import { AppComponent } from './app.component';
 import { ItemEntryComponent } from './items/item-entry.component';
@@ -15,7 +15,8 @@ import { NotfoundComponent } from './notfound.component';
 import { AboutComponent } from './items/home/about/about.component';
 import { LoginComponent } from './security/login/login.component';
 import { CookieService } from 'ngx-cookie-service';
-import {SearchComponent} from './items-list/search/search.component';
+import { SearchComponent } from './items-list/search/search.component';
+import { ArtistsComponent } from './artists/artists.component';
 
 @NgModule({
   declarations: [
@@ -28,7 +29,8 @@ import {SearchComponent} from './items-list/search/search.component';
     NotfoundComponent,
     AboutComponent,
     LoginComponent,
-    SearchComponent
+    SearchComponent,
+    ArtistsComponent
   ],
   imports: [
     BrowserModule,

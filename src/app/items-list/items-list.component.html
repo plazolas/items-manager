@@ -1,8 +1,5 @@
 <div class="container">
     <br>
-    <div class="text-left">
-        <h6> Date Time: <span style="font-weight: normal">{{ timeChange | async }}</span></h6>
-    </div>
 <app-item-entry [childItem]=item [childSubmitted]=submit (getSubmitStatusChange)='refreshList($event, item)'></app-item-entry>
     <br><br>
     <div class="container">
@@ -49,8 +46,8 @@
                                     {{ item.id }}
                                 </button>
                             </th>
-                            <td>{{ item?.country?.name }}</td>
-                            <td>{{ item?.passport?.number }}</td>
+                            <td>{{ item?.countryName }}</td>
+                            <td>{{ item?.passportNumber }}</td>
                             <td>{{ item?.firstname }}</td>
                             <td>{{ item?.lastname }}</td>
                             <td>{{ item?.position }}</td>
@@ -61,35 +58,25 @@
                 </div>
                 <div>
                     <hr>
-                    <div>
-                        <h6>Editing Item:</h6> <br>
-                        <pre>{{ itemObservable$ | async }}</pre>
-                        <hr>
-                    </div>
                     <hr>
                     <div>
-                        <h6>EMPLOYEES OF THE MONTH:</h6> <br>
-                        {{ personChange$ | async}}
-                        <hr>
                         <h6>Exemplary Employees</h6>
-                        <ul class="list-unstyled">
+                        <ul class="list-inline">
                             <li *ngFor="let p of bestItems; let j = index">
                                 <div class="row text-left">
                                     <div class="col-3">{{ p.firstname }}</div>
                                     <div class="col-3">{{ p.lastname }}</div>
-                                    <div class="col-3"><b>{{ p.position }}</b></div>
-                                    <div class="col-3">{{ p.country.name }}</div>
+                                    <div class="col-3">position: <b>{{ p.position }}</b></div>
                                 </div>
                             </li>
                         </ul>
                         <h6>Employee birthday this month</h6>
-                        <ul class="list-unstyled">
+                        <ul class="list-inline">
                             <li *ngFor="let p of birthItems; let j = index">
                                 <div class="row text-left">
                                     <div class="col-3">{{ p.firstname }}</div>
                                     <div class="col-3">{{ p.lastname }}</div>
-                                    <div class="col-3"><b>{{ p.age }}</b></div>
-                                    <div class="col-3">{{ p.country.name }}</div>
+                                    <div class="col-3">is now: <b>{{ p.age }}</b></div>
                                 </div>
                             </li>
                         </ul>
@@ -100,25 +87,8 @@
             </div>
         </div>
         <div class="row">
-            <h6>Date Converter: </h6>
-            <div class="col-lg-6" style="text-align: left">
-                <input type="text" [(ngModel)]="dateStr" style="text-align: left; width: 450px">
-            </div>
-            <div class="col-lg-3" style="text-align: left;">
-                <button (click)="clickedDate(dateStr);">Parse Date</button>
-            </div>
-        </div>
-        <div class="row">
             <div class="col-sm-12" style="text-align:center;">
                 &nbsp;
-            </div>
-        </div>
-        <div class="row text-left">
-            <div class="col-sm-6" style="text-align: center;">
-                <input [(ngModel)]="newDateStr" style="text-align: center; width: 450px" disabled>
-            </div>
-            <div class="col-sm-6" style="text-align: center;">
-                {{ latestDateStr }}
             </div>
         </div>
     </div>

@@ -14,9 +14,8 @@ export class LoginService {
   private readonly loginPath = this.itemRestUrl + '/account/token';
 
   constructor(private http: HttpClient) { }
-  
 
-  public signup(username: string, password: string): Observable<ResBody> {
+  public signup(username: string, password: string, useremail: string, phone: string): Observable<ResBody> {
     const headers = new HttpHeaders({
       'Content-Type': 'application/x-www-form-urlencoded',
       'Access-Control-Allow-Origin': '*',
@@ -24,7 +23,8 @@ export class LoginService {
       'Access-Control-Allow-Method': 'GET'
     });
     const options = { headers };
-    return this.http.post<ResBody>( this.signupPath, `username=${username}&password=${password}`, options);
+    return this.http.post<ResBody>( this.signupPath,
+        `username=${username}&password=${password}&useremail=${useremail}&phone=${phone}`, options);
   }
 
   public authenticate(username: string, password: string): Observable<ResBody> {
