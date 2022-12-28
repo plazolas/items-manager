@@ -11,10 +11,10 @@
             </div>
         </div>
     </div>
-    <div class="container">
+    <div class="container" id="artistdesc">
         <div class="row">
             <div class="container">
-                <div  *ngIf="artist.id" class="row my-blue-box">
+                <div  *ngIf="artist.id && artists.length==0" class="row my-blue-box">
                     <h4>Artist Details: {{ artist.name }}</h4>
                     <div class="col-lg-12 text-center" style="padding-top: 20px;">
                         <div>

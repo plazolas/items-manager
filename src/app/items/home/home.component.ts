@@ -16,7 +16,6 @@ declare var liveForest: any;
 export class HomeComponent implements OnInit {
 
     wandUrl = environment.wandUrl;
-    backUrl = environment.backEndUrl;
 
     constructor(private itemsService: ItemService) {
         // liveForest.init();

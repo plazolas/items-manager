@@ -5,7 +5,7 @@
 export const environment = {
   production: false,
   wandUrl: 'http://www.ozdev.net/wand',
-  backEndUrl: 'http://www.ozdev.net/back',
+  backEndUrl: 'http://localhost:8077',
   loginPath: '/account/token',
   appUserName: '',
   appUserPass: ''

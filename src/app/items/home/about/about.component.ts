@@ -9,7 +9,6 @@ import {environment} from '../../../../environments/environment';
 export class AboutComponent implements OnInit {
 
   wandUrl = environment.wandUrl;
-  backUrl = environment.backEndUrl;
   
   constructor() {}
 

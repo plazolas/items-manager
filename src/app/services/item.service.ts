@@ -25,6 +25,7 @@ export class ItemService {
         }
         this.token = this.userService.getToken();
         this.httpOptions = userService.getHeaders();
+        console.log(this.itemsRestUrl);
     }
 
     fetchLastId(): Promise<any> {

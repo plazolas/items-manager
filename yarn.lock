@@ -1665,9 +1665,9 @@
   resolved "https://registry.npmjs.org/@types/cors/-/cors-2.8.12.tgz"
   integrity sha512-vt+kDhq/M2ayberEtJcIN/hxXy1Pk+59g2FV/ZQceeaTyCtCucjL2Q7FXlFjtWn4n15KCr1NE2lNNFhp0lEThw==
 
-"@types/datatables.net@^1.10.24":
+"@types/datatables.net@^1.10.6":
   version "1.10.24"
-  resolved "https://registry.npmjs.org/@types/datatables.net/-/datatables.net-1.10.24.tgz"
+  resolved "https://registry.yarnpkg.com/@types/datatables.net/-/datatables.net-1.10.24.tgz#8b432218d72b012448dbf18ce18ee900a3f2f1ec"
   integrity sha512-Qb82/7Gn0bU36YLiv0MdaqKzhTLfRO9qPvFdkW0miQ6ATMG47aoPn2r//zTvGd3oPSt+Lzp1HSsjP6rZRuki8g==
   dependencies:
     "@types/jquery" "*"
@@ -2108,10 +2108,10 @@ ajv@^6.12.3, ajv@^6.12.4, ajv@^6.12.5:
     json-schema-traverse "^0.4.1"
     uri-js "^4.2.2"
 
-angular-datatables@^14.0.2:
-  version "14.0.2"
-  resolved "https://registry.npmjs.org/angular-datatables/-/angular-datatables-14.0.2.tgz"
-  integrity sha512-uhiuiByiQxCr3MUw9Cjo0NYfbNUTGFez47BYpehGZAcaxAZkyMb0AJfKNly1jGhN9Cltn5LKGlX41+I4rENe3g==
+angular-datatables@^4.2.0:
+  version "4.4.1"
+  resolved "https://registry.yarnpkg.com/angular-datatables/-/angular-datatables-4.4.1.tgz#b1bc2529d95304153365ed811a3cf9c53da35657"
+  integrity sha512-pBWwV//CH9iTJmMpMj/7DkbmBoh2Qd1C108gEibVmCYoou+KUqJ0lpQiylTGwpN3LEwCgLoidPoCr+FXvy/VBw==
 
 ansi-colors@4.1.1:
   version "4.1.1"
@@ -2478,10 +2478,10 @@ boolbase@^1.0.0:
   resolved "https://registry.npmjs.org/boolbase/-/boolbase-1.0.0.tgz"
   integrity sha512-JZOSA7Mo9sNGB8+UjSgzdLtokWAky1zbztM3WRLCbZ70/3cTANmQmOdR7y2g+J0e2WXywy1yS468tY+IruqEww==
 
-bootstrap@^5.1.3:
-  version "5.1.3"
-  resolved "https://registry.npmjs.org/bootstrap/-/bootstrap-5.1.3.tgz"
-  integrity sha512-fcQztozJ8jToQWXxVuEyXWW+dSo8AiXWKwiSSrKWsRB/Qt+Ewwza+JWoLKiTuQLaEPhdNAJ7+Dosc9DOIqNy7Q==
+bootstrap@5.2.0-beta1:
+  version "5.2.0-beta1"
+  resolved "https://registry.yarnpkg.com/bootstrap/-/bootstrap-5.2.0-beta1.tgz#75647ff7327c2cac9b8e1cb6728a790a5be4cefc"
+  integrity sha512-6qbgs177WZEFY4SLQUq3tEHayYG80nfDmyTpdKi0MJqRMdS+HAoq24+YKfx6wf+nHY0rx8zrh477J1lFu4WzOA==
 
 brace-expansion@^1.1.7:
   version "1.1.11"
@@ -3270,17 +3270,17 @@ dashdash@^1.12.0:
   dependencies:
     assert-plus "^1.0.0"
 
-datatables.net-dt@^1.13.1:
+datatables.net-dt@^1.10.15:
   version "1.13.1"
-  resolved "https://registry.npmjs.org/datatables.net-dt/-/datatables.net-dt-1.13.1.tgz"
+  resolved "https://registry.yarnpkg.com/datatables.net-dt/-/datatables.net-dt-1.13.1.tgz#c3e31c8ae85dabe6895e740f6fbe0ed2e8276c39"
   integrity sha512-J5ul/Y+Hpyfh8y02DKwgbmUij4e4R6bstnx4iYvY7FV2b2XuCP0Qow/Uuc0gtxDHSz2bTsoeRHqg4teoGftVDg==
   dependencies:
     datatables.net ">=1.12.1"
     jquery ">=1.7"
 
-datatables.net@>=1.12.1, datatables.net@^1.13.1:
+datatables.net@>=1.12.1, datatables.net@^1.10.15:
   version "1.13.1"
-  resolved "https://registry.npmjs.org/datatables.net/-/datatables.net-1.13.1.tgz"
+  resolved "https://registry.yarnpkg.com/datatables.net/-/datatables.net-1.13.1.tgz#199f7cb63f4536c135e161f95254212835a1c130"
   integrity sha512-cX5dDHsbVdLLYKsWOSE0MvuGUcV88zU5dZ/taK2puJV6F9Fw0CFsP3+U/kr+qpDSFOBLWISRyM4Q9wWWovPTNg==
   dependencies:
     jquery ">=1.7"

@@ -10,7 +10,7 @@ import { LoginService } from './services/login.service';
   styleUrls: ['./app.component.css']
 })
 export class AppComponent {
-  title = 'OzDev Cloud Solutions';
+  title = 'OzDev';
   wandUrl = environment.wandUrl;
   backUrl = environment.backEndUrl;
   displayStyle = 'none';

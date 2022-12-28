@@ -50,6 +50,7 @@ export class ArtistsComponent implements OnInit {
     }
 
     //////////////////////////////////////////////////////////////////////////////////////////////  onInit  ///////////////////
+
     async ngOnInit() {
         if (this.paramName !== undefined) {
             console.log('paramName: ' + this.paramName);
@@ -137,7 +138,8 @@ export class ArtistsComponent implements OnInit {
 
     clickedArtist(id: string) {
         if(id.length > 0) {
-                this.getArtistBySid(id)
+            this.getArtistBySid(id)
+            this.artists = []
         }
     }
 }

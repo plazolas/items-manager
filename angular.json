@@ -84,6 +84,9 @@
           "configurations": {
             "production": {
               "browserTarget": "items-manager:build:production"
+            },
+            "development": {
+              "browserTarget": "items-manager:build:development"
             }
           }
         },
@@ -132,6 +135,9 @@
           "configurations": {
             "production": {
               "devServerTarget": "items-manager:serve:production"
+            },
+            "development": {
+              "devServerTarget": "items-manager:serve:development"
             }
           }
         }
