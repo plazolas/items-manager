@@ -4,6 +4,7 @@ import {CookieService} from 'ngx-cookie-service';
 import {LoginService} from '../../services/login.service';
 import {ResBody} from '../../model/res-body';
 import {environment} from '../../../environments/environment';
+import {UserService} from '../../services/user.service';
 
 @Component({
     selector: 'app-login',
@@ -19,12 +20,12 @@ export class LoginComponent implements OnInit {
     loginFailed = false;
     failedMsg = '';
 
-    constructor(private router: Router, private loginService: LoginService, private cookieService: CookieService) {}
+    constructor(private router: Router, private loginService: LoginService, private userService: UserService) {}
 
     ngOnInit() {
         // navigate to the root if we already have a token set (are logged in)
-        if (this.cookieService.check('token')) {
-            this.router.navigate(['/list_items']);
+        if (this.userService.isLoggedIn()) {
+            this.router.navigate(['/list_items']).then();
         }
     }
 
@@ -33,9 +34,8 @@ export class LoginComponent implements OnInit {
             .subscribe({
                 next: (response: ResBody) => {
                 if (response.success) {
-                    this.cookieService.set('username', response.user, 3, '/');
-                    this.cookieService.set('token', response.token, 3, '/');
-                    this.router.navigate(['/list_items']);
+                    this.userService.login(response.user, response.token)
+                    this.router.navigate(['/list_items']).then()
                 } else {
                     this.loginFailed = true;
                     this.failedMsg = 'Check username password, Login failed!';

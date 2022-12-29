@@ -16,7 +16,7 @@ export class CommonUtils {
         }
     }
 
-    public testArgs(value: any): boolean {
+    public static testArgs(value: any): boolean {
         let res: boolean;
         if (arguments.length === 0) {
             res = false;
@@ -28,7 +28,7 @@ export class CommonUtils {
         return res;
     }
 
-    public httpErrorHandler(error: HttpErrorResponse) {
+    public static httpErrorHandler(error: HttpErrorResponse) {
         let msg = '';
         if (error.error instanceof ErrorEvent) {
             msg = 'A client side error occurs. The error message is ' + error.message;
@@ -46,6 +46,10 @@ export class CommonUtils {
             msg = 'An error happened in server.';
         }
         return throwError( msg );
+    }
+
+    public static isEmptyStr(str: any): boolean {
+         return str === null || str === undefined || typeof str !== 'string'
     }
     
 }

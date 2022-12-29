@@ -3,6 +3,7 @@ import { environment } from '../environments/environment';
 import { ActivatedRoute, NavigationEnd, Router} from '@angular/router';
 import { CookieService } from 'ngx-cookie-service';
 import { LoginService } from './services/login.service';
+import { UserService } from './services/user.service';
 
 @Component({
   selector: 'app-root',
@@ -16,7 +17,7 @@ export class AppComponent {
   displayStyle = 'none';
 
   constructor(private route: ActivatedRoute, private router: Router,
-              private loginService: LoginService, public cookieService: CookieService) {
+              private loginService: LoginService, public userService: UserService) {
     // listen to every routing event and redirect the route to login if the user is not logged in (or trying to sign up)
     this.router.events.subscribe(event => {
       if (event instanceof NavigationEnd && !this.loggedIn()
@@ -37,13 +38,11 @@ export class AppComponent {
   }
 
   loggedIn(): boolean {
-    return (this.cookieService.check('token') && this.cookieService.get('token').length > 0);
+    return this.userService.isLoggedIn()
   }
   //
   logOut() {
-    this.cookieService.delete('username', '/');
-    this.cookieService.delete('token', '/');
-    this.router.navigate(['/home']);
+    this.userService.logOut()
   }
 
   openPopup() {
@@ -57,5 +56,9 @@ export class AppComponent {
   closePopup() {
     this.displayStyle = 'none';
     this.logOut();
+  }
+
+  getUsername(): string {
+    return this.userService.getUsername()
   }
 }

@@ -18,7 +18,7 @@
         <span *ngIf="loggedIn(); then thenBlock else elseBlock"></span>
         <ng-template #thenBlock>
             <button class="nav-item bg-dark" type="button" (click)="openPopup()" style="color: #ffffff;">
-                {{ cookieService.get('username')}}                             <span class="navbar-toggler-icon"></span>
+                {{ getUsername() }}                             <span class="navbar-toggler-icon"></span>
             </button>
             <div class="modal" tabindex="-1" role="dialog" [ngStyle]="{'display':displayStyle}">
                 <div class="modal-dialog" role="document">

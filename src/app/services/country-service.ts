@@ -1,6 +1,4 @@
 import {Injectable} from '@angular/core';
-import {Item} from '../model/item';
-import {AppCountry} from '../model/app-country';
 
 import {Observable, throwError} from 'rxjs';
 import {catchError, retry} from 'rxjs/operators';
@@ -9,6 +7,7 @@ import {environment} from '../../environments/environment';
 import {CookieService} from 'ngx-cookie-service';
 import {Router} from '@angular/router';
 import {UserService} from './user.service';
+import {CommonUtils} from '../utils/commonUtils';
 
 
 @Injectable({
@@ -36,7 +35,7 @@ export class CountryService {
     return this.httpClient.get<object>(this.itemsRestUrl, this.httpOptions)
         .pipe(
             retry(3),
-            catchError(this.httpErrorHandler)
+            catchError(err => { return CommonUtils.httpErrorHandler(err) })
         );
   }
 
@@ -45,18 +44,8 @@ export class CountryService {
     return res
         .pipe(
             retry(3),
-            catchError(this.httpErrorHandler)
+            catchError(err => { return CommonUtils.httpErrorHandler(err) })
         );
-  }
-
-  private httpErrorHandler(error: HttpErrorResponse) {
-    let msg = '';
-    if (error.error instanceof ErrorEvent) {
-      msg = 'A client side error occurs. The error message is ' + error.message;
-    } else {
-      msg = 'An error happened in server. The HTTP status code is ' + error.status + ' and the error returned is ' + error.message;
-    }
-    return throwError( msg );
   }
 
 }

@@ -3,6 +3,8 @@ import {HttpClient} from '@angular/common/http';
 import {debounceTime, distinctUntilChanged, fromEvent, map, Observable, of, tap} from 'rxjs';
 import {ItemService} from '../../services/item.service';
 import {filter} from 'rxjs/operators';
+import {UserService} from '../../services/user.service';
+import {Router} from '@angular/router';
 
 @Component({
     selector: 'app-search',
@@ -14,10 +16,19 @@ export class SearchComponent implements OnInit {
     @ViewChild('searchTerm', {static: true}) searchTerm!: ElementRef;
     apiResponse: any;
     isSearching: boolean;
+    private token = '';
+    public httpOptions = {};
 
-    constructor(private httpClient: HttpClient, private itemService: ItemService) {
+    constructor(private httpClient: HttpClient, private itemService: ItemService,
+                private userService: UserService, private router: Router) {
         this.isSearching = false;
         this.apiResponse = { Response: false, error: '' };
+        if (!this.userService.isLoggedIn()) {
+            this.router.navigate(['/login']).then()
+        }
+        this.token = this.userService.getToken()
+        this.httpOptions = userService.getHeaders()
+        console.log(this.httpOptions)
     }
 
     ngOnInit() {
@@ -27,7 +38,7 @@ export class SearchComponent implements OnInit {
                 map((event: any) => {
                     return event.target.value;
                 }),
-                filter(res => res.length > 1),
+                filter(res => res.length > 2),
                 debounceTime(200),
                 distinctUntilChanged()
             )
