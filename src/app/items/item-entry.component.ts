@@ -4,7 +4,6 @@ import {
 } from '@angular/core';
 import {Item} from '../model/item';
 import {ItemService} from '../services/item.service';
-import {CookieService} from 'ngx-cookie-service';
 import {Router} from '@angular/router';
 import {UserService} from '../services/user.service';
 import {throwError} from 'rxjs';
@@ -26,10 +25,9 @@ export class ItemEntryComponent implements OnInit, OnChanges {
     nameChanged = false;
     
     constructor(private itemService: ItemService,
-                private cookieService: CookieService,
                 private userService: UserService,
                 private router: Router) {
-        if (!this.cookieService.check('token')) {
+        if (!this.userService.isLoggedIn()) {
             this.router.navigate(['/login']).then();
         }
     }

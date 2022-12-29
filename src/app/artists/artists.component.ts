@@ -3,7 +3,6 @@ import {ActivatedRoute, Router} from '@angular/router';
 import {HttpClient, HttpResponse} from '@angular/common/http';
 import { FormGroup, FormControl } from '@angular/forms';
 
-import {CookieService} from 'ngx-cookie-service';
 import {DebugService} from '../services/debug.service';
 import {UserService} from '../services/user.service';
 import {ArtistService} from '../services/artist.service';
@@ -35,7 +34,6 @@ export class ArtistsComponent implements OnInit {
     constructor(private debugService: DebugService,
                 private http: HttpClient,
                 private activatedRoute: ActivatedRoute,
-                private cookieService: CookieService,
                 private router: Router,
                 private userService: UserService,
                 private artistService: ArtistService

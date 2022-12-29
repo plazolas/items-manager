@@ -5,7 +5,6 @@ import {isEmpty, Observable, throwError} from 'rxjs';
 import {catchError, retry} from 'rxjs/operators';
 import {HttpClient, HttpHeaders, HttpErrorResponse, HttpResponse, HttpEventType} from '@angular/common/http';
 import {environment} from '../../environments/environment';
-import {CookieService} from 'ngx-cookie-service';
 import {Router} from '@angular/router';
 import {UserService} from './user.service';
 import {CommonUtils} from '../utils/commonUtils';
@@ -18,7 +17,7 @@ export class ItemService {
     public searchedItems: string[] = [];
     public data: any;
 
-    constructor(private httpClient: HttpClient, private cookieService: CookieService, private router: Router,
+    constructor(private httpClient: HttpClient, private router: Router,
                 private userService: UserService) {
         if (!this.userService.isLoggedIn()) {
             this.router.navigate(['/home']).then();

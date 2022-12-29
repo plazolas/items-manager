@@ -3,10 +3,8 @@ import {Router} from '@angular/router';
 import {Item} from '../../model/item';
 import {ItemService} from '../../services/item.service';
 import {ActivatedRoute} from '@angular/router';
-import {CookieService} from 'ngx-cookie-service';
 import {UserService} from '../../services/user.service';
 import {HttpErrorResponse, HttpResponse} from '@angular/common/http';
-import {map} from 'rxjs';
 
 @Component({
     selector: 'app-item-entry-edit',
@@ -26,8 +24,8 @@ export class ItemEntryEditComponent implements OnInit {
     @Output() submitChange = new EventEmitter<boolean>();
 
     constructor(private itemService: ItemService, private router: Router, private activatedRoute: ActivatedRoute,
-                private cookieService: CookieService, private userService: UserService) {
-        if (!this.cookieService.check('token')) {
+                private userService: UserService) {
+        if (!this.userService.isLoggedIn()) {
             this.router.navigate(['/login']).then();
         }
         this.token = this.userService.getToken();
@@ -46,8 +44,8 @@ export class ItemEntryEditComponent implements OnInit {
         console.log(this.person);
         this.itemService.updateItemObs(this.person)
             .subscribe({
-                next: data => { alert(data.firstname + ' ' + data.lastname + ' updated!' ) },
-                error: (err) => { console.log(err); alert(err.error)},
+                next: r => { alert('Record Updated!'); },
+                error: (err) => { console.log(err); alert('Could not update record: '+ err.error)},
                 complete: () => {
                     this.submitChange.emit(true);
                     this.router.navigate(['/list_items']).then()

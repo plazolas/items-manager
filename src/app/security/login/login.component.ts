@@ -1,9 +1,7 @@
 import {Component, OnInit} from '@angular/core';
 import {Router} from '@angular/router';
-import {CookieService} from 'ngx-cookie-service';
 import {LoginService} from '../../services/login.service';
 import {ResBody} from '../../model/res-body';
-import {environment} from '../../../environments/environment';
 import {UserService} from '../../services/user.service';
 
 @Component({

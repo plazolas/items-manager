@@ -5,14 +5,12 @@ import {ajax, AjaxResponse} from 'rxjs/ajax';
 import {concatAll, filter, mergeMap, take} from 'rxjs/operators';
 import {Observable, Observer, from, fromEvent, noop, Subject, Subscription, interval, debounceTime, zip, map, forkJoin, concat} from 'rxjs';
 
-import {CookieService} from 'ngx-cookie-service';
 import {DebugService} from '../services/debug.service';
 import {Item} from '../model/item';
 import {ItemService} from '../services/item.service';
 import {environment} from '../../environments/environment';
 import {UserService} from '../services/user.service';
 import {CountryService} from '../services/country-service';
-import {AppPassport} from '../model/app-passport';
 import {AppCountry} from '../model/app-country';
 import {CommonUtils} from '../utils/commonUtils';
 
@@ -64,11 +62,10 @@ export class ItemsListComponent implements OnInit {
                 private countryService: CountryService,
                 private http: HttpClient,
                 private activatedRoute: ActivatedRoute,
-                private cookieService: CookieService,
                 private router: Router,
                 private userService: UserService
     ) {
-        if (!this.cookieService.check('token')) {
+        if (!this.userService.isLoggedIn()) {
             this.router.navigate(['/login']).then();
         }
         this.getTokeAndHeaders();

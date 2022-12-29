@@ -1,7 +1,6 @@
 import { Component } from '@angular/core';
 import { environment } from '../environments/environment';
 import { ActivatedRoute, NavigationEnd, Router} from '@angular/router';
-import { CookieService } from 'ngx-cookie-service';
 import { LoginService } from './services/login.service';
 import { UserService } from './services/user.service';
 

@@ -29,7 +29,7 @@ export class UserService {
                 'Content-Type': 'application/json',
                 'Access-Control-Allow-Origin': '*',
                 'Access-Control-Allow-Headers': 'Content-Type',
-                'Access-Control-Allow-Method': 'GET, POST, DELETE',
+                'Access-Control-Allow-Method': 'GET, POST, PUT, DELETE, PATCH',
                 Authorization: 'Bearer ' + this.getToken()
             }),
             observe: 'body'
