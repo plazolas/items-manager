@@ -59,7 +59,7 @@ export class ItemService {
     }
 
     updateItem(item: Item): Item {
-        this.httpClient.put<Item>(this.itemsRestUrl + '/p/' + item.id, item, this.httpOptions)
+        this.httpClient.put<Item>(this.itemsRestUrl + '/update/' + item.id, item, this.httpOptions)
             .subscribe({
                 next: data => {
                     item = data as Item
@@ -76,7 +76,7 @@ export class ItemService {
     }
 
     updateItemObs(item: Item): Observable<Item> {
-        return this.httpClient.put<Item>(this.itemsRestUrl + '/p/' + item.id, item, this.httpOptions)
+        return this.httpClient.put<Item>(this.itemsRestUrl + '/update/' + item.id, item, this.httpOptions)
     }
 
     deleteItem(item: Item | number): Observable<Item> {
