@@ -34,6 +34,24 @@ export class ArtistService {
             );
     }
 
+    getReleasesByArtistsId(id: string): Observable<object> {
+        const url = this.artistRestUrl + '/releases/' + id;
+        return this.httpClient.get(url, this.httpOptions)
+            .pipe(
+                retry(3),
+                catchError(err => { return CommonUtils.httpErrorHandler(err) })
+            );
+    }
+
+    getTracksByReleaseId(id: string): Observable<object> {
+        const url = this.artistRestUrl + '/release/' + id;
+        return this.httpClient.get(url, this.httpOptions)
+            .pipe(
+                retry(3),
+                catchError(err => { return CommonUtils.httpErrorHandler(err) })
+            );
+    }
+
     getArtistsByName(name: string): Observable<object> {
         const url = this.artistRestUrl + '/name?name=' + name;
         return this.httpClient.post(url, this.httpOptions)

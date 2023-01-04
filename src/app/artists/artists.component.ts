@@ -8,6 +8,8 @@ import {UserService} from '../services/user.service';
 import {ArtistService} from '../services/artist.service';
 import {AppArtist} from '../model/app-artist';
 import {AppArtistList} from '../model/app-artist-list';
+import {AppRelease} from '../model/app-release';
+import {AppReleasesList} from '../model/app-releases-list';
 
 @Component({
     selector: 'app-artists',
@@ -25,6 +27,10 @@ export class ArtistsComponent implements OnInit {
     artistRaw = 'none';
     artists: AppArtist[] = [];
     artistsRaw = '';
+
+    releasesStr = '';
+    releases: AppRelease[] = [];
+    tracks: AppRelease[] = [];
     jsonObj: any;
     art: any;
     paramName = this.activatedRoute.snapshot.params.artistname;
@@ -67,24 +73,14 @@ export class ArtistsComponent implements OnInit {
             .subscribe((data) => {
                 const list = data as AppArtistList;
                 this.artists = list.artists;
-                this.artistsRaw = JSON.stringify(data);
             });
     }
 
-    getArtistBySid(id: string): AppArtist {
+    getArtistBySid(id: string) {
         this.artistService.getArtistBySid(id)
             .subscribe({
                 next: (data) => {
                     this.artist = data as AppArtist;
-                    this.artistRaw = JSON.stringify(this.artist);
-                    this.jsonObj = JSON.parse(this.artistRaw);
-                    for (const prop in this.jsonObj) {
-                        if (this.jsonObj.hasOwnProperty(prop)) {
-                           // this.art[prop] = (this.jsonObj[prop] === 'undefined') ? null : this.jsonObj[prop];
-                           // console.log(prop)
-                        }
-                    }
-                    this.artistsRaw = JSON.stringify(this.art);
                 },
                 error: (err: any) => {
                     console.log(err);
@@ -92,7 +88,36 @@ export class ArtistsComponent implements OnInit {
                 complete: () => {
                 }
             });
-        return this.artist;
+        this.artistService.getReleasesByArtistsId(id)
+            .subscribe({
+                next: (data) => {
+                    const list = data as AppReleasesList
+                    const tmp = list.releases
+                    // const result = tmp.filter(r => r.barcode)
+                    this.releases = tmp
+                },
+                error: (err: any) => {
+                    console.log(err);
+                },
+                complete: () => {}
+            });
+    }
+
+    getTracksByReleaseId(id: string) {
+        // TODO: create media and tracks
+        this.artistService.getTracksByReleaseId(id)
+            .subscribe({
+                next: (data) => {
+                    const list = data as AppRelease
+                    // const result = tmp.filter(r => r.barcode)p
+                    console.log(this.tracks)
+                },
+                error: (err: any) => {
+                    console.log(err);
+                },
+                complete: () => {
+                }
+            });
     }
 
     getArtistById(id: number): AppArtist {
@@ -138,6 +163,15 @@ export class ArtistsComponent implements OnInit {
         if(id.length > 0) {
             this.getArtistBySid(id)
             this.artists = []
+        }
+    }
+
+    clickedRelease(id: string) {
+        if(id.length > 0) {
+            // this.getTracksByReleaseId(id)
+            alert('Release ID:' + id)
+        } else {
+            alert('No release id found!')
         }
     }
 }
