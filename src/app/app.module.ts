@@ -17,6 +17,7 @@ import { LoginComponent } from './security/login/login.component';
 import { CookieService } from 'ngx-cookie-service';
 import { SearchComponent } from './items-list/search/search.component';
 import { ArtistsComponent } from './artists/artists.component';
+import { AsteriscPipe } from './utils/Pipes/AsteriscPipe';
 
 @NgModule({
   declarations: [
@@ -30,7 +31,8 @@ import { ArtistsComponent } from './artists/artists.component';
     AboutComponent,
     LoginComponent,
     SearchComponent,
-    ArtistsComponent
+    ArtistsComponent,
+    AsteriscPipe
   ],
   imports: [
     BrowserModule,

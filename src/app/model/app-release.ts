@@ -1,3 +1,4 @@
+import {AppMedia} from './app-media';
 
 export interface AppRelease {
   id: string;
@@ -7,4 +8,5 @@ export interface AppRelease {
   barcode: string;
   packaging: string;
   date: string;
+  media: AppMedia[];
 }

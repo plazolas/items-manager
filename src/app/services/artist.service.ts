@@ -43,7 +43,7 @@ export class ArtistService {
             );
     }
 
-    getTracksByReleaseId(id: string): Observable<object> {
+    getMediaByReleaseId(id: string): Observable<object> {
         const url = this.artistRestUrl + '/release/' + id;
         return this.httpClient.get(url, this.httpOptions)
             .pipe(

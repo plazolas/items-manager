@@ -10,6 +10,8 @@ import {AppArtist} from '../model/app-artist';
 import {AppArtistList} from '../model/app-artist-list';
 import {AppRelease} from '../model/app-release';
 import {AppReleasesList} from '../model/app-releases-list';
+import {AppMedia} from '../model/app-media';
+import {AppTrack} from '../model/app-track';
 
 @Component({
     selector: 'app-artists',
@@ -27,10 +29,10 @@ export class ArtistsComponent implements OnInit {
     artistRaw = 'none';
     artists: AppArtist[] = [];
     artistsRaw = '';
-
-    releasesStr = '';
     releases: AppRelease[] = [];
-    tracks: AppRelease[] = [];
+    release: AppRelease = {} as AppRelease;
+    media: AppMedia = {} as AppMedia;
+    tracks: AppTrack[] = []
     jsonObj: any;
     art: any;
     paramName = this.activatedRoute.snapshot.params.artistname;
@@ -103,14 +105,13 @@ export class ArtistsComponent implements OnInit {
             });
     }
 
-    getTracksByReleaseId(id: string) {
-        // TODO: create media and tracks
-        this.artistService.getTracksByReleaseId(id)
+    getMediaByReleaseId(id: string) {
+        this.artistService.getMediaByReleaseId(id)
             .subscribe({
                 next: (data) => {
-                    const list = data as AppRelease
-                    // const result = tmp.filter(r => r.barcode)p
-                    console.log(this.tracks)
+                    this.release = data as AppRelease
+                    this.media = this.release.media[0]
+                    this.tracks = this.media.tracks;
                 },
                 error: (err: any) => {
                     console.log(err);
@@ -155,21 +156,30 @@ export class ArtistsComponent implements OnInit {
 
     onClickSubmit() {
         if(this.artistname.value && this.artistname.value.length > 0) {
+            this.artist = {} as AppArtist
+            this.artists = []
+            this.releases = []
+            this.tracks = []
             this.getArtistByName(this.artistname.value);
         }
     }
 
     clickedArtist(id: string) {
         if(id.length > 0) {
-            this.getArtistBySid(id)
             this.artists = []
+            this.artist = {} as AppArtist
+            this.release = {} as AppRelease
+            this.releases = []
+            this.tracks = []
+            this.getArtistBySid(id)
         }
     }
 
     clickedRelease(id: string) {
         if(id.length > 0) {
-            // this.getTracksByReleaseId(id)
-            alert('Release ID:' + id)
+            this.releases = []
+            this.tracks = []
+            this.getMediaByReleaseId(id)
         } else {
             alert('No release id found!')
         }
