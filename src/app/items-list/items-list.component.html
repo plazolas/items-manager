@@ -60,13 +60,13 @@
                     <hr>
                     <hr>
                     <div>
-                        <h6>Exemplary Employees</h6>
+                        <h6>Exemplary Contributors</h6>
                         <ul class="list-inline">
                             <li *ngFor="let p of bestItems; let j = index">
                                 <div class="row text-left">
-                                    <div class="col-3">{{ p.firstname }}</div>
-                                    <div class="col-3">{{ p.lastname }}</div>
-                                    <div class="col-3">position: <b>{{ p.position }}</b></div>
+                                    <div class="col-3" style="text-align: left">{{ p.firstname }}</div>
+                                    <div class="col-3" style="text-align: left">{{ p.lastname }}</div>
+                                    <div class="col-3" style="text-align: left"><b>{{ p.position }}</b></div>
                                 </div>
                             </li>
                         </ul>
@@ -74,9 +74,9 @@
                         <ul class="list-inline">
                             <li *ngFor="let p of birthItems; let j = index">
                                 <div class="row text-left">
-                                    <div class="col-3">{{ p.firstname }}</div>
-                                    <div class="col-3">{{ p.lastname }}</div>
-                                    <div class="col-3">is now: <b>{{ p.age }}</b></div>
+                                    <div class="col-3" style="text-align: left">{{ p.firstname }}</div>
+                                    <div class="col-3" style="text-align: left">{{ p.lastname }}</div>
+                                    <div class="col-3" style="text-align: left">will be: <b>{{ p.age + 1 }}</b></div>
                                 </div>
                             </li>
                         </ul>

@@ -2,7 +2,7 @@ import {Component, OnChanges, OnInit, SimpleChanges} from '@angular/core';
 import {ActivatedRoute, Router} from '@angular/router';
 import {HttpClient, HttpErrorResponse, HttpHeaders, HttpResponse} from '@angular/common/http';
 import {ajax, AjaxResponse} from 'rxjs/ajax';
-import {concatAll, filter, mergeMap, take} from 'rxjs/operators';
+import {concatAll, filter, mergeMap, take, toArray} from 'rxjs/operators';
 import {Observable, Observer, from, fromEvent, noop, Subject, Subscription, interval, debounceTime, zip, map, forkJoin, concat} from 'rxjs';
 
 import {DebugService} from '../services/debug.service';
@@ -36,13 +36,10 @@ export class ItemsListComponent implements OnInit {
     newDateStr = '';
     latestDateStr = '';
     httpOptions = {};
-    
     pageNo = 0;
     sortBy = 'country';
     pageSize = 10;
-
-    itemsEntries: object = {};
-    
+    itemsEntries: Item[] = [];
     numbers: number[] = [];
 
     timeChange = new Observable<string>((observer: Observer<string>) => {
@@ -108,29 +105,30 @@ export class ItemsListComponent implements OnInit {
     
     //////////////////////////////////////////////////////////////////////////////////////////////  onInit  ///////////////////
     async ngOnInit() {
+
         this.getAllItems();
-        
+
         const lid  = await this.fetchLastId();
         await this.loadItem(lid === undefined ? 139 : lid);
-        
+
         // const countriesObs = this.getCountries();
         // const personsObs = this.getPersons();
 
         const countryObs = this.getCountry(19);
         const personObs = this.getPerson(166);
-        
+
         // const forkObs = forkJoin({countries: countriesObs, persons: personsObs});
         // forkObs.subscribe(data => console.log(data))
-        
+
         let ran: number = Math.round(10 * .5 * Math.random());
         ran = (ran === 0 ) ? 1 : ran;
-        
+
         // const catObs = concat(
         //     countryObs,
         //     personObs
         // );
         // catObs.subscribe(data => console.log(data));
-        
+
         const passportObs: Observable<object> = personObs.pipe(
             mergeMap(item => {
                 return countryObs.pipe(
@@ -152,7 +150,8 @@ export class ItemsListComponent implements OnInit {
             })
         );
         // passportObs.subscribe( p => console.log(p))
-        
+
+
         if (this.paramId !== undefined) {
             this.paramId = this.activatedRoute.snapshot.params.itemid.valueOf();
             this.item = this.getItemObj(this.paramId);
@@ -201,7 +200,20 @@ export class ItemsListComponent implements OnInit {
     getItems(): void {
         this.itemService.getItems()
             .subscribe((data) => {
-                this.itemsEntries = data;
+                const arr = Object.entries(data)
+                for (const item1 of arr) {
+                    this.itemsEntries.push(item1[1])
+                }
+                const itemsIterable = this.itemsEntries[Symbol.iterator]();
+                let result = itemsIterable.next();
+                const jobs: string[] = [];
+                while (!result.done) {
+                    if (result.value.position.length > 0 && !jobs.includes(result.value.position)) {
+                        jobs.push(result.value.position)
+                        this.bestItems.push(result.value);
+                    }
+                    result = itemsIterable.next();
+                }
             });
     }
 
@@ -258,8 +270,9 @@ export class ItemsListComponent implements OnInit {
  
     ///////////////////////// ///////////////////////////////////////////  getAllItems
     getAllItems() {
-        let ajaxResponse: AjaxResponse<Item>;
+        this.getItems();
 
+        let ajaxResponse: AjaxResponse<Item>;
         const api$ = ajax({
             url: environment.backEndUrl + '/api/vi/person/paged?pageNo=' + this.pageNo + '&sortBy=' + this.sortBy,
             method: 'GET',
@@ -284,14 +297,7 @@ export class ItemsListComponent implements OnInit {
                 // It yields all items iterated over by an iterable.
 
                 // example use of iterator
-                let itemsIterable = this.items[Symbol.iterator]();
-                let result = itemsIterable.next();
-                while (!result.done) {
-                    if (result.value.lastname.includes('a') && result.value.age > 0) {
-                        this.bestItems.push(result.value);
-                    }
-                    result = itemsIterable.next();
-                }
+                let itemsIterable = this.itemsEntries[Symbol.iterator]();
 
                 // example use of creating and using iterator function
                 itemsIterable = this.items[Symbol.iterator]();
