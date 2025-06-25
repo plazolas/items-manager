@@ -1,6 +1,6 @@
 import {Component, OnInit} from '@angular/core';
-import {environment} from '../../../environments/environment';
-import {ItemService} from '../../services/item.service';
+import {environment} from '../../environments/environment';
+import {ItemService} from '../services/item.service';
 import {debounceTime, distinctUntilChanged, Observable, switchMap} from 'rxjs';
 
 // declare var squareDigits: any;

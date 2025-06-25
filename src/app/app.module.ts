@@ -10,14 +10,15 @@ import { HttpClientModule } from '@angular/common/http';
 import { AppRoutingModule } from './app-routing.module';
 import { ItemEntryEditComponent } from './items/item-entry-edit/item-entry-edit.component';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { HomeComponent } from './items/home/home.component';
+import { HomeComponent } from './home/home.component';
 import { NotfoundComponent } from './notfound.component';
-import { AboutComponent } from './items/home/about/about.component';
+import { AboutComponent } from './about/about.component';
 import { LoginComponent } from './security/login/login.component';
 import { CookieService } from 'ngx-cookie-service';
 import { SearchComponent } from './items-list/search/search.component';
 import { ArtistsComponent } from './artists/artists.component';
 import { AsteriscPipe } from './utils/Pipes/AsteriscPipe';
+import { RouterModule } from '@angular/router';
 
 @NgModule({
   declarations: [

@@ -270,7 +270,7 @@ export class ItemsListComponent implements OnInit {
  
     ///////////////////////// ///////////////////////////////////////////  getAllItems
     getAllItems() {
-        this.getItems();
+        // this.getItems();
 
         let ajaxResponse: AjaxResponse<Item>;
         const api$ = ajax({

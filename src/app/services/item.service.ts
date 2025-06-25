@@ -1,7 +1,7 @@
 import {Injectable} from '@angular/core';
 import {Item} from '../model/item';
 
-import {isEmpty, Observable, throwError} from 'rxjs';
+import {Observable, throwError} from 'rxjs';
 import {catchError, retry} from 'rxjs/operators';
 import {HttpClient, HttpHeaders, HttpErrorResponse, HttpResponse, HttpEventType} from '@angular/common/http';
 import {environment} from '../../environments/environment';
@@ -9,10 +9,13 @@ import {Router} from '@angular/router';
 import {UserService} from './user.service';
 import {CommonUtils} from '../utils/commonUtils';
 
-@Injectable()
+
+@Injectable({
+    providedIn: 'root'
+})
 export class ItemService {
     public readonly itemsRestUrl = environment.backEndUrl + '/api/vi/person';
-    public readonly httpOptions = {};
+    public httpOptions = {};
     public lastId = 0;
     public searchedItems: string[] = [];
     public data: any;
@@ -51,7 +54,7 @@ export class ItemService {
     }
 
     addItem(item: Item): Observable<Item> {
-        return this.httpClient.post<Item>(this.itemsRestUrl, item, this.httpOptions)
+        return this.httpClient.post<Item>(this.itemsRestUrl, item, this.getHeadersForFetch())
             .pipe(
                 retry(3),
                 catchError(err => { return CommonUtils.httpErrorHandler(err) })
@@ -59,7 +62,7 @@ export class ItemService {
     }
 
     updateItem(item: Item): Item {
-        this.httpClient.put<Item>(this.itemsRestUrl + '/update/' + item.id, item, this.httpOptions)
+        this.httpClient.put<Item>(this.itemsRestUrl + '/update/' + item.id, item, this.userService.getHeadersForResponse())
             .subscribe({
                 next: data => {
                     item = data as Item
@@ -76,14 +79,14 @@ export class ItemService {
     }
 
     updateItemObs(item: Item): Observable<Item> {
-        return this.httpClient.put<Item>(this.itemsRestUrl + '/update/' + item.id, item, this.httpOptions)
+        return this.httpClient.put<Item>(this.itemsRestUrl + '/p/' + item.id, item, this.userService.getHeadersForResponse())
     }
 
     deleteItem(item: Item | number): Observable<Item> {
         const id = typeof item === 'number' ? item : item.id;
         const url = `${this.itemsRestUrl}/${id}`;
 
-        return this.httpClient.delete<Item>(url, this.httpOptions)
+        return this.httpClient.delete<Item>(url, this.userService.getHeadersForResponse())
             .pipe(
                 retry(3),
                 catchError(err => { return CommonUtils.httpErrorHandler(err) })

@@ -10,6 +10,7 @@ import {async, TestBed} from '@angular/core/testing';
 import {ItemService} from './item.service';
 import {HttpClient, HttpClientModule} from '@angular/common/http';
 import { BrowserDynamicTestingModule, platformBrowserDynamicTesting } from '@angular/platform-browser-dynamic/testing';
+import {Router} from '@angular/router';
 
 describe('ItemsService', () => {
 
@@ -24,10 +25,10 @@ describe('ItemsService', () => {
     });
 
     beforeEach(async(() => {
-        TestBed.configureTestingModule({
+         TestBed.configureTestingModule({
             imports: [HttpClientModule],
             declarations: [],
-            providers: [HttpClient, ItemService]
+            providers: [HttpClient, ItemService, Router]
         }).compileComponents();
     }));
     

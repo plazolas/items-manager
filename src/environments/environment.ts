@@ -4,7 +4,8 @@
 
 export const environment = {
   production: false,
-  wandUrl: 'http://www.ozdev.net/wand',
+  wandUrl: 'http://ec2-3.80.110.120.compute-1.amazonaws.com/wand',
+  // backEndUrl: 'http://44.201.82.244:8077',
   backEndUrl: 'http://localhost:8077',
   loginPath: '/account/token',
   appUserName: '',
