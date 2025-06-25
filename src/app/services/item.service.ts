@@ -79,7 +79,7 @@ export class ItemService {
     }
 
     updateItemObs(item: Item): Observable<Item> {
-        return this.httpClient.put<Item>(this.itemsRestUrl + '/p/' + item.id, item, this.userService.getHeadersForResponse())
+        return this.httpClient.put<Item>(this.itemsRestUrl + '/update/' + item.id, item, this.userService.getHeadersForResponse())
     }
 
     deleteItem(item: Item | number): Observable<Item> {
