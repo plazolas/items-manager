@@ -19,6 +19,8 @@ import { SearchComponent } from './items-list/search/search.component';
 import { ArtistsComponent } from './artists/artists.component';
 import { AsteriscPipe } from './utils/Pipes/AsteriscPipe';
 import { RouterModule } from '@angular/router';
+import { CountryComponent } from './country/country.component';
+import { CountyentryComponent } from './country/countyentry/countyentry.component';
 
 @NgModule({
   declarations: [
@@ -33,7 +35,9 @@ import { RouterModule } from '@angular/router';
     LoginComponent,
     SearchComponent,
     ArtistsComponent,
-    AsteriscPipe
+    AsteriscPipe,
+    CountryComponent,
+    CountyentryComponent
   ],
   imports: [
     BrowserModule,

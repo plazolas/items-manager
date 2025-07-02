@@ -9,9 +9,12 @@ import {AboutComponent} from './about/about.component';
 import {LoginComponent} from './security/login/login.component';
 import {SearchComponent} from './items-list/search/search.component';
 import {ArtistsComponent} from './artists/artists.component';
+import {CountryComponent} from './country/country.component';
 
 const routes: Routes = [
   { path: 'home', component:  HomeComponent },
+  { path: 'country', component:  CountryComponent },
+  { path: 'country/:id', component:  CountryComponent },
   { path: '', redirectTo: '/home', pathMatch: 'full' },
   { path: 'edit_item/:itemid', component:  ItemEntryEditComponent },
   { path: 'list_items', component:  ItemsListComponent },

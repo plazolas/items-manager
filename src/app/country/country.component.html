@@ -1,0 +1,44 @@
+<div class="container">
+        <br>
+        <app-countyentry [country]=country [childSubmitted]=submit (getSubmitStatusChange)='refreshCountries($event, country)'></app-countyentry>
+        <br><br>
+    <br><br>
+    <div class="container">
+        <div class="row" style="border: solid 2px black">
+            <div class="col-lg-12 text-center" style="padding-top: 20px;">
+                <div class="container" style="padding-left: 0; padding-right: 0;">
+                </div>
+                <div class="container box" style="margin-top: 10px;">
+                    <table class="table table-striped">
+                        <thead>
+                        <tr>
+                            <th>count</th>
+                            <th>id</th>
+                            <th>Name</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        <tr *ngFor="let country of countries; let i = index">
+                            <th>{{ i + 1 }}</th>
+                            <th id="{{ 'country_' + country.id }}" scope="row">
+                                <button (click)="clickedCountry($event,country.id);navigateToSection('countryname')">
+                                    {{ country.id }}
+                                </button>
+                            </th>
+                            <td>{{ country?.name }}</td>
+                        </tr>
+                        </tbody>
+                    </table>
+                </div>
+                <br>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-sm-12" style="text-align:center;">
+                &nbsp;
+            </div>
+        </div>
+    </div>
+    <br>
+</div>
+

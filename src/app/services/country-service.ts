@@ -7,6 +7,7 @@ import {environment} from '../../environments/environment';
 import {Router} from '@angular/router';
 import {UserService} from './user.service';
 import {CommonUtils} from '../utils/commonUtils';
+import {AppCountry} from '../model/app-country';
 
 
 @Injectable({
@@ -45,6 +46,10 @@ export class CountryService {
             retry(3),
             catchError(err => { return CommonUtils.httpErrorHandler(err) })
         );
+  }
+
+  updateCountry(country: AppCountry): Observable<AppCountry> {
+    return this.httpClient.post<AppCountry>(this.itemsRestUrl + '/update', country, this.userService.getHeadersForResponse())
   }
 
 }
