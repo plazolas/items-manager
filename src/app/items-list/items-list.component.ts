@@ -53,7 +53,7 @@ export class ItemsListComponent implements OnInit {
     paramId = this.activatedRoute.snapshot.params.itemid;
     token = '';
 
-//////////////////////////////////////////////////////////////////////////    construct   ////////////////////////////
+////////////////////////    constructor   ////////////////////////////
     constructor(private debugService: DebugService,
                 private itemService: ItemService,
                 private countryService: CountryService,
@@ -103,7 +103,7 @@ export class ItemsListComponent implements OnInit {
             });
     }
     
-    //////////////////////////////////////////////////////////////////////////////////////////////  onInit  ///////////////////
+    ///////////////////////////////  onInit  ///////////////////
     async ngOnInit() {
 
         this.getAllItems();

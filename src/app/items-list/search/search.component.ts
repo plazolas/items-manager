@@ -1,5 +1,4 @@
 import {Component, ElementRef, OnInit, ViewChild} from '@angular/core';
-import {HttpClient} from '@angular/common/http';
 import {debounceTime, distinctUntilChanged, fromEvent, map, Observable, of, tap} from 'rxjs';
 import {ItemService} from '../../services/item.service';
 import {filter} from 'rxjs/operators';
@@ -19,7 +18,7 @@ export class SearchComponent implements OnInit {
     private token = '';
     public httpOptions = {};
 
-    constructor(private httpClient: HttpClient, private itemService: ItemService,
+    constructor(private itemService: ItemService,
                 private userService: UserService, private router: Router) {
         this.isSearching = false;
         this.apiResponse = { Response: false, error: '' };

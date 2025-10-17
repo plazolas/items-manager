@@ -5,7 +5,6 @@ import {ResBody} from '../model/res-body';
 import {environment} from '../../environments/environment';
 import {CookieService} from 'ngx-cookie-service';
 import {Router} from '@angular/router';
-import {CommonUtils} from '../utils/commonUtils';
 
 @Injectable({
     providedIn: 'root'

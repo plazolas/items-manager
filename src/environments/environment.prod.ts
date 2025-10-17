@@ -1,7 +1,7 @@
 export const environment = {
   production: true,
-  wandUrl: 'http://www.ozdev.net/wand',
-  backEndUrl: 'http://www.ozdev.net/back',
+  wandUrl: 'http://www.devenzone.com/wand',
+  backEndUrl: 'http://www.devenzone.com/back',
   loginPath: '/account/token',
   appUserName: '',
   appUserPass: ''
