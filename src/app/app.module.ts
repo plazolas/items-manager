@@ -17,10 +17,15 @@ import { LoginComponent } from './security/login/login.component';
 import { CookieService } from 'ngx-cookie-service';
 import { SearchComponent } from './items-list/search/search.component';
 import { ArtistsComponent } from './artists/artists.component';
+import { NewsComponent } from './news/news.component';
+import { StripTagsPipe } from './utils/Pipes/StripTagsPipe';
 import { AsteriscPipe } from './utils/Pipes/AsteriscPipe';
 import { RouterModule } from '@angular/router';
 import { CountryComponent } from './country/country.component';
 import { CountyentryComponent } from './country/countyentry/countyentry.component';
+import {FormatDatePipe} from './utils/Pipes/FormatDate';
+import {LandscapeComponent} from './landscape/landscape.component';
+import {ContactService} from './services/contact.service';
 
 @NgModule({
   declarations: [
@@ -36,8 +41,12 @@ import { CountyentryComponent } from './country/countyentry/countyentry.componen
     SearchComponent,
     ArtistsComponent,
     AsteriscPipe,
+    StripTagsPipe,
+    FormatDatePipe,
     CountryComponent,
-    CountyentryComponent
+    CountyentryComponent,
+    NewsComponent,
+    LandscapeComponent
   ],
   imports: [
     BrowserModule,
@@ -46,7 +55,7 @@ import { CountyentryComponent } from './country/countyentry/countyentry.componen
     ReactiveFormsModule,
     AppRoutingModule
   ],
-  providers: [ItemService, CookieService],
+  providers: [ItemService, CookieService, ContactService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

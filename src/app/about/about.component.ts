@@ -9,10 +9,12 @@ import {environment} from '../../environments/environment';
 export class AboutComponent implements OnInit {
 
   wandUrl = environment.wandUrl;
+  title = 'About DevenZone';
   
   constructor() {}
 
   ngOnInit(): void {
+    document.title = this.title;
   }
 
 }

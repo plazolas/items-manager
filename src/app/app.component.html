@@ -7,10 +7,13 @@
             <a class="nav-link" routerLink="/about"><b>About</b></a>
         </li>
         <li class="nav-item w-20 text-center">
-            <a class="nav-link" routerLink="/artists">Search</a>
+            <a class="nav-link" routerLink="/news">News</a>
         </li>
         <li class="nav-item w-20 text-center">
-            <a class="nav-link" routerLink="/list-items">DashBoard</a>
+            <a class="nav-link" routerLink="/artists">Music</a>
+        </li>
+        <li class="nav-item w-20 text-center">
+            <a class="nav-link" routerLink="/landscape">Landscape</a>
         </li>
         <span *ngIf="loggedIn(); then thenBlock else elseBlock"></span>
         <ng-template #thenBlock>

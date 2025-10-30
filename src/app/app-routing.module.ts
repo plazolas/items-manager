@@ -10,9 +10,11 @@ import {LoginComponent} from './security/login/login.component';
 import {SearchComponent} from './items-list/search/search.component';
 import {ArtistsComponent} from './artists/artists.component';
 import {CountryComponent} from './country/country.component';
+import {NewsComponent} from './news/news.component';
+import {LandscapeComponent} from './landscape/landscape.component';
 
 const routes: Routes = [
-  { path: 'home', component:  HomeComponent },
+  { path: 'home', component:  HomeComponent},
   { path: 'country', component:  CountryComponent },
   { path: 'country/:id', component:  CountryComponent },
   { path: '', redirectTo: '/home', pathMatch: 'full' },
@@ -24,6 +26,8 @@ const routes: Routes = [
   { path: 'login', component: LoginComponent },
   { path: 'wand', redirectTo: environment.wandUrl },
   { path: 'artists', component: ArtistsComponent },
+  { path: 'news', component: NewsComponent },
+  { path: 'landscape', component: LandscapeComponent },
   { path: '404', component: NotfoundComponent},
   { path: '**', redirectTo: '/404'}
 ];

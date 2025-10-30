@@ -20,7 +20,7 @@ import {AppTrack} from '../model/app-track';
 })
 
 export class ArtistsComponent implements OnInit {
-    title = 'Artists';
+    title = 'Music at DevenZone';
     artistForm: FormGroup;
     artistname: FormControl;
     artistid: FormControl;
@@ -58,15 +58,20 @@ export class ArtistsComponent implements OnInit {
     //////////////////////////////////////////////////////////////////////////////////////////////  onInit  ///////////////////
 
     async ngOnInit() {
+        document.title = this.title;
         if (this.paramName !== undefined) {
             console.log('paramName: ' + this.paramName);
             this.paramName = this.activatedRoute.snapshot.params.artistname.valueOf();
             this.getArtistByName(this.paramName);
+        } else {
+            this.getArtistBySid('56a92a20-c973-4866-9dee-8af77d646ba0');
         }
         if (this.paramId !== undefined) {
             console.log('paramId: ' + this.paramId);
             this.paramId = this.activatedRoute.snapshot.params.artistid.valueOf();
             this.artist = this.getArtistById(this.paramId);
+        } else {
+            // this.getArtistBySid('56a92a20-c973-4866-9dee-8af77d646ba0');
         }
     }
 
@@ -94,9 +99,7 @@ export class ArtistsComponent implements OnInit {
             .subscribe({
                 next: (data) => {
                     const list = data as AppReleasesList
-                    const tmp = list.releases
-                    // const result = tmp.filter(r => r.barcode)
-                    this.releases = tmp
+                    this.releases = list.releases
                 },
                 error: (err: any) => {
                     console.log(err);

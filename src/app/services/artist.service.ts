@@ -10,14 +10,14 @@ import {CommonUtils} from '../utils/commonUtils';
 })
 export class ArtistService {
 
-    private readonly artistRestUrl = environment.backEndUrl + '/api/vi/gateway/artist';
+    private readonly artistRestUrl = environment.backEndUrl + '/music/';
 
     public readonly httpOptions = {};
 
     constructor(private httpClient: HttpClient) {}
 
     getArtistById(id: number): Observable<object> {
-        const url = this.artistRestUrl + '/id?id=' + id;
+        const url = this.artistRestUrl + id;
         return this.httpClient.get(url, this.httpOptions)
             .pipe(
                 retry(3),
@@ -26,7 +26,7 @@ export class ArtistService {
     }
 
     getArtistBySid(id: string): Observable<object> {
-        const url = this.artistRestUrl + '/id?id=' + id;
+        const url = this.artistRestUrl + id;
         return this.httpClient.get(url, this.httpOptions)
             .pipe(
                 retry(3),
@@ -35,7 +35,7 @@ export class ArtistService {
     }
 
     getReleasesByArtistsId(id: string): Observable<object> {
-        const url = this.artistRestUrl + '/releases/' + id;
+        const url = this.artistRestUrl + 'releases/' + id;
         return this.httpClient.get(url, this.httpOptions)
             .pipe(
                 retry(3),
@@ -44,7 +44,7 @@ export class ArtistService {
     }
 
     getMediaByReleaseId(id: string): Observable<object> {
-        const url = this.artistRestUrl + '/release/' + id;
+        const url = this.artistRestUrl + 'release/' + id;
         return this.httpClient.get(url, this.httpOptions)
             .pipe(
                 retry(3),
@@ -53,7 +53,7 @@ export class ArtistService {
     }
 
     getArtistsByName(name: string): Observable<object> {
-        const url = this.artistRestUrl + '/name?name=' + name;
+        const url = this.artistRestUrl + 'name/' + name;
         return this.httpClient.post(url, this.httpOptions)
             .pipe(
                 retry(3),

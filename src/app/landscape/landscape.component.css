@@ -1,0 +1,94 @@
+.header-h {
+    height: 35px;
+}
+
+.spacer {
+    flex: 1;
+}
+
+.toolbar {
+    height: 60px;
+    display: flex;
+    align-items: center;
+    background-color: #000000;
+    color: white;
+    font-weight: 600;
+}
+
+.toolbar img {
+    margin: 0 16px;
+}
+
+.toolbar #twitter-logo {
+    height: 40px;
+    margin: 0 16px;
+}
+
+.toolbar #twitter-logo:hover {
+    opacity: 0.8;
+}
+
+.label {
+    position: relative;
+    right: 5px;
+    text-align: right;
+}
+
+h1, h2, h3, h4, h5, h6 {
+    font-family: Lora, sans-serif;
+    line-height: 1.25;
+    margin: 0 0 10px;
+    text-transform: uppercase;
+}
+
+h1.title { text-align: center; font-size: 3em;
+    font-family: Helvetica LT W01 Black Cond, serif
+}
+
+.top-pane {
+    background-color: #27e3fe;
+    color: white;
+}
+
+.table-data {
+    padding: 20px;
+}
+.table-image {
+    max-width: 400px;
+    padding: 10px;
+    position: relative;
+    top: auto;
+}
+
+.footer {
+    height: 60px;
+    display: flex;
+    text-align: center;
+    font-weight: 600;
+}
+
+.contact-form{
+    background-color: #5bac52;
+    color: white;
+    max-width: 800px;
+    border-radius: 15px;
+}
+
+.green-background{
+    /*position: relative;*/
+    /*bottom: -10px;*/
+    background-color: #5bac52;
+    color: white;
+    height: 40px;
+}
+
+#customerButton{
+    width: 50px;
+    padding-right: 30%;
+}
+
+@media (max-width: 800px) {
+    .table-image {
+        display: none;
+    }
+}

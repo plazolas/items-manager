@@ -1,7 +1,8 @@
 export const environment = {
   production: true,
-  wandUrl: 'http://www.devenzone.com/wand',
-  backEndUrl: 'http://www.devenzone.com/back',
+  wandUrl: 'https://devenzone.com/wand',
+  backEndUrl: 'https://www.devenzone.com:8077',
+  contactUri: '/users',
   loginPath: '/account/token',
   appUserName: '',
   appUserPass: ''

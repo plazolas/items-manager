@@ -29,6 +29,8 @@ export class AppComponent {
           && event.url !== '/login'
           && event.url !== '/home'
           && event.url !== '/artists'
+          && event.url !== '/news'
+          && event.url !== '/landscape'
           && event.url !== '/wand'
           && event.url !== '/signup') {
         this.router.navigate(['/login']);

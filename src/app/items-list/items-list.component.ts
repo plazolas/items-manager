@@ -21,7 +21,7 @@ import {CommonUtils} from '../utils/commonUtils';
 })
 
 export class ItemsListComponent implements OnInit {
-    title = 'Employees';
+    title = 'Dashboard';
     myName = this.constructor.name;
     employee: Item = {} as Item;
     person: Item = {} as Item;
@@ -105,7 +105,7 @@ export class ItemsListComponent implements OnInit {
     
     ///////////////////////////////  onInit  ///////////////////
     async ngOnInit() {
-
+        document.title = this.title;
         this.getAllItems();
 
         const lid  = await this.fetchLastId();

@@ -9,9 +9,9 @@ import {ResBody} from '../model/res-body';
 })
 export class LoginService {
 
-  private readonly itemRestUrl = environment.backEndUrl + '/api/vi/person';
-  private readonly signupPath = this.itemRestUrl + '/account';
-  private readonly loginPath = this.itemRestUrl + '/account/token';
+  private readonly backRestUrl = environment.backEndUrl;
+  private readonly signupPath = this.backRestUrl + '/account';
+  private readonly loginPath = this.backRestUrl + '/account/token';
 
   constructor(private http: HttpClient) { }
 
@@ -33,7 +33,7 @@ export class LoginService {
       'Content-Type': 'application/x-www-form-urlencoded',
       'Access-Control-Allow-Origin': '*',
       'Access-Control-Allow-Headers': 'Content-Type',
-      'Access-Control-Allow-Method': 'GET'
+      'Access-Control-Allow-Method': '*'
     });
     const options = { headers };
     return this.http.get<ResBody>(loginPath + `?username=${username}&password=${password}`, options);
