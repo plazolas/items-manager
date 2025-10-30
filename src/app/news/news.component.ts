@@ -41,14 +41,6 @@ export class NewsComponent implements OnInit {
         this.getEverything('Thomas Massie');
     }
 
-    getTopHeadlines(country: string): void {
-        this.newsService.getTopHeadlines(country)
-            .subscribe((data) => {
-                const list = data as ArticleList;
-                this.articles = list.articles;
-            });
-    }
-
     getEverything(topic: string) {
         this.newsService.getEverything(topic)
             .subscribe({

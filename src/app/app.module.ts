@@ -26,6 +26,7 @@ import { CountyentryComponent } from './country/countyentry/countyentry.componen
 import {FormatDatePipe} from './utils/Pipes/FormatDate';
 import {LandscapeComponent} from './landscape/landscape.component';
 import {ContactService} from './services/contact.service';
+import {HeadlinesComponent} from './headlines/headlines.component';
 
 @NgModule({
   declarations: [
@@ -46,6 +47,7 @@ import {ContactService} from './services/contact.service';
     CountryComponent,
     CountyentryComponent,
     NewsComponent,
+    HeadlinesComponent,
     LandscapeComponent
   ],
   imports: [

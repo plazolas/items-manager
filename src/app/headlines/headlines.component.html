@@ -2,7 +2,7 @@
     <a href="/about">
         <img width="40" alt="Guest" src="assets/oz_logo_white.png" title="Guest"/>
     </a>
-    <span>WELCOME TO DevenZone CLOUD SOLUTIONS!</span>
+    <span>WELCOME TO DevenZone CLOUD!</span>
     <div class="spacer"></div>
     <a aria-label="DevenZone on twitter" target="_blank" rel="noopener" href="https://twitter.com/plazolas"
        title="Twitter">
@@ -28,22 +28,7 @@
 </div>
 <div class="container">
     <br>
-    <h1>LATEST NEWS</h1>
-    <div style="margin: 5px;">
-        <div class="container" style="text-align:center">
-            <div class="row">
-                <div [formGroup]="articleForm" class="col-12">
-                    <h4>Search News By Topic:</h4>
-                    <table id="tracks" class="table">
-                        <tr>
-                            <td><input type="text" name="topic" class="form-control" placeholder="Topic" formControlName="topic"></td>
-                            <td><input class="btn btn-light" type="submit" value="SEARCH" (click)="onClickSubmit()"></td>
-                        </tr>
-                    </table>
-                </div>
-            </div>
-        </div>
-    </div>
+    <h1>LATEST HEADLINES</h1>
     <div class="container" id="articleDesc">
         <div class="row">
             <div class="container">
@@ -55,30 +40,32 @@
             </div>
         </div>
         <hr>
-        <div *ngIf="articles.length > 0" class="row">
-            <h4 class="bg-dark text-white header-h text-center">FEATURE ARTICLES</h4>
+        <div *ngIf="headlines.length > 0" class="row">
+            <h4 class="bg-dark text-white header-h text-center">FEATURE HEADLINES</h4>
             <div class="container box" style="margin-top: 10px;">
                 <table id="artists" class="table table-striped table-bordered table-sm">
                     <thead>
                     <tr>
-                        <th>Headline</th>
+                        <th>Article</th>
                         <th>Summary</th>
                     </tr>
                     </thead>
                     <tbody>
-                    <tr *ngFor="let art of articles;">
-                        <td style="text-align: center">
+                    <tr *ngFor="let art of headlines;">
+
+                        <td *ngIf="art.urlToImage != null" style="text-align: center">
                             <h6><a href="{{ art?.url }}">{{ art?.title | uppercase }}</a></h6>
-                            <a href="{{ art?.url }}"><img  src="{{ art?.urlToImage }}" height="140" width="250" alt="{{ title }}"></a>
-                            <br>
+                                <a href="{{ art?.url }}"><img  src="{{ art?.urlToImage }}" height="140" width="250" alt="{{ title }}"></a>
+                                <br>
                         </td>
-                        <td>
-                            <div>{{ art.content | stripTags }}</div>
+                        <td *ngIf="art.urlToImage != null">
+                            <div *ngIf="art.content != null">{{ art.content | stripTags }}</div>
                             <br>
                             <div><b>Author: </b>{{ art?.author  }}</div>
                             <div><b>Date: </b>{{ art.publishedAt | formatDate }}</div>
                             <div><b>Source: </b><a href="{{ art?.url }}" >{{ art.source.name  }}</a></div>
                         </td>
+
                     </tr>
                     </tbody>
                 </table>

@@ -11,6 +11,7 @@ import {SearchComponent} from './items-list/search/search.component';
 import {ArtistsComponent} from './artists/artists.component';
 import {CountryComponent} from './country/country.component';
 import {NewsComponent} from './news/news.component';
+import {HeadlinesComponent} from './headlines/headlines.component';
 import {LandscapeComponent} from './landscape/landscape.component';
 
 const routes: Routes = [
@@ -27,6 +28,7 @@ const routes: Routes = [
   { path: 'wand', redirectTo: environment.wandUrl },
   { path: 'artists', component: ArtistsComponent },
   { path: 'news', component: NewsComponent },
+  { path: 'headlines', component: HeadlinesComponent },
   { path: 'landscape', component: LandscapeComponent },
   { path: '404', component: NotfoundComponent},
   { path: '**', redirectTo: '/404'}
