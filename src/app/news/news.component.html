@@ -2,8 +2,11 @@
     <a href="/about">
         <img width="40" alt="Guest" src="assets/oz_logo_white.png" title="Guest"/>
     </a>
-    <span>WELCOME TO DevenZone CLOUD SOLUTIONS!</span>
+    <span>WELCOME TO DevenZone CLOUD</span>
     <div class="spacer"></div>
+    <button type="button" class="btn btn-dark" id="backButton" (click)="goBack()">
+        Back
+    </button>
     <a aria-label="DevenZone on twitter" target="_blank" rel="noopener" href="https://twitter.com/plazolas"
        title="Twitter">
 
@@ -37,7 +40,7 @@
                     <table id="tracks" class="table">
                         <tr>
                             <td><input type="text" name="topic" class="form-control" placeholder="Topic" formControlName="topic"></td>
-                            <td><input class="btn btn-light" type="submit" value="SEARCH" (click)="onClickSubmit()"></td>
+                            <td><input class="btn btn-outline-dark" type="submit" value="SEARCH" (click)="onClickSubmit()"></td>
                         </tr>
                     </table>
                 </div>
@@ -67,9 +70,9 @@
                     </thead>
                     <tbody>
                     <tr *ngFor="let art of articles;">
-                        <td style="text-align: center">
+                        <td style="text-align: center; width:30%">
+                            <a href="{{ art?.url }}" title="{{art.source.name}}"><img class="table-image" src="{{ art?.urlToImage }}" height="140" width="250" alt="{{ art?.title | slice:0:72 }}"></a>
                             <h6><a href="{{ art?.url }}">{{ art?.title | uppercase }}</a></h6>
-                            <a href="{{ art?.url }}"><img  src="{{ art?.urlToImage }}" height="140" width="250" alt="{{ title }}"></a>
                             <br>
                         </td>
                         <td>

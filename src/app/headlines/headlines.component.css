@@ -28,3 +28,9 @@
 .toolbar #twitter-logo:hover {
     opacity: 0.8;
 }
+
+@media (max-width: 800px) {
+    .table-image {
+        width: 180px;
+    }
+}

@@ -2,6 +2,7 @@ import {Component, OnChanges, OnInit, SimpleChanges} from '@angular/core';
 import {ActivatedRoute, Router} from '@angular/router';
 import {HttpClient, HttpResponse} from '@angular/common/http';
 import { FormGroup, FormControl } from '@angular/forms';
+import { Location } from '@angular/common';
 
 import {DebugService} from '../services/debug.service';
 import {UserService} from '../services/user.service';
@@ -44,7 +45,8 @@ export class ArtistsComponent implements OnInit {
                 private activatedRoute: ActivatedRoute,
                 private router: Router,
                 private userService: UserService,
-                private artistService: ArtistService
+                private artistService: ArtistService,
+                private location: Location
     ) {
         // create form controls and group
         this.artistname = new FormControl('');
@@ -56,6 +58,10 @@ export class ArtistsComponent implements OnInit {
     }
 
     //////////////////////////////////////////////////////////////////////////////////////////////  onInit  ///////////////////
+
+    goBack(): void {
+        this.location.historyGo(-1);
+    }
 
     async ngOnInit() {
         document.title = this.title;

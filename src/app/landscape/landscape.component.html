@@ -81,7 +81,7 @@
         </tr>
     </table>
 </div>
-<div class="grid-container">
+<div class="grid-container bg-light">
     <table>
         <tr>
             <td><img class="table-image" src="/assets/custom-curbing-800x450.jpg"></td>
@@ -120,7 +120,7 @@
         </tr>
     </table>
 </div>
-<div class="grid-container">
+<div class="grid-container bg-light">
     <table>
         <tr>
             <td><img class="table-image" src="/assets/irrigation-800x450.jpg"></td>
@@ -187,27 +187,28 @@
                     </div>
                     <br>
                     <div class="row">
-                        <div class="col-4">&nbsp;</div>
-                        <div class="col-8">
-                            <button type="submit" id="customerButton" class="btn btn-primary text-center">
+                        <div class="col-5">&nbsp;</div>
+                        <div class="col-4">
+                            <button style="width: 70px" type="submit" id="customerButton" class="btn btn-primary text-center">
                                 <b>Send</b>
                             </button>
                         </div>
-                        <div class="col-4">&nbsp;</div>
+                        <div class="col-3">&nbsp;</div>
                     </div>
                     <div class="row">&nbsp;</div>
                 </form>
             </div>
+            <div *ngIf="contactSent" class="bg-info text-center"><b>Thank you! We will contact you shortly.</b></div>
         </div>
         <div class="col-1">&nbsp;</div>
     </div>
 </div>
 <div class="container">
     <div class="row">
-        <div class="col-3">&nbsp;</div>
-        <div class="col-6" style="white-space: nowrap">
+        <div class="col-4">&nbsp;</div>
+        <div class="col-4" style="white-space: nowrap">
             Yardwork Professional&reg; 2025
         </div>
-        <div class="col-3">&nbsp;</div>
+        <div class="col-4">&nbsp;</div>
     </div>
 </div>

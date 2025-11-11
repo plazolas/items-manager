@@ -5,7 +5,7 @@
 export const environment = {
   production: false,
   wandUrl: 'http://ec2-54-221-48-176.compute-1.amazonaws.com/wand',
-  backEndUrl: 'https://www.devenzone.com:8077',
+  backEndUrl: 'http://localhost:8077',
   loginPath: '/account/token',
   contactUri: '/users',
   appUserName: '',

@@ -15,6 +15,7 @@ export class LandscapeComponent implements OnInit {
     contactName = '';
     phone = '';
     contactEmail = '';
+    contactSent = false;
 
     constructor(private debugService: DebugService,
                 private viewportScroller: ViewportScroller,
@@ -33,15 +34,16 @@ export class LandscapeComponent implements OnInit {
         this.contactService.addContact(this.contactName, this.contactEmail, this.phone)
             .subscribe({
                 next: (response: ResBody) => {
-                    alert('Thank you ' + this.contactName + '! We will contact you shortly!');
+                    // alert('Thank you ' + this.contactName + '! We will contact you shortly!');
                     this.contactName = '';
                     this.phone = '';
                     this.contactEmail = '';
                 },
                 error: error => {
-                    alert('Thank you ' + this.contactName + '! We got your information!');
+                    // alert('Thank you ' + this.contactName + '! We got your information!');
                     console.log(error);
                 }
             });
+        this.contactSent = true;
     }
 }

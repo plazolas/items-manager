@@ -2,6 +2,7 @@ import {Component, OnChanges, OnInit, SimpleChanges} from '@angular/core';
 import {ActivatedRoute, Router} from '@angular/router';
 import {HttpClient, HttpResponse} from '@angular/common/http';
 import { FormGroup, FormControl } from '@angular/forms';
+import { Location } from '@angular/common';
 
 import {DebugService} from '../services/debug.service';
 import {NewsService} from '../services/news.service';
@@ -26,7 +27,8 @@ export class NewsComponent implements OnInit {
                 private http: HttpClient,
                 private activatedRoute: ActivatedRoute,
                 private router: Router,
-                private newsService: NewsService
+                private newsService: NewsService,
+                private location: Location
     ) {
         this.topic = new FormControl('');
         this.articleForm = new FormGroup({
@@ -38,7 +40,11 @@ export class NewsComponent implements OnInit {
 
     async ngOnInit() {
         document.title = this.title;
-        this.getEverything('Thomas Massie');
+        this.getEverything('devenzone');
+    }
+
+    goBack(): void {
+        this.location.historyGo(-1);
     }
 
     getEverything(topic: string) {
